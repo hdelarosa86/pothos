@@ -1,10 +1,16 @@
-//DATABASE
+//DATABASE && MODELS
 const db = require("./database")
+const User = require("./user")
+const Item = require("./item")
+const Cart = require("./cart")
 
-//import models from individual model files
+//Associations
+Item.belongsTo(Cart)
+Cart.hasMany(Item)
 
-//associations
+Cart.belongsTo(User)
+User.hasMany(Cart)
 
 module.exports = {
-    db
+    db, User, Item, Cart
 }
