@@ -1,5 +1,7 @@
-const express = require("express");
-const path = require("path");
+const express = require('express');
+const path = require('path');
+const { db } = require('./db')
+const chalk = require("chalk")
 
 //initialize express
 const app = express();
@@ -18,6 +20,9 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../static/index.html"));
 }); // Send index.html for any other requests
 
-app.listen(PORT, () => {
-  console.log("I'm running on", PORT);
-});
+db.sync().then(() => {
+  console.log(chalk.magenta('db synced'));
+  app.listen(PORT, () => {
+    console.log(chalk.cyan("I'm running on", PORT));
+  })
+})
