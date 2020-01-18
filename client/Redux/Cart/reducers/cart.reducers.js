@@ -2,21 +2,8 @@ import cartTypes from "../types/cart.types";
 import { addItemToCart, removeItemFromCart } from "../utils/cart.utils";
 
 const INITIAL_STATE = {
-  cartContent: [
-    {
-      id: 1,
-      name: "bubblegum",
-      price: 4,
-      quantity: 1
-    },
-    {
-      id: 2,
-      name: "pencil",
-      price: 1,
-      quantity: 1
-    }
-  ]
-  // INITIAL STATE object -- content in CartContent for testing purposes only
+  cartContent: []
+  // INITIAL STATE object
 };
 
 const cartReducer = (state = INITIAL_STATE, action) => {
