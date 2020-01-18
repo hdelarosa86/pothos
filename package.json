@@ -9,7 +9,8 @@
     "build:watch": "./node_modules/.bin/webpack -w",
     "build": "./node_modules/.bin/webpack --mode=\"production\"",
     "start": "node ./server/index.js",
-    "lint": "./node_modules/.bin/eslint ./server --fix & ./node_modules/.bin/eslint ./client --fix"
+    "lint": "./node_modules/.bin/eslint ./server --fix & ./node_modules/.bin/eslint ./client --fix",
+    "test": "NODE_ENV='test' mocha  ./testing --recursive --watch"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,9 @@
   "dependencies": {
     "axios": "^0.19.0",
     "babel": "^6.23.0",
+    "chai": "^4.2.0",
     "express": "^4.17.1",
+    "mocha": "^7.0.0",
     "nodemon": "^2.0.1",
     "pg": "^7.14.0",
     "react": "^16.12.0",
