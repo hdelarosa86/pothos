@@ -11,7 +11,8 @@
     "start": "node ./server/index.js",
     "lint": "./node_modules/.bin/eslint ./server --fix & ./node_modules/.bin/eslint ./client --fix",
     "test": "NODE_ENV='test' mocha  ./testing --recursive --watch --require @babel/register",
-    "testLint": "./node_modules/.bin/eslint ./testing --fix"
+    "testLint": "./node_modules/.bin/eslint ./testing --fix",
+    "seed": "node seed.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
     "axios": "^0.19.0",
     "babel": "^6.23.0",
     "chai": "^4.2.0",
+    "chalk": "^3.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "express": "^4.17.1",
