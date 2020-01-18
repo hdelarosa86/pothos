@@ -1,16 +1,16 @@
-const { STRING, INTEGER, FLOAT, UUID, UUID4, DATE } = require("sequelize");
-const db = require("./database")
+const { STRING, INTEGER, FLOAT, UUID, UUIDV4, DATE } = require("sequelize");
+const db = require("./database");
 
 const Cart = db.define("cart", {
     id: {
         primaryKey: true,
         type: UUID,
-        defaultValue: UUID4
+        defaultValue: UUIDV4
     },
     total: {
         type: FLOAT,
         allowNull: false,
-        defaultValue: 0,
+        defaultValue: 0
     },
     status: {
         type: STRING,
@@ -23,11 +23,11 @@ const Cart = db.define("cart", {
     },
     purchaseDate: {
         type: DATE,
-        allowNull: false,
+        allowNull: true,
         validate: {
             isDate: true
         }
-    },
+    }
     // shipTo: {
     //     type: STRING,
     //     allowNull: false,
@@ -35,7 +35,6 @@ const Cart = db.define("cart", {
     //         notEmpty: false
     //     }
     // }
+});
 
-})
-
-module.exports = Cart
+module.exports = Cart;
