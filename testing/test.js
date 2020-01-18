@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const { expect } = require("chai");
 
 describe("Testing example", () => {
   it("*** Find input value - this is just to test mocha ", () => {

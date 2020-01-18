@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { addUser, removeUser } from "../../Redux/User/actions/user.actions";
 import { addItem, removeItem } from "../../Redux/Cart/actions/cart.actions";
 
-class ReduxTestComponent extends React.Component {
+export class ReduxTestComponent extends React.Component {
   componentDidMount() {
     console.log("cart:", this.props.cart);
     console.log("user:", this.props.user);
