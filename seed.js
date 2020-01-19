@@ -1,4 +1,4 @@
-const { db, User, Item, Cart } = require("./server/db");
+const { db, User, Item, Cart, CartItem } = require("./server/db");
 const chalk = require("chalk");
 
 
@@ -26,21 +26,17 @@ const seed = () => {
                 total: 10,
                 userId: johndoeUser.id
             }))
-        .then(johnCart => Item.bulkCreate([{
-            cartId: johnCart.id,
-            price: 10,
-            name: "Pothos",
-            size: "small",
-            description: "A trailing vine.",
-            imageUrl: "http://cdn.shopify.com/s/files/1/0062/8532/8445/products/Golden-Pothos-800-mainimage_grande.gif?v=1557174910"
-        },
-        {
-            price: 10,
-            name: "Palm",
-            size: "large",
-            description: "Tropical but indoors.",
-            imageUrl: "https://images-na.ssl-images-amazon.com/images/I/81WVK%2B1Fc4L._AC_SL1500_.jpg"
-        }]))
+        .then(johnCart => {
+            Item.create({
+                price: 10,
+                name: "Pothos",
+                size: "small",
+                description: "A trailing vine.",
+                imageUrl: "http://cdn.shopify.com/s/files/1/0062/8532/8445/products/Golden-Pothos-800-mainimage_grande.gif?v=1557174910"
+            }
+            ).then(pothosItem => CartItem.create({ itemId: pothosItem.id, cartId: johnCart.id }))
+        }
+        )
         .then(() => User.findOne({ where: { username: "janedoe" } }))
         .then(janeUser =>
             Cart.create({

@@ -7,11 +7,6 @@ const Cart = db.define("cart", {
     type: UUID,
     defaultValue: UUIDV4
   },
-  total: {
-    type: FLOAT,
-    allowNull: false,
-    defaultValue: 0
-  },
   status: {
     type: STRING,
     allowNull: false,

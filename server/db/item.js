@@ -14,14 +14,11 @@ const Item = db.define("item", {
       notEmpty: true
     }
   },
-  //   inventory: {
-  //     type: INTEGER,
-  //     allowNull: false,
-  //     defaultValue: 0
-  //   },
-
-  /* In order to include the inventory key, 
-    we'll have to change the associations between the tables */
+  inventory: {
+    type: INTEGER,
+    allowNull: false,
+    defaultValue: 0
+  },
   size: {
     type: STRING,
     allowNull: false,
