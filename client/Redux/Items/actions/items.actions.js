@@ -22,12 +22,52 @@ export const itemFetchFailure = error => ({
 export const itemsFetchStartAsync = () => {
   return dispatch => {
     dispatch(itemFetchStart());
-    //  return axios api call to fetch all items
-    // .then((data)=>{
-    //     dispatch(itemFetchSuccess(data))
-    // })
-    // .catch((error)=>{
-    //     dispatch(itemFetchFailure(error))
-    // })
+    return axios
+      .get("/api/items/")
+      .then(data => {
+        dispatch(itemFetchSuccess(data.data));
+      })
+      .catch(error => {
+        dispatch(itemFetchFailure(error));
+      });
+  };
+};
+
+export const createItemThenFetch = item => {
+  return dispatch => {
+    return axios
+      .post("/api/items/", item)
+      .then(() => {
+        dispatch(itemsFetchStartAsync());
+      })
+      .catch(error => {
+        dispatch(itemFetchFailure(error));
+      });
+  };
+};
+
+export const updateItemThenFetch = item => {
+  return dispatch => {
+    return axios
+      .put(`/api/items/${item.id}`, item)
+      .then(() => {
+        dispatch(itemsFetchStartAsync());
+      })
+      .catch(error => {
+        dispatch(itemFetchFailure(error));
+      });
+  };
+};
+
+export const deleteItemThenFetch = id => {
+  return dispatch => {
+    return axios
+      .delete(`/api/items/${id}`)
+      .then(() => {
+        dispatch(itemsFetchStartAsync());
+      })
+      .catch(error => {
+        dispatch(itemFetchFailure(error));
+      });
   };
 };
