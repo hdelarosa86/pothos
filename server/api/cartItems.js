@@ -1,27 +1,27 @@
 const express = require('express');
 const app = express();
-const { User, Cart } = require('../db/index');
+const { CartItem } = require('../db/index');
 
 app.get('/', (req, res, next) => {
-  Cart.findAll({ include: [{ model: User }] })
-    .then(carts => res.status(200).send(carts))
+  CartItem.findAll()
+    .then(cartItems => res.status(200).send(cartItems))
     .catch(err => next(err));
 });
 
 app.get('/:id', (req, res, next) => {
   const { id } = req.params;
-  Cart.findOne({ where: id, include: [{ model: User }] });
+  CartItem.findOne({ where: id });
 });
 
 app.post('/', (req, res, next) => {
-  Cart.create(req.body)
-    .then(cart => res.status(201).send(cart))
+  CartItem.create(req.body)
+    .then(cartItem => res.status(201).send(cartItem))
     .catch(err => next(err));
 });
 
 app.delete('/:id', (req, res, next) => {
   const { id } = req.params;
-  Cart.destroy({
+  CartItem.destroy({
     where: {
       id,
     },
@@ -32,12 +32,12 @@ app.delete('/:id', (req, res, next) => {
 
 app.put('/:id', (req, res, next) => {
   const { id } = req.params;
-  Cart.findByPk(id)
-    .then(foundCart => {
-      return foundCart.update(req.body);
+  CartItem.findByPk(id)
+    .then(foundCartItem => {
+      return foundCartItem.update(req.body);
     })
-    .then(updatedCart => {
-      return res.status(201).send(updatedCart);
+    .then(updatedCartItem => {
+      return res.status(201).send(updatedCartItem);
     })
     .catch(err => next(err));
 });
