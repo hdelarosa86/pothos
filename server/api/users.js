@@ -1,36 +1,36 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const { User, Cart } = require('../db/index');
+const { User, Cart } = require("../db/index");
 
-app.get('/', (req, res, next) => {
+app.get("/", (req, res, next) => {
   User.findAll({ include: [{ model: Cart }] })
     .then(users => res.status(200).send(users))
     .catch(err => next(err));
 });
 
-app.get('/:id', (req, res, next) => {
+app.get("/:id", (req, res, next) => {
   const { id } = req.params;
   User.findOne({ where: id, include: [{ model: Cart }] });
 });
 
-app.post('/', (req, res, next) => {
+app.post("/", (req, res, next) => {
   User.create(req.body)
     .then(item => res.status(201).send(item))
     .catch(err => next(err));
 });
 
-app.delete('/:id', (req, res, next) => {
+app.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   User.destroy({
     where: {
-      id,
-    },
+      id
+    }
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));
 });
 
-app.put('/:id', (req, res, next) => {
+app.put("/:id", (req, res, next) => {
   const { id } = req.params;
   User.findByPk(id)
     .then(foundUser => {
