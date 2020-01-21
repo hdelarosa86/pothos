@@ -22,8 +22,9 @@ const CartItem = db.define("cartItem", {
       key: "id"
     }
   },
-  quanity: {
-    type: INTEGER
+  quantity: {
+    type: INTEGER,
+    defaultValue: 1
   },
   totalPrice: {
     type: FLOAT
