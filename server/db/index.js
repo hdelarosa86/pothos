@@ -11,6 +11,8 @@ const CartItem = require("./cartItem");
 Cart.belongsTo(User);
 User.hasMany(Cart);
 
+Cart.hasMany(CartItem, { as: "CartItem" });
+
 module.exports = {
   db,
   User,
