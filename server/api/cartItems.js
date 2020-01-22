@@ -43,7 +43,9 @@ app.get("/", (req, res, next) => {
 
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  CartItem.findOne({ where: id });
+  CartItem.findOne({ where: {id} })
+    .then(foundCartItem => res.status(200).send(foundCartItem))
+    .catch(err => next(err));
 });
 
 //if you post an item to a cart where it already exists it increments the quantity
@@ -52,8 +54,8 @@ app.post("/", (req, res, next) => {
   CartItem.findOne({
     where: {
       itemId: itemId,
-      cartId: cartId
-    }
+      cartId: cartId,
+    },
   })
     .then(foundCartItem => {
       console.log(foundCartItem);
@@ -75,8 +77,8 @@ app.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   CartItem.destroy({
     where: {
-      id
-    }
+      id,
+    },
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));

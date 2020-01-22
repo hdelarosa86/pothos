@@ -4,7 +4,7 @@ const { User, Cart, CartItem } = require("../db/index");
 
 app.get("/", (req, res, next) => {
   Cart.findAll({
-    include: [{ model: CartItem, as: "CartItem" }]
+    include: [{ model: CartItem, as: "CartItem" }],
   })
     .then(carts => res.status(200).send(carts))
     .catch(err => next(err));
@@ -13,14 +13,14 @@ app.get("/", (req, res, next) => {
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
   Cart.findOne({
-    where: { id: id },
+    where: { id },
     include: [
       {
         model: CartItem,
         as: "CartItem",
-        where: { cartId: id }
-      }
-    ]
+        where: { cartId: id },
+      },
+    ],
   })
     .then(cart => res.status(200).send(cart))
     .catch(err => next(err));
@@ -36,8 +36,8 @@ app.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   Cart.destroy({
     where: {
-      id
-    }
+      id,
+    },
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));
