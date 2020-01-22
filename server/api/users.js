@@ -10,7 +10,9 @@ app.get("/", (req, res, next) => {
 
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  User.findOne({ where: id, include: [{ model: Cart }] });
+  User.findOne({ where: { id }, include: [{ model: Cart }] })
+    .then(user => res.status(200).send(user))
+    .catch(err => next(err));
 });
 
 app.post("/", (req, res, next) => {
@@ -23,8 +25,8 @@ app.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   User.destroy({
     where: {
-      id
-    }
+      id,
+    },
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));
