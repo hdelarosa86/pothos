@@ -1,23 +1,19 @@
 import React from "react";
-import { connect } from "react-redux"
-import ItemPreview from "./ItemPreview"
+import { connect } from "react-redux";
+import ItemPreview from "./ItemPreview";
 
 export const AllItems = ({ inventory }) => {
-    console.log(inventory)
-
-    const generateItemCards = (inventoryArr) => {
-        return inventoryArr.map(item => <ItemPreview item={item} />)
+  const generateItemCards = inventoryArr => {
+    if (inventoryArr.length > 0) {
+      return inventoryArr.map(item => <ItemPreview item={item} />);
     }
-    if (inventory.length > 0) {
-        return <div>{generateItemCards(inventory)}</div>
-    } else {
-        return <div>Items are loading...</div>
-    }
+    return <div>Items are loading...</div>;
+  };
 
-
-}
+  return <div>{generateItemCards(inventory)}</div>;
+};
 
 const mapStateToProps = state => ({
-    inventory: state.inventory.items
-})
+  inventory: state.inventory.items
+});
 export default connect(mapStateToProps)(AllItems);
