@@ -2,7 +2,7 @@ import React from "react";
 import "./app.css";
 //component
 import ReduxTestComponent from "./Components/ReduxTestComponent/ReduxTextComponent";
-import AllItems from "./Components/AllItems";
+import AllItems from "./Components/Items/AllItems";
 
 export class App extends React.Component {
   render() {
