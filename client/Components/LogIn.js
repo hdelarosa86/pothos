@@ -2,7 +2,6 @@ import React from "react";
 //React-Redux
 import { connect } from "react-redux";
 import { userLogIn, userLogOut } from "../Redux/User/actions/user.actions";
-import axios from "axios";
 
 class LogIn extends React.Component {
   constructor(props) {
@@ -41,15 +40,6 @@ class LogIn extends React.Component {
         console.error(err);
         this.setState({ loggedIn: true });
       });
-    // axios
-    //   .post("/login/deleteCookie", this.state.user)
-    //   .then(() => {
-    //     this.setState({ loggedIn: false });
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //     this.setState({ loggedIn: true });
-    //   });
   };
 
   handleOnChange = ({ target: { name, value } }) => {
@@ -88,22 +78,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(null, mapDispatchToProps)(LogIn);
-
-//   async handleLogIn = e => {
-//     e.preventDefault();
-//     try{
-//         await this.props.logIn(this.state.user)
-//     }catch(err){
-//         console.error(err)
-//         this.setState({logInErr : true})
-//     }
-//     axios
-//       .post("/login", this.state.user)
-//       .then(() => {
-//         this.setState({ loggedIn: true, logInErr: false });
-//       })
-//       .catch(err => {
-//         console.error(err);
-//         this.setState({ logInErr: true });
-//       });
-//   };
