@@ -22,7 +22,7 @@ app.put("/:id/decrement/", (req, res, next) => {
   const { id } = req.params;
   CartItem.findByPk(id)
     .then(foundCartItem => {
-      if (foundCartItem.quantity === 1) {
+      if (foundCartItem.quantity === 1 || !foundCartItem.quantity) {
         foundCartItem.destroy();
       }
       if (foundCartItem.quantity > 1) {
@@ -43,7 +43,7 @@ app.get("/", (req, res, next) => {
 
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  CartItem.findOne({ where: {id} })
+  CartItem.findOne({ where: { id } })
     .then(foundCartItem => res.status(200).send(foundCartItem))
     .catch(err => next(err));
 });
@@ -54,11 +54,10 @@ app.post("/", (req, res, next) => {
   CartItem.findOne({
     where: {
       itemId: itemId,
-      cartId: cartId,
-    },
+      cartId: cartId
+    }
   })
     .then(foundCartItem => {
-      console.log(foundCartItem);
       if (foundCartItem === null) {
         CartItem.create({ itemId: itemId, cartId: cartId }).then(() =>
           res.status(201).send(console.log("item created"))
@@ -77,8 +76,8 @@ app.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   CartItem.destroy({
     where: {
-      id,
-    },
+      id
+    }
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));

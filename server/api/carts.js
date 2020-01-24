@@ -1,10 +1,10 @@
 const express = require("express");
 const app = express();
-const { User, Cart, CartItem } = require("../db/index");
+const { User, Cart, CartItem, Item } = require("../db/index");
 
 app.get("/", (req, res, next) => {
   Cart.findAll({
-    include: [{ model: CartItem, as: "CartItem" }],
+    include: [{ model: CartItem, as: "CartItem" }]
   })
     .then(carts => res.status(200).send(carts))
     .catch(err => next(err));
@@ -19,8 +19,13 @@ app.get("/:id", (req, res, next) => {
         model: CartItem,
         as: "CartItem",
         where: { cartId: id },
-      },
-    ],
+        include: [
+          {
+            model: Item
+          }
+        ]
+      }
+    ]
   })
     .then(cart => res.status(200).send(cart))
     .catch(err => next(err));
@@ -36,8 +41,8 @@ app.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   Cart.destroy({
     where: {
-      id,
-    },
+      id
+    }
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));
