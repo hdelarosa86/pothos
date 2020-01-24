@@ -2,7 +2,11 @@ import React from "react";
 //React-Redux
 import { connect } from "react-redux";
 //actions
-import { addUser, removeUser } from "../../Redux/User/actions/user.actions";
+import {
+  addUser,
+  removeUser,
+  verifyUserCookie,
+} from "../../Redux/User/actions/user.actions";
 import { addItem, removeItem } from "../../Redux/Cart/actions/cart.actions";
 import {
   itemsFetchStartAsync,
@@ -41,12 +45,7 @@ export class ReduxTestComponent extends React.Component {
     };
   }
   componentDidMount() {
-    axios
-      .get("/login/verifyUser")
-      .then(response =>
-        this.setState({ name: response.data.firstName, loggedIn: true })
-      )
-      .catch(err => console.log(err));
+    this.props.persistUser();
     this.props.itemsFetchStartAsync();
   }
 
@@ -123,6 +122,8 @@ export class ReduxTestComponent extends React.Component {
       });
   };
 
+  
+
   handleOnChange = e => {
     const { name, value } = e.target;
     this.setState(prevState => {
@@ -140,7 +141,7 @@ export class ReduxTestComponent extends React.Component {
     return (
       <div>
         THIS IS A REDUX TEST COMPONENT
-    {this.state.loggedIn && <p>Hello there {this.state.name}</p>}
+        {this.state.loggedIn && <p>Hello there {this.state.name}</p>}
         <div>
           TODO:
           <br />
@@ -293,6 +294,7 @@ const mapDispatchToProps = dispatch => ({
   createItemThenFetch: item => dispatch(createItemThenFetch(item)),
   updateItemThenFetch: item => dispatch(updateItemThenFetch(item)),
   deleteItemThenFetch: id => dispatch(deleteItemThenFetch(id)),
+  persistUser: () => dispatch(verifyUserCookie()),
 });
 
 const mapStateToProps = state => ({

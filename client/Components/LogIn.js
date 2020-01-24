@@ -1,6 +1,7 @@
 import React from "react";
 //React-Redux
 import { connect } from "react-redux";
+import { userLogIn, userLogOut } from "../Redux/User/actions/user.actions";
 import axios from "axios";
 
 class LogIn extends React.Component {
@@ -15,25 +16,43 @@ class LogIn extends React.Component {
       logInErr: false,
     };
   }
-  componentDidMount() {
-   
-  }
 
   handleLogIn = e => {
     e.preventDefault();
-    axios
-      .post("/login", this.state.user)
+    this.props
+      .userLogIn(this.state.user)
       .then(() => {
-        this.setState({ loggedIn: true, logInErr: false });
+        this.setState({ logInErr: false, loggedIn: true });
       })
       .catch(err => {
         console.error(err);
-        this.setState({ logInErr: true });
+        this.setState({ logInErr: true, loggedIn: false });
       });
   };
 
+  handleLogOut = e => {
+    console.log("clicking log out");
+    this.props
+      .userLogOut(this.state.user)
+      .then(() => {
+        this.setState({ loggedIn: false });
+      })
+      .catch(err => {
+        console.error(err);
+        this.setState({ loggedIn: true });
+      });
+    // axios
+    //   .post("/login/deleteCookie", this.state.user)
+    //   .then(() => {
+    //     this.setState({ loggedIn: false });
+    //   })
+    //   .catch(err => {
+    //     console.error(err);
+    //     this.setState({ loggedIn: true });
+    //   });
+  };
+
   handleOnChange = ({ target: { name, value } }) => {
-    // const { name, value } = e.target;
     this.setState({ logInErr: false });
     this.setState(prevState => {
       let user = { ...prevState.user };
@@ -49,12 +68,42 @@ class LogIn extends React.Component {
         <form onSubmit={this.handleLogIn}>
           <input type="text" name="email" onChange={this.handleOnChange} />
           <input type="text" name="password" onChange={this.handleOnChange} />
-          <button type="submit" name="logIn">Log In</button>
-          <button type="submit" name="logOut">Log Out</button>
+          <button type="submit" name="logIn" disabled={this.state.loggedIn}>
+            Log In
+          </button>
         </form>
+        <button type="button" name="logOut" onClick={this.handleLogOut}>
+          Log Out
+        </button>
       </div>
     );
   }
 }
 
-export default LogIn;
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogIn: user => dispatch(userLogIn(user)),
+    userLogOut: user => dispatch(userLogOut(user)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(LogIn);
+
+//   async handleLogIn = e => {
+//     e.preventDefault();
+//     try{
+//         await this.props.logIn(this.state.user)
+//     }catch(err){
+//         console.error(err)
+//         this.setState({logInErr : true})
+//     }
+//     axios
+//       .post("/login", this.state.user)
+//       .then(() => {
+//         this.setState({ loggedIn: true, logInErr: false });
+//       })
+//       .catch(err => {
+//         console.error(err);
+//         this.setState({ logInErr: true });
+//       });
+//   };

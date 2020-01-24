@@ -26,11 +26,22 @@ app.use((req, res, next) => {
 });
 
 app.get("/verifyUser", (req, res, next) => {
-    if(req.loggedIn){
-        res.send(req.user)
-    } else {
-        res.sendStatus(401);
-    }
+  if (req.loggedIn) {
+    res.send(req.user);
+  } else {
+    res.send('Guest user');//Need to come up with a better else res.send
+  }
+});
+
+app.post("/deleteCookie", (req, res, next) => {
+  if (req.loggedIn) {
+      req.loggedIn = false;
+      req.user = null;
+    res.clearCookie("id", { path: "/" });
+    res.end();
+  } else {
+    res.sendStatus(401);
+  }
 });
 
 app.post("/", (req, res, next) => {
@@ -47,7 +58,7 @@ app.post("/", (req, res, next) => {
         console.error(new Error(chalk.red(`User not Found ${res.statusCode}`)));
         res.send("User Not Found");
       } else {
-        res
+        return res
           .status(202)
           .cookie("id", user.id, {
             path: "/",
@@ -67,4 +78,3 @@ app.post("/", (req, res, next) => {
 });
 
 module.exports = app;
-//req.userId = req.cookies.id
