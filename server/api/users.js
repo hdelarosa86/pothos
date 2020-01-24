@@ -25,8 +25,8 @@ app.delete("/:id", (req, res, next) => {
   const { id } = req.params;
   User.destroy({
     where: {
-      id,
-    },
+      id
+    }
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));
