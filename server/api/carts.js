@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const { User, Cart, CartItem } = require("../db/index");
+const { User, Cart, CartItem, Item } = require("../db/index");
 
 app.get("/", (req, res, next) => {
   Cart.findAll({
@@ -18,7 +18,13 @@ app.get("/:id", (req, res, next) => {
       {
         model: CartItem,
         as: "CartItem",
-        where: { cartId: id }
+        where: { cartId: id },
+        include: [
+          {
+            model: Item
+          }
+        ]
+
       }
     ]
   })

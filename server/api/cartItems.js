@@ -22,7 +22,7 @@ app.put("/:id/decrement/", (req, res, next) => {
   const { id } = req.params;
   CartItem.findByPk(id)
     .then(foundCartItem => {
-      if (foundCartItem.quantity === 1) {
+      if (foundCartItem.quantity === 1 || !foundCartItem.quantity) {
         foundCartItem.destroy();
       }
       if (foundCartItem.quantity > 1) {
@@ -58,7 +58,6 @@ app.post("/", (req, res, next) => {
     }
   })
     .then(foundCartItem => {
-      console.log(foundCartItem);
       if (foundCartItem === null) {
         CartItem.create({ itemId: itemId, cartId: cartId }).then(() =>
           res.status(201).send(console.log("item created"))

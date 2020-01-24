@@ -4,28 +4,35 @@ import itemTypes from "../types/items.types";
 const INITIAL_STATE = {
   isFetching: false,
   errorMessage: "",
-  items: []
+  items: [],
+  selectedItem: {}
   // INITIAL STATE object
 };
 
 const itemsReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case itemTypes.FETCH_START:
+    case itemTypes.FETCH_ITEM_START:
       return {
         ...state,
         isFetching: true
       };
-    case itemTypes.FETCH_SUCCESS:
+    case itemTypes.FETCH_ITEM_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        errorMessage: action.payload
+      };
+    case itemTypes.FETCH_All_ITEM_SUCCESS:
       return {
         ...state,
         isFetching: false,
         items: action.payload
       };
-    case itemTypes.FETCH_FAILURE:
+    case itemTypes.FETCH_SINGLE_ITEM_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        errorMessage: action.payload
+        selectedItem: action.payload
       };
     default:
       return state;
