@@ -101,7 +101,7 @@ export class ReduxTestComponent extends React.Component {
       0
     );
     return (
-      <div>
+      <div className="container">
         THIS IS A REDUX TEST COMPONENT
         <div>
           TODO:

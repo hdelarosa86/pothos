@@ -22,15 +22,21 @@ const useStyles = makeStyles({
 const ItemPreview = ({ item }) => {
   const classes = useStyles();
   return (
-    <Card id="itemPreviewCard" className={classes.card}>
-      <CardActionArea>
-        <CardMedia className={classes.media} image={item.imageUrl} />
-        <CardContent>
-          <Typography>{item.name}</Typography>
-        </CardContent>
-      </CardActionArea>
-      {/* <Link to={`/item/${item.id}`}>VIEW PLANT</Link> */}
-    </Card>
+    <div className="col s4 center-align">
+      <Card id="itemPreviewCard" className={classes.card}>
+        <Link to={`/shop/${item.id}`}>
+          <CardActionArea>
+            <CardMedia className={classes.media} image={item.imageUrl} />
+            <CardContent>
+              <Typography>
+                {item.name}
+                <p>VIEW PLANT</p>
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+        </Link>
+      </Card>
+    </div>
   );
 };
 
