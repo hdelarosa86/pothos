@@ -18,7 +18,8 @@ const seed = () => {
           lastName: "Doe",
           email: "janeDoe@gmail.com",
           username: "janedoe",
-          password: "password"
+          password: "password",
+          admin: true
         }
       ])
     )
