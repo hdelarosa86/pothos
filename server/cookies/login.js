@@ -29,14 +29,14 @@ app.get("/verifyUser", (req, res, next) => {
   if (req.loggedIn) {
     res.send(req.user);
   } else {
-    res.send('Guest user');//Need to come up with a better else res.send
+    res.send("Guest user"); //Need to come up with a better else res.send
   }
 });
 
 app.post("/deleteCookie", (req, res, next) => {
   if (req.loggedIn) {
-      req.loggedIn = false;
-      req.user = null;
+    req.loggedIn = false;
+    req.user = null;
     res.clearCookie("id", { path: "/" });
     res.end();
   } else {
@@ -49,8 +49,8 @@ app.post("/", (req, res, next) => {
   User.findOne({
     where: {
       email,
-      password,
-    },
+      password
+    }
   })
     .then(user => {
       if (!user) {
@@ -65,7 +65,7 @@ app.post("/", (req, res, next) => {
             expires: moment
               .utc()
               .add(1, "day")
-              .toDate(),
+              .toDate()
           })
           .send(user);
       }

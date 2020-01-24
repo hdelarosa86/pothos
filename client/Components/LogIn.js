@@ -9,10 +9,10 @@ class LogIn extends React.Component {
     this.state = {
       user: {
         email: "",
-        password: "",
+        password: ""
       },
       loggedIn: false,
-      logInErr: false,
+      logInErr: false
     };
   }
 
@@ -73,7 +73,7 @@ class LogIn extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     userLogIn: user => dispatch(userLogIn(user)),
-    userLogOut: user => dispatch(userLogOut(user)),
+    userLogOut: user => dispatch(userLogOut(user))
   };
 };
 

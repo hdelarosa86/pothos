@@ -5,14 +5,14 @@ import { connect } from "react-redux";
 import {
   addUser,
   removeUser,
-  verifyUserCookie,
+  verifyUserCookie
 } from "../../Redux/User/actions/user.actions";
 import { addItem, removeItem } from "../../Redux/Cart/actions/cart.actions";
 import {
   itemsFetchStartAsync,
   createItemThenFetch,
   updateItemThenFetch,
-  deleteItemThenFetch,
+  deleteItemThenFetch
 } from "../../Redux/Items/actions/items.actions";
 import LogIn from "../LogIn";
 import axios from "axios";
@@ -25,23 +25,23 @@ export class ReduxTestComponent extends React.Component {
         name: "",
         price: 0,
         size: "",
-        description: "",
+        description: ""
       },
       updateItem: {
         id: 0,
         name: "",
         price: 0,
         size: "",
-        description: "",
+        description: ""
       },
       deleteItem: "",
 
       user: {
         email: "",
-        password: "",
+        password: ""
       },
       loggedIn: false,
-      name: "",
+      name: ""
     };
   }
   componentDidMount() {
@@ -61,7 +61,7 @@ export class ReduxTestComponent extends React.Component {
 
   onCreateItemChange = e => {
     this.setState({
-      createItem: { ...this.state.createItem, [e.target.name]: e.target.value },
+      createItem: { ...this.state.createItem, [e.target.name]: e.target.value }
     });
   };
 
@@ -72,13 +72,13 @@ export class ReduxTestComponent extends React.Component {
 
   onSelectUpdateItemChange = e => {
     this.setState({
-      updateItem: { ...this.state.updateItem, [e.target.name]: e.target.value },
+      updateItem: { ...this.state.updateItem, [e.target.name]: e.target.value }
     });
   };
 
   onUpdateItemChange = e => {
     this.setState({
-      updateItem: { ...this.state.updateItem, [e.target.name]: e.target.value },
+      updateItem: { ...this.state.updateItem, [e.target.name]: e.target.value }
     });
   };
 
@@ -89,7 +89,7 @@ export class ReduxTestComponent extends React.Component {
 
   onDeleteChange = e => {
     this.setState({
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -121,8 +121,6 @@ export class ReduxTestComponent extends React.Component {
         this.setState({ loggedIn: false });
       });
   };
-
-  
 
   handleOnChange = e => {
     const { name, value } = e.target;
@@ -294,13 +292,13 @@ const mapDispatchToProps = dispatch => ({
   createItemThenFetch: item => dispatch(createItemThenFetch(item)),
   updateItemThenFetch: item => dispatch(updateItemThenFetch(item)),
   deleteItemThenFetch: id => dispatch(deleteItemThenFetch(id)),
-  persistUser: () => dispatch(verifyUserCookie()),
+  persistUser: () => dispatch(verifyUserCookie())
 });
 
 const mapStateToProps = state => ({
   cart: state.cart.cartContent,
   user: state.user,
-  inventory: state.inventory.items,
+  inventory: state.inventory.items
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReduxTestComponent);

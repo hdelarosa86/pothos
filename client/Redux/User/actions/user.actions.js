@@ -3,26 +3,26 @@ import axios from "axios";
 
 export const addUser = user => ({
   type: userTypes.ADD_USER,
-  payload: user,
+  payload: user
 });
 
 export const removeUser = () => ({
-  type: userTypes.REMOVE_USER,
+  type: userTypes.REMOVE_USER
 });
 
 export const logInUser = user => ({
   type: userTypes.LOGIN_USER,
-  payload: user,
+  payload: user
 });
 
 export const persistUser = user => ({
   type: userTypes.PERSIST_USER,
-  payload: user,
+  payload: user
 });
 
 export const logOutUser = user => ({
   type: userTypes.LOGOUT_USER,
-  payload: user,
+  payload: user
 });
 
 //thunks
@@ -44,6 +44,6 @@ export const verifyUserCookie = () => {
 export const userLogOut = () => {
   return async dispatch => {
     await axios.post("/login/deleteCookie");
-    return dispatch(logOutUser(null))
+    return dispatch(logOutUser(null));
   };
 };
