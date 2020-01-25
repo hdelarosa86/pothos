@@ -1,7 +1,8 @@
 import userTypes from "../types/user.types";
 
 const INITIAL_STATE = {
-  currentUser: null
+  currentUser: null,
+  loggedIn: false,
   //// INITIAL STATE object
 };
 
@@ -20,13 +21,15 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case userTypes.LOGIN_USER:
       return {
         ...state,
-        currentUser: action.payload
+        currentUser: action.payload,
+        loggedIn: true,
       };
 
     case userTypes.LOGOUT_USER:
       return {
         ...state,
-        currentUser: action.payload
+        currentUser: action.payload,
+        loggedIn: false,
       };
 
     case userTypes.PERSIST_USER:

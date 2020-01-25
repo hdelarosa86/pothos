@@ -56,7 +56,8 @@ app.post("/", (req, res, next) => {
       if (!user) {
         res.status(401);
         console.error(new Error(chalk.red(`User not Found ${res.statusCode}`)));
-        res.send("User Not Found");
+        // res.send("User Not Found");
+        res.sendStatus(401);
       } else {
         return res
           .status(202)
