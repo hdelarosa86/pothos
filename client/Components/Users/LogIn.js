@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { userLogIn } from "../../Redux/User/actions/user.actions";
-import { Link } from "react-router-dom";
+import { Link ,Redirect } from "react-router-dom";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -28,6 +28,8 @@ class Login extends React.Component {
       .userLogIn(this.state.user)
       .then(() => {
         this.setState({ logInErr: false });
+        this.props.history.push('/');
+        
       })
       .catch(err => {
         console.error(err);
@@ -48,7 +50,7 @@ class Login extends React.Component {
             <label>Password</label>
             <input type="text" name="password" onChange={this.handleOnChange} />
           </div>
-          <Link to="/shop">
+          <Link to="/">
             <button type="button" name="logIn" onClick={this.handleLogIn}>
               Log In
             </button>

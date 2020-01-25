@@ -31,25 +31,11 @@ export const logOutUser = user => ({
 
 export const userLogIn = user => {
   return dispatch => {
-    return axios
-      .post("/login", user)
-      .then(data => {
-        console.log('data in action: ', data);
-        dispatch(logInUser);
-      })
-      // .catch(err => {
-      //   return err;
-      // });
+    return axios.post("/login", user).then(data => {
+      dispatch(logInUser(data));
+    });
   };
 };
-
-// export const userLogIn = user => {
-//   return async dispatch => {
-//     const loggedInUser = (await axios.post("/login", user)).data;
-//     console.log(loggedInUser);
-//     return dispatch(logInUser(loggedInUser));
-//   };
-// };
 
 export const verifyUserCookie = () => {
   return dispatch => {

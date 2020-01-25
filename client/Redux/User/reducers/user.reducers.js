@@ -19,6 +19,7 @@ const userReducer = (state = INITIAL_STATE, action) => {
         currentUser: null
       };
     case userTypes.LOGIN_USER:
+      console.log('action: ', action.payload.data);
       return {
         ...state,
         currentUser: action.payload,
