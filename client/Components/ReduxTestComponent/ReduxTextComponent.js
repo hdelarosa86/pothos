@@ -2,17 +2,24 @@ import React from "react";
 //React-Redux
 import { connect } from "react-redux";
 //actions
+
+import {
+  fetchCartStartAsync,
+  addToCartStartAsync,
+  incrementItemStartAsync,
+  decrementItemStartAsync
+} from "../../Redux/Cart/actions/cart.actions";
 import {
   addUser,
   removeUser,
   verifyUserCookie
 } from "../../Redux/User/actions/user.actions";
-import { addItem, removeItem } from "../../Redux/Cart/actions/cart.actions";
 import {
   itemsFetchStartAsync,
   createItemThenFetch,
   updateItemThenFetch,
   deleteItemThenFetch
+
 } from "../../Redux/Items/actions/items.actions";
 import LogIn from "../LogIn";
 import axios from "axios";
@@ -44,9 +51,13 @@ export class ReduxTestComponent extends React.Component {
       name: ""
     };
   }
+
+  currentCartId = "3ece4185-01ba-4cad-ae91-2843e5f0c623";
+
   componentDidMount() {
+    this.props.allItemsFetchStartAsync();
+    this.props.fetchCartStartAsync(this.currentCartId);
     this.props.persistUser();
-    this.props.itemsFetchStartAsync();
   }
 
   addUserFunction = e => {
@@ -67,7 +78,7 @@ export class ReduxTestComponent extends React.Component {
 
   onCreateSubmit = e => {
     e.preventDefault();
-    this.props.createItemThenFetch(this.state.createItem);
+    this.props.createItemThenFetchAll(this.state.createItem);
   };
 
   onSelectUpdateItemChange = e => {
@@ -84,7 +95,7 @@ export class ReduxTestComponent extends React.Component {
 
   onUpdateSubmit = e => {
     e.preventDefault();
-    this.props.updateItemThenFetch(this.state.updateItem);
+    this.props.updateItemThenFetchAll(this.state.updateItem);
   };
 
   onDeleteChange = e => {
@@ -95,18 +106,24 @@ export class ReduxTestComponent extends React.Component {
 
   onDeleteSubmit = e => {
     e.preventDefault();
-    this.props.deleteItemThenFetch(this.state.deleteItem);
+    this.props.deleteItemThenFetchAll(this.state.deleteItem);
     console.log(this.state.deleteItem);
   };
 
-  addItemFunction = (e, id, name, price) => {
+  addItemFunction = (e, id) => {
     e.preventDefault();
-    this.props.addItem({ id: id, name: name, price: price });
+    this.props.addToCartStartAsync(id, this.currentCartId);
   };
 
-  removeItemFunction = (e, id, name, price) => {
+  incrementItemFunction = (e, id) => {
+    console.log(id);
     e.preventDefault();
-    this.props.removeItem({ id: id, name: name, price: price });
+    this.props.incrementItemStartAsync(id, this.currentCartId);
+  };
+
+  decrementItemFunction = (e, id) => {
+    e.preventDefault();
+    this.props.decrementItemStartAsync(id, this.currentCartId);
   };
 
   handleLogIn = e => {
@@ -132,12 +149,12 @@ export class ReduxTestComponent extends React.Component {
   };
 
   render() {
-    let totalCost = this.props.cart.reduce(
-      (acc, { quantity, price }) => (acc += quantity * price),
-      0
-    );
+    // let totalCost = this.props.cart.reduce(
+    //   (acc, { quantity, price }) => (acc += quantity * price),
+    //   0
+    // );
     return (
-      <div className="container">
+      <div className='container'>
         THIS IS A REDUX TEST COMPONENT
         {this.state.loggedIn && <p>Hello there {this.state.name}</p>}
         <div>
@@ -156,7 +173,7 @@ export class ReduxTestComponent extends React.Component {
         <div>
           <form onSubmit={this.onUpdateSubmit}>
             <label>select id</label>
-            <select name="id" onChange={this.onSelectUpdateItemChange}>
+            <select name='id' onChange={this.onSelectUpdateItemChange}>
               <option value={0}>nothing</option>
               {this.props.inventory.map(({ id, name }) => {
                 return <option value={id}>{name}</option>;
@@ -165,34 +182,34 @@ export class ReduxTestComponent extends React.Component {
             <label>name</label>
             <input
               onChange={this.onUpdateItemChange}
-              type="text"
-              name="name"
+              type='text'
+              name='name'
               value={this.state.updateItem.value}
-              placeholder="enter name here"
+              placeholder='enter name here'
             ></input>
             <label>price</label>
             <input
               onChange={this.onUpdateItemChange}
-              type="number"
-              name="price"
+              type='number'
+              name='price'
               value={this.state.updateItem.value}
-              placeholder="enter price here"
+              placeholder='enter price here'
             ></input>
             <label>size</label>
-            <select name="size" onChange={this.onUpdateItemChange}>
-              <option value="medium">small</option>
-              <option value="medium">medium</option>
-              <option value="medium">large</option>
+            <select name='size' onChange={this.onUpdateItemChange}>
+              <option value='medium'>small</option>
+              <option value='medium'>medium</option>
+              <option value='medium'>large</option>
             </select>
             <label>description</label>
             <input
               onChange={this.onUpdateItemChange}
-              type="text"
-              name="description"
+              type='text'
+              name='description'
               value={this.state.updateItem.value}
-              placeholder="enter description here"
+              placeholder='enter description here'
             ></input>
-            <input type="submit" value="Update" />
+            <input type='submit' value='Update' />
           </form>
         </div>
         ***** CREATE ITEM *****
@@ -201,47 +218,47 @@ export class ReduxTestComponent extends React.Component {
             <label>name</label>
             <input
               onChange={this.onCreateItemChange}
-              type="text"
-              name="name"
+              type='text'
+              name='name'
               value={this.state.createItem.value}
-              placeholder="enter name here"
+              placeholder='enter name here'
             ></input>
             <label>price</label>
             <input
               onChange={this.onCreateItemChange}
-              type="number"
-              name="price"
+              type='number'
+              name='price'
               value={this.state.createItem.value}
-              placeholder="enter price here"
+              placeholder='enter price here'
             ></input>
             <label>size</label>
-            <select name="size" onChange={this.onCreateItemChange}>
-              <option value="medium">small</option>
-              <option value="medium">medium</option>
-              <option value="medium">large</option>
+            <select name='size' onChange={this.onCreateItemChange}>
+              <option value='medium'>small</option>
+              <option value='medium'>medium</option>
+              <option value='medium'>large</option>
             </select>
             <label>description</label>
             <input
               onChange={this.onCreateItemChange}
-              type="text"
-              name="description"
+              type='text'
+              name='description'
               value={this.state.createItem.value}
-              placeholder="enter description here"
+              placeholder='enter description here'
             ></input>
-            <input type="submit" value="Submit" />
+            <input type='submit' value='Submit' />
           </form>
         </div>
         ***** DELETE ITEM *****
         <div>
           <form onSubmit={this.onDeleteSubmit}>
             <label>items</label>
-            <select name="deleteItem" onChange={this.onDeleteChange}>
+            <select name='deleteItem' onChange={this.onDeleteChange}>
               <option value={0}>nothing</option>
               {this.props.inventory.map(({ id, name }) => {
                 return <option value={id}>{name}</option>;
               })}
             </select>
-            <input type="submit" value="Delete" />
+            <input type='submit' value='Delete' />
           </form>
         </div>
         ***** INVENTORY *****
@@ -254,28 +271,29 @@ export class ReduxTestComponent extends React.Component {
                 <button onClick={e => this.addItemFunction(e, id, name, price)}>
                   ADD TO CART
                 </button>
-                <button
-                  onClick={e => this.removeItemFunction(e, id, name, price)}
-                >
-                  REMOVE FROM CART
-                </button>
               </div>
             );
           })}
         </div>
         <div>
           ***** TEST CART *****
-          {this.props.cart.map(({ name, quantity, price }) => {
+          {this.props.cart.map(({ id, quantity, item: { name, price } }) => {
             return (
               <div>
                 <span>{`NAME: ${name} `}</span>
                 <span>{`PRICE: $ ${price} `}</span>
                 <span>{`COUNT: ${quantity} `}</span>
+                <button onClick={e => this.incrementItemFunction(e, id)}>
+                  +
+                </button>
+                <button onClick={e => this.decrementItemFunction(e, id)}>
+                  -
+                </button>
               </div>
             );
           })}
         </div>
-        TOTAL COST: ${totalCost}
+        TOTAL COST:
         {/* LogIn Component */}
         <LogIn />
       </div>
@@ -292,11 +310,12 @@ const mapDispatchToProps = dispatch => ({
   createItemThenFetch: item => dispatch(createItemThenFetch(item)),
   updateItemThenFetch: item => dispatch(updateItemThenFetch(item)),
   deleteItemThenFetch: id => dispatch(deleteItemThenFetch(id)),
+
   persistUser: () => dispatch(verifyUserCookie())
 });
 
 const mapStateToProps = state => ({
-  cart: state.cart.cartContent,
+  cart: state.cart.cartContent.CartItem,
   user: state.user,
   inventory: state.inventory.items
 });

@@ -22,11 +22,11 @@ app.put("/:id/decrement/", (req, res, next) => {
   const { id } = req.params;
   CartItem.findByPk(id)
     .then(foundCartItem => {
-      if (foundCartItem.quantity === 1) {
-        foundCartItem.destroy();
+      if (foundCartItem.quantity === 1 || !foundCartItem.quantity) {
+        return foundCartItem.destroy();
       }
       if (foundCartItem.quantity > 1) {
-        foundCartItem.update({ quantity: foundCartItem.quantity - 1 });
+        return foundCartItem.update({ quantity: foundCartItem.quantity - 1 });
       }
     })
     .then(updatedCartItem => {
@@ -58,14 +58,13 @@ app.post("/", (req, res, next) => {
     }
   })
     .then(foundCartItem => {
-      console.log(foundCartItem);
       if (foundCartItem === null) {
-        CartItem.create({ itemId: itemId, cartId: cartId }).then(() =>
+        return CartItem.create({ itemId: itemId, cartId: cartId }).then(() =>
           res.status(201).send(console.log("item created"))
         );
       }
       if (foundCartItem) {
-        foundCartItem
+        return foundCartItem
           .update({ quantity: foundCartItem.quantity + 1 })
           .then(() => res.status(201).send(console.log("item incremented")));
       }
