@@ -3,10 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 //actions
 
-import { addUser, removeUser } from "../../Redux/User/actions/user.actions";
 import {
-  addItem,
-  removeItem,
   fetchCartStartAsync,
   addToCartStartAsync,
   incrementItemStartAsync,
@@ -15,7 +12,7 @@ import {
 import {
   addUser,
   removeUser,
-  verifyUserCookie,
+  verifyUserCookie
 } from "../../Redux/User/actions/user.actions";
 import {
   allItemsFetchStartAsync,
@@ -23,7 +20,6 @@ import {
   updateItemThenFetchAll,
   deleteItemThenFetchAll,
   singleItemFetchStartAsync
-
 } from "../../Redux/Items/actions/items.actions";
 import LogIn from "../LogIn";
 import axios from "axios";
@@ -36,36 +32,32 @@ export class ReduxTestComponent extends React.Component {
         name: "",
         price: 0,
         size: "",
-        description: "",
+        description: ""
       },
       updateItem: {
         id: 0,
         name: "",
         price: 0,
         size: "",
-        description: "",
+        description: ""
       },
       deleteItem: "",
 
       user: {
         email: "",
-        password: "",
+        password: ""
       },
       loggedIn: false,
-      name: "",
+      name: ""
     };
   }
 
-  currentCartId = "0240b52c-60d8-4cb2-8eb5-0d9885201f44";
+  currentCartId = "3ece4185-01ba-4cad-ae91-2843e5f0c623";
 
   componentDidMount() {
     this.props.allItemsFetchStartAsync();
-    this.props.singleItemFetchStartAsync(
-      "3c328455-1ebb-43a6-b84d-1ece413753a9"
-    );
     this.props.fetchCartStartAsync(this.currentCartId);
     this.props.persistUser();
-
   }
 
   addUserFunction = e => {
@@ -80,7 +72,7 @@ export class ReduxTestComponent extends React.Component {
 
   onCreateItemChange = e => {
     this.setState({
-      createItem: { ...this.state.createItem, [e.target.name]: e.target.value },
+      createItem: { ...this.state.createItem, [e.target.name]: e.target.value }
     });
   };
 
@@ -91,13 +83,13 @@ export class ReduxTestComponent extends React.Component {
 
   onSelectUpdateItemChange = e => {
     this.setState({
-      updateItem: { ...this.state.updateItem, [e.target.name]: e.target.value },
+      updateItem: { ...this.state.updateItem, [e.target.name]: e.target.value }
     });
   };
 
   onUpdateItemChange = e => {
     this.setState({
-      updateItem: { ...this.state.updateItem, [e.target.name]: e.target.value },
+      updateItem: { ...this.state.updateItem, [e.target.name]: e.target.value }
     });
   };
 
@@ -108,7 +100,7 @@ export class ReduxTestComponent extends React.Component {
 
   onDeleteChange = e => {
     this.setState({
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   };
 
@@ -147,8 +139,6 @@ export class ReduxTestComponent extends React.Component {
       });
   };
 
-  
-
   handleOnChange = e => {
     const { name, value } = e.target;
     this.setState(prevState => {
@@ -164,7 +154,7 @@ export class ReduxTestComponent extends React.Component {
     //   0
     // );
     return (
-      <div className="container">
+      <div className='container'>
         THIS IS A REDUX TEST COMPONENT
         {this.state.loggedIn && <p>Hello there {this.state.name}</p>}
         <div>
@@ -303,7 +293,7 @@ export class ReduxTestComponent extends React.Component {
             );
           })}
         </div>
-        TOTAL COST: 
+        TOTAL COST:
         {/* LogIn Component */}
         <LogIn />
       </div>
@@ -314,8 +304,6 @@ export class ReduxTestComponent extends React.Component {
 const mapDispatchToProps = dispatch => ({
   addUser: user => dispatch(addUser(user)),
   removeUser: () => dispatch(removeUser()),
-  addItem: item => dispatch(addItem(item)),
-  removeItem: item => dispatch(removeItem(item)),
   allItemsFetchStartAsync: () => dispatch(allItemsFetchStartAsync()),
   createItemThenFetchAll: item => dispatch(createItemThenFetchAll(item)),
   updateItemThenFetchAll: item => dispatch(updateItemThenFetchAll(item)),
@@ -327,14 +315,14 @@ const mapDispatchToProps = dispatch => ({
   incrementItemStartAsync: (itemId, CartId) =>
     dispatch(incrementItemStartAsync(itemId, CartId)),
   decrementItemStartAsync: (itemId, CartId) =>
-    dispatch(decrementItemStartAsync(itemId, CartId))
-  persistUser: () => dispatch(verifyUserCookie()),
+    dispatch(decrementItemStartAsync(itemId, CartId)),
+  persistUser: () => dispatch(verifyUserCookie())
 });
 
 const mapStateToProps = state => ({
   cart: state.cart.cartContent.CartItem,
   user: state.user,
-  inventory: state.inventory.items,
+  inventory: state.inventory.items
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ReduxTestComponent);

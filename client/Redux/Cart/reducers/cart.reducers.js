@@ -7,21 +7,10 @@ const INITIAL_STATE = {
   cartContent: {
     CartItem: []
   }
-  // INITIAL STATE object
 };
 
 const cartReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case cartTypes.ADD_ITEM:
-      return {
-        ...state,
-        cartContent: addItemToCart(state.cartContent, action.payload)
-      };
-    case cartTypes.REMOVE_ITEM:
-      return {
-        ...state,
-        cartContent: removeItemFromCart(state.cartContent, action.payload)
-      };
     case cartTypes.FETCH_CART_START:
       return {
         ...state,

@@ -1,16 +1,6 @@
 import cartTypes from "../types/cart.types";
 import axios from "axios";
 
-export const addItem = item => ({
-  type: cartTypes.ADD_ITEM,
-  payload: item
-});
-
-export const removeItem = item => ({
-  type: cartTypes.REMOVE_ITEM,
-  payload: item
-});
-
 export const fetchCartStart = () => ({
   type: cartTypes.FETCH_CART_START
 });
