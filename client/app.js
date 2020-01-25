@@ -10,8 +10,13 @@ import NavBar from "./Components/NavBar";
 import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
 import "materialize-css/dist/css/materialize.min.css";
+import { verifyUserCookie } from "./Redux/User/actions/user.actions";
+import { connect } from "react-redux";
 
 export class App extends React.Component {
+  componentDidMount() {
+   this.props.persistUser();
+  }
   render() {
     return (
       <div>
@@ -31,11 +36,23 @@ export class App extends React.Component {
             path={"/cart/:id"}
             render={id => <Checkout Location={id} />}
           />
-          <Route exact path={"/login"} render={id => <Login />} />
+          <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
       </div>
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = dispatch => ({
+  persistUser: () => dispatch(verifyUserCookie())
+});
+
+const mapStateToProps = state => ({
+  cart: state.cart.cartContent,
+  user: state.user,
+  inventory: state.inventory.items
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+// export default App;

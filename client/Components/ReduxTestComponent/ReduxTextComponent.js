@@ -15,11 +15,11 @@ import {
   verifyUserCookie
 } from "../../Redux/User/actions/user.actions";
 import {
-  allItemsFetchStartAsync,
-  createItemThenFetchAll,
-  updateItemThenFetchAll,
-  deleteItemThenFetchAll,
-  singleItemFetchStartAsync
+  itemsFetchStartAsync,
+  createItemThenFetch,
+  updateItemThenFetch,
+  deleteItemThenFetch
+
 } from "../../Redux/Items/actions/items.actions";
 import LogIn from "../LogIn";
 import axios from "axios";
@@ -304,18 +304,13 @@ export class ReduxTestComponent extends React.Component {
 const mapDispatchToProps = dispatch => ({
   addUser: user => dispatch(addUser(user)),
   removeUser: () => dispatch(removeUser()),
-  allItemsFetchStartAsync: () => dispatch(allItemsFetchStartAsync()),
-  createItemThenFetchAll: item => dispatch(createItemThenFetchAll(item)),
-  updateItemThenFetchAll: item => dispatch(updateItemThenFetchAll(item)),
-  deleteItemThenFetchAll: id => dispatch(deleteItemThenFetchAll(id)),
-  singleItemFetchStartAsync: id => dispatch(singleItemFetchStartAsync(id)),
-  fetchCartStartAsync: cartId => dispatch(fetchCartStartAsync(cartId)),
-  addToCartStartAsync: (itemId, CartId) =>
-    dispatch(addToCartStartAsync(itemId, CartId)),
-  incrementItemStartAsync: (itemId, CartId) =>
-    dispatch(incrementItemStartAsync(itemId, CartId)),
-  decrementItemStartAsync: (itemId, CartId) =>
-    dispatch(decrementItemStartAsync(itemId, CartId)),
+  addItem: item => dispatch(addItem(item)),
+  removeItem: item => dispatch(removeItem(item)),
+  itemsFetchStartAsync: () => dispatch(itemsFetchStartAsync()),
+  createItemThenFetch: item => dispatch(createItemThenFetch(item)),
+  updateItemThenFetch: item => dispatch(updateItemThenFetch(item)),
+  deleteItemThenFetch: id => dispatch(deleteItemThenFetch(id)),
+
   persistUser: () => dispatch(verifyUserCookie())
 });
 
