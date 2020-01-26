@@ -1,16 +1,16 @@
 const express = require("express");
 const app = express();
-const { User, Cart } = require("../db/index");
+const { User, Order } = require("../db/index");
 
 app.get("/", (req, res, next) => {
-  User.findAll({ include: [{ model: Cart }] })
+  User.findAll({ include: [{ model: Order }] })
     .then(users => res.status(200).send(users))
     .catch(err => next(err));
 });
 
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  User.findOne({ where: { id }, include: [{ model: Cart }] })
+  User.findOne({ where: { id }, include: [{ model: Order }] })
     .then(user => res.status(200).send(user))
     .catch(err => next(err));
 });
