@@ -1,7 +1,7 @@
 const { STRING, INTEGER, FLOAT, UUID, UUIDV4, DATE } = require("sequelize");
 const db = require("./database");
 
-const Cart = db.define("cart", {
+const Order = db.define("order", {
   id: {
     primaryKey: true,
     type: UUID,
@@ -32,4 +32,4 @@ const Cart = db.define("cart", {
   // }
 });
 
-module.exports = Cart;
+module.exports = Order;

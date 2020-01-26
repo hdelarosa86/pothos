@@ -1,4 +1,4 @@
-const { db, User, Item, Cart, CartItem } = require("./server/db");
+const { db, User, Item, Order, CartItem } = require("./server/db");
 const chalk = require("chalk");
 
 const seed = () => {
@@ -23,7 +23,7 @@ const seed = () => {
         }
       ])
     )
-    .then(() => {
+    .then(() =>
       Item.bulkCreate([
         {
           price: 5,
@@ -41,16 +41,16 @@ const seed = () => {
           imageUrl:
             "http://cdn.shopify.com/s/files/1/0062/8532/8445/products/Golden-Pothos-800-mainimage_grande.gif?v=1557174910"
         }
-      ]);
-    })
+      ])
+    )
     .then(() => User.findOne({ where: { username: "johndoe" } }))
     .then(johndoeUser =>
-      Cart.create({
+      Order.create({
         total: 10,
         userId: johndoeUser.id
       })
     )
-    .then(johnCart => {
+    .then(johnCart =>
       Item.create({
         price: 10,
         name: "Pothos",
@@ -59,17 +59,16 @@ const seed = () => {
         imageUrl:
           "http://cdn.shopify.com/s/files/1/0062/8532/8445/products/Golden-Pothos-800-mainimage_grande.gif?v=1557174910"
       }).then(pothosItem =>
-        CartItem.create({ itemId: pothosItem.id, cartId: johnCart.id })
-      );
-    })
+        CartItem.create({ itemId: pothosItem.id, orderId: johnCart.id, itemTotal: pothosItem.price })
+      )
+    )
     .then(() => User.findOne({ where: { username: "janedoe" } }))
     .then(janeUser =>
-      Cart.create({
+      Order.create({
         total: 0,
         userId: janeUser.id
       })
     )
-    .catch(e => console.log("Error with demo seed", e));
 };
 
 module.exports = seed;

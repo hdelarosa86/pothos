@@ -17,7 +17,7 @@ const Item = db.define("item", {
   inventory: {
     type: INTEGER,
     allowNull: false,
-    defaultValue: 0
+    defaultValue: 10
   },
   size: {
     type: STRING,
