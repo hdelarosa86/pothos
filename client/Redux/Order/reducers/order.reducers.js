@@ -1,36 +1,36 @@
-import cartTypes from "../types/cart.types";
-import { addItemToCart, removeItemFromCart } from "../utils/cart.utils";
+import orderTypes from "../types/order.types";
+import { addItemToOrder, removeItemFromOrder } from "../utils/order.utils";
 
 const INITIAL_STATE = {
   isFetching: false,
   errorMessage: "",
-  cartContent: {
+  orderContent: {
     CartItem: []
   }
 };
 
-const cartReducer = (state = INITIAL_STATE, action) => {
+const orderReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case cartTypes.FETCH_CART_START:
+    case orderTypes.FETCH_ORDER_START:
       return {
         ...state,
         isFetching: true
       };
-    case cartTypes.FETCH_CART_FAILURE:
+    case orderTypes.FETCH_ORDER_FAILURE:
       return {
         ...state,
         isFetching: false,
         errorMessage: action.payload
       };
-    case cartTypes.FETCH_CART_SUCCESS:
+    case orderTypes.FETCH_ORDER_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        cartContent: action.payload
+        orderContent: action.payload
       };
     default:
       return state;
   }
 };
 
-export default cartReducer;
+export default orderReducer;
