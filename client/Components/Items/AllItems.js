@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import ItemPreview from "./ItemPreview";
-import { itemsFetchStartAsync } from "../../Redux/Items/actions/items.actions";
+import { allItemsFetchStartAsync } from "../../Redux/Items/actions/items.actions";
 
 export class AllItems extends React.Component {
   componentDidMount() {
-    const { itemsFetchStartAsync } = this.props;
-    itemsFetchStartAsync();
+    const { allItemsFetchStartAsync } = this.props;
+    allItemsFetchStartAsync();
   }
   render() {
     const { inventory } = this.props;
@@ -30,7 +30,7 @@ export class AllItems extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  itemsFetchStartAsync: () => dispatch(itemsFetchStartAsync())
+  allItemsFetchStartAsync: () => dispatch(allItemsFetchStartAsync())
 });
 const mapStateToProps = state => ({
   inventory: state.inventory.items

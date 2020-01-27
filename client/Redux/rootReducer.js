@@ -3,12 +3,12 @@ import { combineReducers } from "redux";
 //Reducers
 import itemsReducer from "./Items/reducers/items.reducers";
 import userReducer from "./User/reducers/user.reducers";
-import cartReducer from "./Cart/reducers/cart.reducers";
+import orderReducer from "./Order/reducers/order.reducers";
 
 const RootReducer = combineReducers({
   inventory: itemsReducer,
   user: userReducer,
-  cart: cartReducer
+  order: orderReducer
   //not sure if we need a NAV reducer
 });
 

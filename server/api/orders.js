@@ -1,40 +1,46 @@
 const express = require("express");
 const app = express();
-const { User, Cart, CartItem } = require("../db/index");
+const { User, Order, CartItem, Item } = require("../db/index");
 
 app.get("/", (req, res, next) => {
-  Cart.findAll({
+  Order.findAll({
     include: [{ model: CartItem, as: "CartItem" }]
   })
-    .then(carts => res.status(200).send(carts))
+    .then(orders => res.status(200).send(orders))
     .catch(err => next(err));
 });
 
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
-  Cart.findOne({
+  Order.findOne({
     where: { id },
     include: [
       {
         model: CartItem,
         as: "CartItem",
-        where: { cartId: id }
+        where: { orderId: id },
+        include: [
+          {
+            model: Item
+          }
+        ]
+
       }
     ]
   })
-    .then(cart => res.status(200).send(cart))
+    .then(order => res.status(200).send(order))
     .catch(err => next(err));
 });
 
 app.post("/", (req, res, next) => {
-  Cart.create(req.body)
-    .then(cart => res.status(201).send(cart))
+  Order.create(req.body)
+    .then(order => res.status(201).send(order))
     .catch(err => next(err));
 });
 
 app.delete("/:id", (req, res, next) => {
   const { id } = req.params;
-  Cart.destroy({
+  Order.destroy({
     where: {
       id
     }
@@ -45,12 +51,12 @@ app.delete("/:id", (req, res, next) => {
 
 app.put("/:id", (req, res, next) => {
   const { id } = req.params;
-  Cart.findByPk(id)
-    .then(foundCart => {
-      return foundCart.update(req.body);
+  Order.findByPk(id)
+    .then(foundOrder => {
+      return foundOrder.update(req.body);
     })
-    .then(updatedCart => {
-      return res.status(201).send(updatedCart);
+    .then(updatedOrder => {
+      return res.status(201).send(updatedOrder);
     })
     .catch(err => next(err));
 });

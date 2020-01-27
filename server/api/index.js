@@ -5,8 +5,9 @@ const apiRouter = require("express").Router();
 
 apiRouter.use("/items", require("./items"));
 apiRouter.use("/users", require("./users"));
-apiRouter.use("/carts", require("./carts"));
+apiRouter.use("/orders", require("./orders"));
 apiRouter.use("/cart-items", require("./cartItems"));
+apiRouter.use("/payment", require("./payment"));
 
 apiRouter.use((req, res, next) => {
   const err = new Error("API route not found");

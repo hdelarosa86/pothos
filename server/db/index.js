@@ -2,21 +2,24 @@
 const db = require("./database");
 const User = require("./user");
 const Item = require("./item");
-const Cart = require("./cart");
+const Order = require("./order");
 const CartItem = require("./cartItem");
 //Associations
-// Item.belongsToMany(Cart, { through: CartContent, });
-// Cart.belongsToMany(Item, { through: CartContent });
 
-Cart.belongsTo(User);
-User.hasMany(Cart);
 
-Cart.hasMany(CartItem, { as: "CartItem" });
+Order.belongsTo(User);
+User.hasMany(Order);
+
+Order.hasMany(CartItem, { as: "CartItem" });
+CartItem.belongsTo(Order)
+
+CartItem.belongsTo(Item);
+Item.hasMany(CartItem);
 
 module.exports = {
   db,
   User,
   Item,
-  Cart,
+  Order,
   CartItem
 };
