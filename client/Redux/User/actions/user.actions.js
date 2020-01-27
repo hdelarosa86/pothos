@@ -44,10 +44,9 @@ export const userLogIn = user => {
 export const verifyUserCookie = () => {
   return dispatch => {
     axios
-      .get("/login/verifyUser")
-      .then(data => {
-        console.log('data: ', data)
-        dispatch(persistUser(data.data));
+      .get("/verifyUser")
+      .then(user => {
+        dispatch(persistUser(user.data));
       })
       .catch(err => {
         console.log(err)

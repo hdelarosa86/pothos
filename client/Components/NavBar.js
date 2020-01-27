@@ -8,7 +8,6 @@ import M from "materialize-css";
 class NavBar extends React.Component {
   componentDidMount() {
     M.AutoInit();
-    console.log("nav bar: ", this.props);
   }
   render() {
     const loggedInStatus = this.props.user.loggedIn ? "logout" : "login";

@@ -15,8 +15,8 @@ import { connect } from "react-redux";
 
 export class App extends React.Component {
   componentDidMount() {
-    console.log("component did mount");
-    this.props.persistUser();
+    //console.log("component did mount");
+     this.props.persistUser();
   }
 
   componentDidUpdate(prevState, prevProps) {
