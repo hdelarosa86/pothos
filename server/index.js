@@ -3,6 +3,9 @@ const path = require("path");
 const { db } = require("./db");
 const chalk = require("chalk");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+
+if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
 //initialize express
 const app = express();
@@ -13,6 +16,7 @@ app.use(cookieParser());
 
 // body parsing middleware
 app.use(express.json());
+app.use(cors());
 
 //adding this middleware just to keep track of api calls as our app gets larger
 app.use((req, res, next) => {
@@ -24,7 +28,6 @@ app.use((req, res, next) => {
 app.use(express.static(path.join(__dirname, "../static")));
 
 // api routes
-
 app.use("/api", require("./api"));
 
 //set user login cookies
