@@ -2,6 +2,7 @@ import React from "react";
 //React-Redux
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { userLogOut } from "../Redux/User/actions/user.actions";
 import M from "materialize-css";
 
 class NavBar extends React.Component {
@@ -9,11 +10,12 @@ class NavBar extends React.Component {
     M.AutoInit();
   }
   render() {
+    const loggedInStatus = this.props.user.loggedIn ? "logout" : "login";
     const subNavItems = [
       { id: "home", url: "/" },
       { id: "shop", url: "/shop" },
       { id: "cart", url: "/cart" },
-      { id: "login", url: "/login" }
+      { id: loggedInStatus, url: `${loggedInStatus}` }
     ];
     return (
       <nav className="pothos-nav">
@@ -30,13 +32,24 @@ class NavBar extends React.Component {
               &#709;
             </a>
             <ul id="dropdown1" class="dropdown-content">
-              {subNavItems.map(secondNavLink => {
-                return (
-                  <li key={secondNavLink.id}>
-                    <Link to={secondNavLink.url}>{secondNavLink.id}</Link>
-                  </li>
-                );
-              })}
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/shop">Shop</Link>
+              </li>
+              <li>
+                <Link to="/cart">Cart</Link>
+              </li>
+              <li>
+                {this.props.user.loggedIn ? (
+                  <Link to="/logout" onClick={this.props.userLogOut}>
+                    Logout
+                  </Link>
+                ) : (
+                  <Link to="/login">Login</Link>
+                )}
+              </li>
             </ul>
           </div>
         </div>
@@ -45,7 +58,23 @@ class NavBar extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({});
-const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => {
+  return {
+    userLogOut: () => dispatch(userLogOut())
+  };
+};
+const mapStateToProps = state => ({
+  user: state.user
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+
+// {subNavItems.map(secondNavLink => {
+//   return (
+//     <li key={secondNavLink.id}>
+//       <Link to={secondNavLink.url}>{secondNavLink.id}</Link>
+//     </li>
+//   );
+// })}
+
+//might need this later

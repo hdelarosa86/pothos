@@ -3,6 +3,8 @@ const path = require("path");
 const { db } = require("./db");
 const chalk = require("chalk");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const passport = require("passport");
 const cors = require("cors");
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
@@ -24,15 +26,25 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(
+  session({
+    secret: "a wildly insecure secret",
+    resave: false,
+    saveUninitialized: false
+  })
+);
+
+//looking into using this middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 // static middleware
 app.use(express.static(path.join(__dirname, "../static")));
-
+//cookie
 // api routes
+
+app.use(require("./cookies"));
 app.use("/api", require("./api"));
-
-//set user login cookies
-
-app.use("/", require("./cookies"));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../static/index.html"));

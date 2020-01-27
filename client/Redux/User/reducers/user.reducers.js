@@ -2,7 +2,7 @@ import userTypes from "../types/user.types";
 
 const INITIAL_STATE = {
   currentUser: null,
-  loggedIn: false,
+  loggedIn: false
   //// INITIAL STATE object
 };
 
@@ -19,24 +19,30 @@ const userReducer = (state = INITIAL_STATE, action) => {
         currentUser: null
       };
     case userTypes.LOGIN_USER:
-      console.log('action: ', action.payload.data);
+      //console.log('reducer LOGIN_USER: ', action.payload.data);
       return {
         ...state,
-        currentUser: action.payload,
-        loggedIn: true,
+        currentUser: action.payload.data
+      };
+    case userTypes.LOGGED_IN:
+      return {
+        ...state,
+        loggedIn: true
       };
 
     case userTypes.LOGOUT_USER:
       return {
         ...state,
         currentUser: action.payload,
-        loggedIn: false,
+        loggedIn: false
       };
 
     case userTypes.PERSIST_USER:
-      return {
+      console.log('persist user log: ',action.payload)
+       return {
         ...state,
-        currentUser: action.payload
+        currentUser: action.payload,
+        loggedIn: (action.payload.id === 'guest' ? false : true)
       };
 
     default:

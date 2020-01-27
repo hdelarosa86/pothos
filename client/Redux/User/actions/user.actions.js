@@ -26,6 +26,9 @@ export const logOutUser = user => ({
   type: userTypes.LOGOUT_USER,
   payload: user
 });
+export const loggedIn = () => ({
+  type: userTypes.LOGGED_IN,
+})
 
 //thunks
 
@@ -33,6 +36,7 @@ export const userLogIn = user => {
   return dispatch => {
     return axios.post("/login", user).then(data => {
       dispatch(logInUser(data));
+      dispatch(loggedIn());
     });
   };
 };
@@ -40,11 +44,12 @@ export const userLogIn = user => {
 export const verifyUserCookie = () => {
   return dispatch => {
     axios
-      .get("/login/verifyUser")
-      .then(data => {
-        dispatch(persistUser(data));
+      .get("/verifyUser")
+      .then(user => {
+        dispatch(persistUser(user.data));
       })
       .catch(err => {
+        console.log(err)
         console.error(err);
       });
   };
@@ -53,7 +58,7 @@ export const verifyUserCookie = () => {
 export const userLogOut = () => {
   return dispatch => {
     axios
-      .post("/login/deleteCookie")
+      .post("/logout")
       .then(() => {
         dispatch(logOutUser(null));
       })
