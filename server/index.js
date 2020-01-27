@@ -20,16 +20,18 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // static middleware
 app.use(express.static(path.join(__dirname, "../static")));
-
+ //cookie
 // api routes
 
+
+
+//app.use((req,res,next) =>{require("./cookies")});
 app.use("/api", require("./api"));
 
-//set user login cookies
 
-app.use("/", require("./cookies"));
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../static/index.html"));

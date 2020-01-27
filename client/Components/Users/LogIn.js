@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { userLogIn } from "../../Redux/User/actions/user.actions";
-import { Link ,Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -28,8 +28,7 @@ class Login extends React.Component {
       .userLogIn(this.state.user)
       .then(() => {
         this.setState({ logInErr: false });
-        this.props.history.push('/');
-        
+        this.props.history.push("/");
       })
       .catch(err => {
         console.error(err);
@@ -57,6 +56,7 @@ class Login extends React.Component {
           </Link>
         </form>
         {this.state.logInErr && <p>Invalid email or password</p>}
+        {this.props.loggedIn && <Redirect to="/" />}
       </div>
     );
   }
@@ -67,6 +67,8 @@ const mapDispatchToProps = dispatch => {
     userLogIn: user => dispatch(userLogIn(user))
   };
 };
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  loggedIn: state.user.loggedIn
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

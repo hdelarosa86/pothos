@@ -25,26 +25,29 @@ app.use((req, res, next) => {
   }
 });
 
-app.get("/verifyUser", (req, res, next) => {
+app.get("/login/verifyUser", (req, res, next) => {
+  console.log("hitting verify user route");
   if (req.loggedIn) {
     res.send(req.user);
   } else {
-    res.send("Guest user"); //Need to come up with a better else res.send
+    res.send({ id: "guest", firstName: "Guest" });
+    //Need to come up with a better else res.send
+    //this is just a placeholder for the Redux Store
   }
 });
 
-app.post("/deleteCookie", (req, res, next) => {
-  if (req.loggedIn) {
-    req.loggedIn = false;
-    req.user = null;
-    res.clearCookie("id", { path: "/" });
-    res.end();
-  } else {
-    res.sendStatus(401);
-  }
-});
+// app.post("/logout", (req, res, next) => {
+//   if (req.loggedIn) {
+//     req.loggedIn = false;
+//     req.user = null;
+//     res.clearCookie("id", { path: "/" });
+//     res.end();
+//   } else {
+//     res.sendStatus(401);
+//   }
+// });
 
-app.post("/", (req, res, next) => {
+app.post("/login", (req, res, next) => {
   const { email, password } = req.body;
   User.findOne({
     where: {
@@ -62,7 +65,7 @@ app.post("/", (req, res, next) => {
         return res
           .status(202)
           .cookie("id", user.id, {
-            path: "/",
+            path: "*",
             expires: moment
               .utc()
               .add(1, "day")

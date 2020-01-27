@@ -15,13 +15,25 @@ import { connect } from "react-redux";
 
 export class App extends React.Component {
   componentDidMount() {
-   this.props.persistUser();
+    console.log("component did mount");
+    this.props.persistUser();
   }
+
+  componentDidUpdate(prevState, prevProps) {
+    // console.log("component did udate");
+    // console.log(prevState.user);
+    if (prevState.user.loggedIn !== this.props.user.loggedIn) {
+      this.props.persistUser();
+    }
+  }
+
   render() {
     return (
       <div>
         <main>
           <NavBar />
+
+          <p>{!this.props.user.currentUser ? "Loading" : `Hello ${this.props.user.currentUser.firstName}`}</p>
         </main>
         <div class="col s12">
           <Route exact path={"/"} render={() => <Home />} />

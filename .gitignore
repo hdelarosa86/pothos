@@ -4,3 +4,4 @@ node_modules
 /static/main.js.map
 .DS_Store
 .npmrc
+.env
