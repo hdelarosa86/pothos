@@ -1,11 +1,18 @@
 const express = require("express");
 const app = express();
+const chalk = require("chalk");
 const { User, Cart } = require("../db/index");
 
 app.get("/", (req, res, next) => {
-  User.findAll({ include: [{ model: Cart }] })
-    .then(users => res.status(200).send(users))
-    .catch(err => next(err));
+  // if (!req.user.admin) {
+  //   const err = new Error(chalk.redBright("Not Authorized"));
+  //   console.error(err);
+  //   res.status(401).redirect("/");
+  // } else {}
+    User.findAll({ include: [{ model: Cart }] })
+      .then(users => res.status(200).send(users))
+      .catch(err => next(err));
+  
 });
 
 app.get("/:id", (req, res, next) => {

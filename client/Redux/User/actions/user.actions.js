@@ -26,9 +26,10 @@ export const logOutUser = user => ({
   type: userTypes.LOGOUT_USER,
   payload: user
 });
+
 export const loggedIn = () => ({
-  type: userTypes.LOGGED_IN,
-})
+  type: userTypes.LOGGED_IN
+});
 
 //thunks
 
@@ -49,7 +50,7 @@ export const verifyUserCookie = () => {
         dispatch(persistUser(user.data));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         console.error(err);
       });
   };
