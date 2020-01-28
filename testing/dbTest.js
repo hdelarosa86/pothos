@@ -17,7 +17,6 @@ describe("Sequelize Model", () => {
       });
       await ItemResult.validate();
     } catch (err) {
-      expect(false).to.equal(true);
       expect(err.message).to.include("Validation notEmpty on name failed");
       expect(err.message).to.include("Validation isIn on size failed");
       expect(err.message).to.include(
