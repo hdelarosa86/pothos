@@ -11,6 +11,7 @@
     "start": "node ./server/index.js",
     "lint": "./node_modules/.bin/eslint ./server --fix & ./node_modules/.bin/eslint ./client --fix",
     "test": "NODE_ENV='test' mocha  ./testing --recursive --watch --require @babel/register",
+    "test-ci": "NODE_ENV='test' mocha  ./testing --recursive --require @babel/register",
     "testLint": "./node_modules/.bin/eslint ./testing --fix",
     "seed": "node seed.js"
   },
