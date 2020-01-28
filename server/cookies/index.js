@@ -59,7 +59,7 @@ cookieRouter.post("/logout", (req, res, next) => {
     req.user = null;
     res.clearCookie("sessionId", { path: "/" });
     res.clearCookie("connect.sid", { path: "/" });
-    res.end();
+    res.status(201).send("Log out succesful");
   } else {
     console.log("hitting route here");
     res.status(401).redirect("/");

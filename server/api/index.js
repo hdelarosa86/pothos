@@ -2,6 +2,17 @@ const apiRouter = require("express").Router();
 
 // API ROUTES
 //API ROUTES GO HERE//
+// apiRouter.use((req, res, next) => {
+//   console.log("hitting api route");
+//   console.log("req.body: ", req.user.admin);
+//   if (!req.user.admin) {
+//     const err = new Error("Not Authorized");
+//     console.error(err);
+//     res.status(401).redirect("/");
+//   } else {
+//     next();
+//   }
+// });
 
 apiRouter.use("/items", require("./items"));
 apiRouter.use("/users", require("./users"));
