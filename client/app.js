@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 export class App extends React.Component {
   componentDidMount() {
     //console.log("component did mount");
-     this.props.persistUser();
+    this.props.persistUser();
   }
 
   componentDidUpdate(prevState, prevProps) {
@@ -60,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  cart: state.cart.cartContent,
+  order: state.order.orderContent,
   user: state.user,
   inventory: state.inventory.items
 });
