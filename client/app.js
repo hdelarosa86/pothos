@@ -60,7 +60,7 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  cart: state.cart.cartContent,
+  //cart: state.cart.cartContent,
   user: state.user,
   inventory: state.inventory.items
 });

@@ -1,31 +1,56 @@
 const cookieRouter = require("express").Router();
 const express = require("express");
 const app = express();
-const { User } = require("../db/index");
+const { User, Session } = require("../db/index");
 const chalk = require("chalk");
 const moment = require("moment");
 const passport = require("passport");
+const cookieParser = require("cookie-parser");
+
+// app.use(cookieParser());
+
+const COOKIE_NAME = "sessionId";
 
 cookieRouter.use((req, res, next) => {
-  if (req.cookies.sessionId) {
-    User.findByPk(req.cookies.sessionId)
-      .then(user => {
-        if (user) {
-          req.loggedIn = true;
-          req.user = user;
-          next();
-        } else {
-          next();
-        }
+  if (!req.cookies[COOKIE_NAME]) {
+    Session.create()
+      .then(session => {
+        console.log(chalk.bgYellowBright(session.id));
+        res.cookie([COOKIE_NAME], session.id);
+        next();
       })
       .catch(err => {
-        console.error(err);
-        next();
+        console.log(chalk.redBright("Could not create Session cookie"));
+        console.err(
+          new Error(chalk.redBright(`${err}Could not create Session cookie`))
+        );
+        res.redirect("/error");
       });
   } else {
     next();
   }
 });
+
+// cookieRouter.use((req, res, next) => {
+//   if (req.cookies.sessionId) {
+//     User.findByPk(req.cookies.sessionId)
+//       .then(user => {
+//         if (user) {
+//           req.loggedIn = true;
+//           req.user = user;
+//           next();
+//         } else {
+//           next();
+//         }
+//       })
+//       .catch(err => {
+//         console.error(err);
+//         next();
+//       });
+//   } else {
+//     next();
+//   }
+// });
 
 cookieRouter.post("/login", (req, res, next) => {
   User.findOne({
@@ -67,11 +92,10 @@ cookieRouter.post("/logout", (req, res, next) => {
 });
 
 cookieRouter.get("/verifyUser", (req, res, next) => {
-  if (req.cookies.sessionId) {
+  if (req.loggedIn) {
     res.send(req.user);
   } else {
     res.send({ id: "guest", firstName: "Guest" });
-    //next();
     //Need to come up with a better else res.send
     //this is just a placeholder for the Redux Store
   }

@@ -15,6 +15,13 @@ const PORT = process.env.PORT || 3000;
 
 //cookie parser
 app.use(cookieParser());
+app.use(
+  session({
+    secret: "a wildly insecure secret",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 
 // body parsing middleware
 app.use(express.json());
@@ -26,13 +33,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(
-  session({
-    secret: "a wildly insecure secret",
-    resave: false,
-    saveUninitialized: false
-  })
-);
+
 
 //looking into using this middleware
 app.use(passport.initialize());
