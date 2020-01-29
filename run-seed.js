@@ -1,5 +1,6 @@
 const seed = require("./seed.js");
-const { db } = require("./server/db")
+const { db } = require("./server/db");
+const chalk = require("chalk");
 
 db.sync()
     .then(seed)
