@@ -4,10 +4,10 @@ const app = express();
 const { User, Session } = require("../db/index");
 const chalk = require("chalk");
 const moment = require("moment");
-const passport = require("passport");
-const cookieParser = require("cookie-parser");
+// const passport = require("passport");
+// const cookieParser = require("cookie-parser");
 
-// app.use(cookieParser());
+// // app.use(cookieParser());
 
 const COOKIE_NAME = "sessionId";
 
@@ -27,7 +27,20 @@ cookieRouter.use((req, res, next) => {
         res.redirect("/error");
       });
   } else {
-    next();
+    User.findByPk(req.cookies.sessionId)
+      .then(user => {
+        if (user) {
+          req.loggedIn = true;
+          req.user = user;
+          next();
+        } else {
+          next();
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        next();
+      });
   }
 });
 
@@ -61,11 +74,9 @@ cookieRouter.post("/login", (req, res, next) => {
         res.sendStatus(401);
         console.error(new Error(chalk.red(`User not Found ${res.statusCode}`)));
       } else {
-        req.session.userId = user.id;
-        req.loggedIn = true;
         res
           .status(200)
-          .cookie("sessionId", req.session.userId, {
+          .cookie("sessionId", user.id, {
             path: "*",
             expires: moment
               .utc()
@@ -92,6 +103,7 @@ cookieRouter.post("/logout", (req, res, next) => {
 });
 
 cookieRouter.get("/verifyUser", (req, res, next) => {
+  console.log(req.loggedIn);
   if (req.loggedIn) {
     res.send(req.user);
   } else {
