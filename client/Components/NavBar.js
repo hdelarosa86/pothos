@@ -43,9 +43,9 @@ class NavBar extends React.Component {
               </li>
               <li>
                 {this.props.user.loggedIn ? (
-                  <Link to="/logout" onClick={this.props.userLogOut}>
+                  <a href={"/logout"} onClick={this.props.userLogOut}>
                     Logout
-                  </Link>
+                  </a>
                 ) : (
                   <Link to="/login">Login</Link>
                 )}

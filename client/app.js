@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 export class App extends React.Component {
   componentDidMount() {
     //console.log("component did mount");
-     this.props.persistUser();
+    this.props.persistUser();
   }
 
   componentDidUpdate(prevState, prevProps) {
@@ -33,7 +33,11 @@ export class App extends React.Component {
         <main>
           <NavBar />
 
-          <p>{!this.props.user.currentUser ? "Loading" : `Hello ${this.props.user.currentUser.firstName}`}</p>
+          <p>
+            {!this.props.user.currentUser
+              ? "Loading"
+              : `Hello ${this.props.user.currentUser.firstName}`}
+          </p>
         </main>
         <div class="col s12">
           <Route exact path={"/"} render={() => <Home />} />

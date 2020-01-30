@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
+const { Session, Order } = require("./db/index");
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
@@ -15,13 +16,6 @@ const PORT = process.env.PORT || 3000;
 
 //cookie parser
 app.use(cookieParser());
-// app.use(
-//   session({
-//     secret: "a wildly insecure secret",
-//     resave: false,
-//     saveUninitialized: false
-//   })
-// );
 
 // body parsing middleware
 app.use(express.json());
@@ -33,18 +27,13 @@ app.use((req, res, next) => {
   next();
 });
 
-
-
-//looking into using this middleware
-// app.use(passport.initialize());
-// app.use(passport.session());
-
 // static middleware
 app.use(express.static(path.join(__dirname, "../static")));
-//cookie
-// api routes
 
+//cookie
 app.use(require("./cookies"));
+
+// api routes
 app.use("/api", require("./api"));
 
 app.get("*", (req, res) => {

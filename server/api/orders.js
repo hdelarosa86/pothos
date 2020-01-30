@@ -24,7 +24,6 @@ app.get("/:id", (req, res, next) => {
             model: Item
           }
         ]
-
       }
     ]
   })

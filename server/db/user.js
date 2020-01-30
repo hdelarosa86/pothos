@@ -9,40 +9,46 @@ const User = db.define("user", {
     defaultValue: UUIDV4
   },
   firstName: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: STRING
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true
+    // }
   },
   lastName: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: STRING
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true
+    // }
   },
   email: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true,
-      isEmail: true
-    }
+    type: STRING
+    //allowNull: false,
+    // validate: {
+    //   notEmpty: true,
+    //   isEmail: true
+    // }
   },
   username: {
-    type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: STRING
+    // allowNull: false,
+    // validate: {
+    //   notEmpty: true
+    // }
   },
   password: {
+    type: STRING
+    //   allowNull: false,
+    //   validate: {
+    //     notEmpty: true
+    //   }
+  },
+
+  github_access_token: {
     type: STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    allowNull: true,
+    defaultValue: null
   },
   admin: {
     type: BOOLEAN,

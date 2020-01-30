@@ -5,8 +5,8 @@ const chalk = require("chalk");
 
 app.get("/", (req, res, next) => {
   User.findAll({ include: [{ model: Order }] })
-  .then(users => res.status(200).send(users))
-  .catch(err => next(err));
+    .then(users => res.status(200).send(users))
+    .catch(err => next(err));
   // if (!req.user.admin) {
   //   const err = new Error(chalk.redBright("Not Authorized"));
   //   console.error(err);
