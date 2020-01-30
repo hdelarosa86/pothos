@@ -132,6 +132,7 @@ const mapDispatchToProps = dispatch => ({
   fetchItem: id => dispatch(singleItemFetchStartAsync(id)),
   updateItem: item => dispatch(updateItemThenFetchAll(item))
 });
+
 const mapStateToProps = state => ({
   singleItem: state.inventory.selectedItem
 });
