@@ -27,14 +27,23 @@ export const logOutUser = user => ({
   payload: user
 });
 export const loggedIn = () => ({
-  type: userTypes.LOGGED_IN,
-})
+  type: userTypes.LOGGED_IN
+});
 
 //thunks
 
 export const userLogIn = user => {
   return dispatch => {
     return axios.post("/login", user).then(data => {
+      dispatch(logInUser(data));
+      dispatch(loggedIn());
+    });
+  };
+};
+// Adds a new user to the site and makes them the current user
+export const addInUser = user => {
+  return dispatch => {
+    return axios.post("/api/users/", user).then(data => {
       dispatch(logInUser(data));
       dispatch(loggedIn());
     });
@@ -49,7 +58,7 @@ export const verifyUserCookie = () => {
         dispatch(persistUser(user.data));
       })
       .catch(err => {
-        console.log(err)
+        console.log(err);
         console.error(err);
       });
   };

@@ -28,8 +28,7 @@ const CartItem = db.define("cartItem", {
   },
   itemTotal: {
     type: DECIMAL(10, 2),
-    allowNull: false,
-
+    allowNull: false
   }
 });
 
