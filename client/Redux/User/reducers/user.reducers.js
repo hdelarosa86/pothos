@@ -38,11 +38,10 @@ const userReducer = (state = INITIAL_STATE, action) => {
       };
 
     case userTypes.PERSIST_USER:
-      console.log('persist user log: ',action.payload)
-       return {
+      return {
         ...state,
         currentUser: action.payload,
-        loggedIn: (action.payload.id === 'guest' ? false : true)
+        loggedIn: action.payload.id === "guest" ? false : true
       };
 
     default:

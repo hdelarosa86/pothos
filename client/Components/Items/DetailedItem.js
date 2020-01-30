@@ -5,14 +5,13 @@ import { singleItemFetchStartAsync } from "../../Redux/Items/actions/items.actio
 
 export class DetailedItem extends React.Component {
   componentDidMount() {
-    const { fetchItem } = this.props
-    fetchItem(this.props.Location.match.params.id)
+    const { fetchItem } = this.props;
+    fetchItem(this.props.Location.match.params.id);
   }
   render() {
-
     if (this.props.singleItem.name) {
-      const { singleItem } = this.props
-      console.log(singleItem)
+      const { singleItem } = this.props;
+      console.log(singleItem);
       return (
         <div className="container">
           <div className="row">
@@ -32,11 +31,7 @@ export class DetailedItem extends React.Component {
         </div>
       );
     }
-    return (
-      <div className="container">
-        ITEM LOADING
-      </div>
-    );
+    return <div className="container">ITEM LOADING</div>;
   }
 }
 

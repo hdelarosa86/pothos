@@ -9,5 +9,5 @@ services:
 before_script:
   - psql -c 'create database "pothos-test";' -U postgres
 script:
-  - npm run lint
+  - npm run lint-ci
   - npm run test-ci
