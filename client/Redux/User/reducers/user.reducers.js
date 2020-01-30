@@ -38,7 +38,6 @@ const userReducer = (state = INITIAL_STATE, action) => {
       };
 
     case userTypes.PERSIST_USER:
-      console.log("persist user log: ", action.payload);
       return {
         ...state,
         currentUser: action.payload,

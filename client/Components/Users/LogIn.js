@@ -65,6 +65,11 @@ class Login extends React.Component {
                   Log In
                 </button>
               </Link>
+              <a href={"/api/github/login"}>
+                <button type="button" name="logIn">
+                  Github
+                </button>
+              </a>
             </form>
             {this.state.logInErr && <p>Invalid email or password</p>}
             {this.props.loggedIn && <Redirect to="/" />}

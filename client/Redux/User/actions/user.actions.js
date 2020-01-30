@@ -26,6 +26,7 @@ export const logOutUser = user => ({
   type: userTypes.LOGOUT_USER,
   payload: user
 });
+
 export const loggedIn = () => ({
   type: userTypes.LOGGED_IN
 });
