@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
 const cors = require("cors");
+const seed = require("../seed")
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
 
@@ -50,9 +51,33 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../static/index.html"));
 }); // Send index.html for any other requests
 
-db.sync().then(() => {
-  console.log(chalk.magenta("db synced"));
+const startServer = () => new Promise(res => {
   app.listen(PORT, () => {
     console.log(chalk.cyan("I'm running on", PORT));
+    res(true)
   });
-});
+})
+
+if (process.env.NODE_ENV === 'production') {
+  db.sync()
+    .then(startServer)
+    .then(() => {
+      console.log(chalk.greenBright("Application successfully started in production"));
+    }).catch(e => {
+      console.log(chalk.magentaBright("Application failed to start in production"));
+      console.error(e);
+      process.exit(1);
+    })
+
+} else {
+  db.sync({ force: true })
+    .then(seed)
+    .then(startServer).then(() => {
+      console.log(chalk.greenBright("Application successfully started in development"));
+    }).catch(e => {
+      console.log(chalk.magentaBright("Application failed to start in development"));
+      console.error(e);
+      process.exit(1);
+    })
+}
+

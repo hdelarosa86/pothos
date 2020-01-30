@@ -2,27 +2,23 @@ const { db, User, Item, Order, CartItem } = require("./server/db");
 const chalk = require("chalk");
 
 const seed = () => {
-  return db
-    .sync({ force: true })
-    .then(() =>
-      User.bulkCreate([
-        {
-          firstName: "John",
-          lastName: "Doe",
-          email: "johnDoe@gmail.com",
-          username: "johndoe",
-          password: "password"
-        },
-        {
-          firstName: "Jane",
-          lastName: "Doe",
-          email: "janeDoe@gmail.com",
-          username: "janedoe",
-          password: "password",
-          admin: true
-        }
-      ])
-    )
+  return db.sync({ force: true }).then(() => User.bulkCreate([
+    {
+      firstName: "John",
+      lastName: "Doe",
+      email: "johnDoe@gmail.com",
+      username: "johndoe",
+      password: "password"
+    },
+    {
+      firstName: "Jane",
+      lastName: "Doe",
+      email: "janeDoe@gmail.com",
+      username: "janedoe",
+      password: "password",
+      admin: true
+    }
+  ]))
     .then(() =>
       Item.bulkCreate([
         {
