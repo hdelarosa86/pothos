@@ -41,6 +41,15 @@ export const userLogIn = user => {
     });
   };
 };
+// Adds a new user to the site and makes them the current user
+export const addInUser = user => {
+  return dispatch => {
+    return axios.post("/api/users/", user).then(data => {
+      dispatch(logInUser(data));
+      dispatch(loggedIn());
+    });
+  };
+};
 
 export const verifyUserCookie = () => {
   return dispatch => {

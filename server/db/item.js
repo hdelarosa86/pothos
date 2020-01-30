@@ -1,4 +1,11 @@
-const { STRING, INTEGER, DECIMAL, UUID, UUIDV4, BOOLEAN } = require("sequelize");
+const {
+  STRING,
+  INTEGER,
+  DECIMAL,
+  UUID,
+  UUIDV4,
+  BOOLEAN
+} = require("sequelize");
 const db = require("./database");
 
 const Item = db.define("item", {

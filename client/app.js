@@ -9,6 +9,8 @@ import Login from "./Components/Users/LogIn";
 import NavBar from "./Components/NavBar";
 import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
+import Dashboard from "./Components/Users/Dashboard";
+import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
 import "materialize-css/dist/css/materialize.min.css";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
 import { connect } from "react-redux";
@@ -46,11 +48,20 @@ export class App extends React.Component {
             path={"/shop/:id"}
             render={id => <DetailedItem Location={id} />}
           />
+          <Route
+            path={"/shop/:id/update"}
+            render={id => <SingleItemUpdate Location={id} />}
+          />
           <Route exact path={"/cart"} render={() => <Cart />} />
           <Route
             exact
             path={"/cart/:id"}
             render={id => <Checkout Location={id} />}
+          />
+          <Route
+            exact
+            path={"/dashboard"}
+            render={() => <Dashboard assets={this.props} />}
           />
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
