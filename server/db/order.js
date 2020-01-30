@@ -1,4 +1,4 @@
-const { STRING, INTEGER, FLOAT, UUID, UUIDV4, DATE } = require("sequelize");
+const { STRING, INTEGER, DECIMAL, UUID, UUIDV4, DATE } = require("sequelize");
 const db = require("./database");
 
 const Order = db.define("order", {
@@ -22,6 +22,11 @@ const Order = db.define("order", {
     validate: {
       isDate: true
     }
+  },
+  total: {
+    type: DECIMAL(10, 2),
+    allowNull: true,
+    defaultValue: 0
   }
   // shipTo: {
   //     type: STRING,

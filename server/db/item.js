@@ -1,4 +1,4 @@
-const { STRING, INTEGER, FLOAT, UUID, UUIDV4, BOOLEAN } = require("sequelize");
+const { STRING, INTEGER, DECIMAL, UUID, UUIDV4, BOOLEAN } = require("sequelize");
 const db = require("./database");
 
 const Item = db.define("item", {
@@ -28,7 +28,7 @@ const Item = db.define("item", {
     }
   },
   price: {
-    type: FLOAT,
+    type: DECIMAL(10, 2),
     allowNull: false,
     defaultValue: 0
   },
