@@ -1,6 +1,23 @@
 const express = require("express");
-const app = express();
+const app = express.Router();
 const { Item } = require("../db/index");
+
+const paginate = (page, resultPerPage) => {
+  return { limit: resultPerPage, offset: page * resultPerPage };
+};
+
+app.get("/pages/:pageId", (req, res, next) => {
+  const resultPerPage = 1;
+  let page = req.params.pageId - 1;
+
+  const { limit, offset } = paginate(page, resultPerPage);
+  Item.findAndCountAll({
+    limit,
+    offset
+  }).then(items => {
+    res.status(200).send(items);
+  });
+});
 
 app.get("/", (req, res, next) => {
   Item.findAll()
