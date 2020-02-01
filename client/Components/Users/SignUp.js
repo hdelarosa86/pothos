@@ -13,7 +13,8 @@ class SignUp extends React.Component {
         email: "",
         password: ""
       },
-      logInErr: false
+      logInErr: false,
+      passwordHidden: true
     };
   }
   // Change the empty state with the onChange value
@@ -73,7 +74,7 @@ class SignUp extends React.Component {
           <div>
             <label>Password</label>
             <input
-              type="password"
+              type={this.state.passwordHidden ? "password" : "text"}
               name="password"
               onChange={this.handleOnChange}
             />
