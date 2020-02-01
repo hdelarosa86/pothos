@@ -38,8 +38,8 @@ class Login extends React.Component {
       });
   };
   showPassword = () => {
-    this.setState({ passwordHidden: !this.state.passwordHidden })
-  }
+    this.setState({ passwordHidden: !this.state.passwordHidden });
+  };
 
   render() {
     return (
@@ -64,7 +64,11 @@ class Login extends React.Component {
                   onChange={this.handleOnChange}
                 />
                 <label>Show Password</label>
-                <input class="showPassword" type="checkbox" onChange={this.showPassword} />
+                <input
+                  class="showPassword"
+                  type="checkbox"
+                  onChange={this.showPassword}
+                />
               </div>
 
               <Link to="/">

@@ -40,8 +40,8 @@ class SignUp extends React.Component {
       });
   };
   showPassword = () => {
-    this.setState({ passwordHidden: !this.state.passwordHidden })
-  }
+    this.setState({ passwordHidden: !this.state.passwordHidden });
+  };
   // Render in the login component
   // Sign up should work properly however if any change need to be made,
   // please use this component.
@@ -78,8 +78,13 @@ class SignUp extends React.Component {
               onChange={this.handleOnChange}
             />
           </div>
-          <label>Show Password
-                <input class="showPassword" type="checkbox" onChange={this.showPassword} />
+          <label>
+            Show Password
+            <input
+              class="showPassword"
+              type="checkbox"
+              onChange={this.showPassword}
+            />
           </label>
           <Link to="/">
             <button type="button" name="logIn" onClick={this.handleLogIn}>
