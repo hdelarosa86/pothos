@@ -49,10 +49,56 @@ app.get("/:id", (req, res, next) => {
     .catch(err => next(err));
 });
 
+// app.post("/", (req, res, next) => {
+//   if (!req.adminAuth) {
+//     console.error(chalk.redBright("Not Authorized."));
+//     res.sendStatus(401);
+//   } else {
+//     Item.create(req.body)
+//       .then(item => res.status(201).send(item))
+//       .catch(err => {
+//         res.status(404);
+//         console.error(chalk.redBright("Could not create Item."));
+//         next(err);
+//       });
+//   }
+// });
+
+// app.delete("/:id", (req, res, next) => {
+//   if (!req.adminAuth) {
+//     console.error(chalk.redBright("Not Authorized."));
+//     res.sendStatus(401);
+//   } else {
+//     const { id } = req.params;
+//     Item.destroy({
+//       where: {
+//         id
+//       }
+//     })
+//       .then(() => res.status(200).end())
+//       .catch(err => {
+//         {
+//           res.status(404);
+//           console.error(chalk.redBright("Could not delete Item."));
+//           next(err);
+//         }
+//       });
+//   }
+// });
+
+// Post/Delete routes commented out to facilitate working on the Admin Dashboard.
+// After completion of the Dashboard, the Dev Post/Delete Route should be deleted
+// and the above routes should be used
+
+//Dev Post Route below...
 app.post("/", (req, res, next) => {
   Item.create(req.body)
     .then(item => res.status(201).send(item))
-    .catch(err => next(err));
+    .catch(err => {
+      res.status(404);
+      console.error(chalk.redBright("Could not create Item."));
+      next(err);
+    });
 });
 
 app.delete("/:id", (req, res, next) => {
@@ -67,15 +113,24 @@ app.delete("/:id", (req, res, next) => {
 });
 
 app.put("/:id", (req, res, next) => {
-  const { id } = req.params;
-  Item.findByPk(id)
-    .then(foundItem => {
-      return foundItem.update(req.body);
-    })
-    .then(updatedItem => {
-      return res.status(201).send(updatedItem);
-    })
-    .catch(err => next(err));
+  if (!req.adminAuth) {
+    console.error(chalk.redBright("Not Authorized."));
+    res.sendStatus(401);
+  } else {
+    const { id } = req.params;
+    Item.findByPk(id)
+      .then(foundItem => {
+        return foundItem.update(req.body);
+      })
+      .then(updatedItem => {
+        return res.status(201).send(updatedItem);
+      })
+      .catch(err => {
+        res.status(404);
+        console.error(chalk.redBright("Could not update Item."));
+        next(err);
+      });
+  }
 });
 
 module.exports = app;
