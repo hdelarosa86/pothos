@@ -6,23 +6,40 @@ const paginate = (page, resultPerPage) => {
   return { limit: resultPerPage, offset: page * resultPerPage };
 };
 
-app.get("/pages/:pageId", (req, res, next) => {
-  const resultPerPage = 1;
-  let page = req.params.pageId - 1;
-
-  const { limit, offset } = paginate(page, resultPerPage);
-  Item.findAndCountAll({
-    limit,
-    offset
-  }).then(items => {
-    res.status(200).send(items);
-  });
-});
-
 app.get("/", (req, res, next) => {
-  Item.findAll()
-    .then(items => res.status(200).send(items))
-    .catch(err => next(err));
+  const { perPage, page, filter } = req.query;
+  if (page !== "undefined") {
+    const resultPerPage = perPage;
+    const { limit, offset } = paginate(page - 1, resultPerPage);
+    if (filter !== "undefined") {
+      Item.findAndCountAll({
+        order: [[filter, "DESC"]],
+        limit,
+        offset
+      }).then(items => {
+        res.status(200).send(items);
+      });
+    } else {
+      Item.findAndCountAll({
+        limit,
+        offset
+      }).then(items => {
+        res.status(200).send(items);
+      });
+    }
+  } else {
+    if (filter !== "undefined") {
+      Item.findAll({
+        order: [[filter, "DESC"]]
+      })
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
+    } else {
+      Item.findAll()
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
+    }
+  }
 });
 
 app.get("/:id", (req, res, next) => {

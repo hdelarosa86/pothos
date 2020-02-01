@@ -13,6 +13,7 @@ filterMethods: Array +Pulls filter methods from parent list component
 perPage: Num +uses perPage num to calulate appropriate number of available links
 count: Num +uses count num to calulate appropriate number of available links
 
+
 onMount the component ....
 -> displays available pages with links if pagination is true
 -> displays all filtering methods with appropriate actions
