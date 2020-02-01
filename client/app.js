@@ -1,4 +1,5 @@
 import React from "react";
+import "materialize-css/dist/css/materialize.min.css";
 import "./app.css";
 import { Route } from "react-router-dom";
 //component
@@ -11,7 +12,7 @@ import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
-import "materialize-css/dist/css/materialize.min.css";
+
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
 import { connect } from "react-redux";
 

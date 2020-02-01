@@ -13,7 +13,8 @@ class SignUp extends React.Component {
         email: "",
         password: ""
       },
-      logInErr: false
+      logInErr: false,
+      passwordHidden: true
     };
   }
   // Change the empty state with the onChange value
@@ -38,6 +39,9 @@ class SignUp extends React.Component {
         console.error(err);
         this.setState({ logInErr: true });
       });
+  };
+  showPassword = () => {
+    this.setState({ passwordHidden: !this.state.passwordHidden });
   };
   // Render in the login component
   // Sign up should work properly however if any change need to be made,
@@ -70,11 +74,19 @@ class SignUp extends React.Component {
           <div>
             <label>Password</label>
             <input
-              type="password"
+              type={this.state.passwordHidden ? "password" : "text"}
               name="password"
               onChange={this.handleOnChange}
             />
           </div>
+          <label>
+            Show Password
+            <input
+              class="showPassword"
+              type="checkbox"
+              onChange={this.showPassword}
+            />
+          </label>
           <Link to="/">
             <button type="button" name="logIn" onClick={this.handleLogIn}>
               Sign up

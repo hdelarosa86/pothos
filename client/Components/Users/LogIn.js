@@ -11,7 +11,8 @@ class Login extends React.Component {
         email: "",
         password: ""
       },
-      logInErr: false
+      logInErr: false,
+      passwordHidden: true
     };
   }
   handleOnChange = ({ target: { name, value } }) => {
@@ -36,6 +37,9 @@ class Login extends React.Component {
         this.setState({ logInErr: true });
       });
   };
+  showPassword = () => {
+    this.setState({ passwordHidden: !this.state.passwordHidden });
+  };
 
   render() {
     return (
@@ -55,11 +59,18 @@ class Login extends React.Component {
               <div>
                 <label>Password</label>
                 <input
-                  type="text"
+                  type={this.state.passwordHidden ? "password" : "text"}
                   name="password"
                   onChange={this.handleOnChange}
                 />
+                <label>Show Password</label>
+                <input
+                  class="showPassword"
+                  type="checkbox"
+                  onChange={this.showPassword}
+                />
               </div>
+
               <Link to="/">
                 <button type="button" name="logIn" onClick={this.handleLogIn}>
                   Log In

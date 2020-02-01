@@ -33,3 +33,8 @@ nav .dropdown-content{
 .pothos-nav{
     background-color: #fff;
 }
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+}
