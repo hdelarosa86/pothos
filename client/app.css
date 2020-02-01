@@ -1,24 +1,67 @@
+*{
+    font-family: 'Lato', sans-serif;
+    font-weight: 300;
+    letter-spacing: 2.5px;
+}
+footer{
+    bottom: 0;
+    left: 0;
+    position: relative;
+}
 nav .btn{
+    margin-top: 1em;
     position: absolute;
     right:0;
-    margin-top: 1em;
 }
 nav .dropdown-content{
     left: auto !important;
     right: 0 !important;
-    top: 67px !important;
+    top: 64px !important;
     width: 200px !important;
+}
+.about{
+    padding: 3.75rem;
+}
+.about-image{
+    padding-top: 3em;
+    display: inline-block;
+}
+.about-headline{
+    font-size: 3.75rem;
+    font-weight: 300;
+}
+.Best-Seller{
+    margin: 3.75em;
+}
+.call-to-action a{
+    background-color: #222;
+    color: #fff;
+    font-size: 1.2em;
+    padding: 1em 3em;  
+}
+.call-to-action a:hover{
+    background-color: #8fd2c7;
+    color: #222; 
 }
 .checkout a{
     color:#fff;
 }
+.copyright{
+    bottom: 0;
+    font-size:1em;
+    font-weight: 600;
+    padding: 1em 1em 0 1em;
+    position:relative;
+}
 .headline{
+    font-weight: 700;
+    letter-spacing: 4.5px;
     margin: 0 auto;
     padding-top: 2em;
+    text-transform: uppercase;
 }
 .home-bkgd-img{
     background: url("https://i.postimg.cc/vm5W1F9Z/Screen-Shot-2020-01-23-at-5-28-45-PM.png");
-    background: url(https://i.postimg.cc/vm5W1F9Z/Screen-Shot-2020-01-23-at-5-28-45-PM.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -30,6 +73,52 @@ nav .dropdown-content{
     height: 50px;
     padding: 10px;
 }
+.page-container{
+    min-height: 700px;
+}
 .pothos-nav{
     background-color: #fff;
+}
+[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+}
+.shop-link{
+    padding: 2.25em 0 0;
+    float: left;
+}
+.shop-link a{
+    color: #72b3a8;
+    font-size: 1.1em;
+}
+.shop-link a:hover{
+    color: #222;
+}
+.signup-bkgd-img{
+    background: url("https://i.postimg.cc/LswQfkdY/photo-1575116703938-36c55eff7c4f.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 400px;
+}
+.signup-headline{
+    margin: 0 0 0.8em;
+}
+.sign-subheader{
+    font-size: 1.25em;
+    margin: 6em 0 0 0;
+}
+.subhead{
+    font-size: 2em;
+    font-weight: 300;
+    margin: 0.25em 0 1.5em 0;
+}
+.User{
+    background: #8fd2c7;
+    font-weight: 500;
+    margin: 0;
+    padding: 1em 1.25em;
+    position: relative;
+    z-index: 20;
 }
