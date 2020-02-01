@@ -44,11 +44,23 @@ export const singleItemFetchStartAsync = id => {
   };
 };
 
-export const allItemsFetchStartAsync = page => {
+export const allItemsFetchStartAsync = (perPage, page, filter) => {
+  const arg = [
+    ["page", page],
+    ["perPage", perPage],
+    ["filter", filter]
+  ];
+  const query = arg.reduce((acc, [key, value], idx) => {
+    acc += `${key}=${value}`;
+    if (idx !== arg.length - 1) {
+      acc += "&";
+    }
+    return acc;
+  }, "?");
   return dispatch => {
     dispatch(itemFetchStart());
     return axios
-      .get(`/api/items/${typeof page === "number" ? "pages/" + page : ""}`)
+      .get(`/api/items/${query}`)
       .then(data => {
         if (page) {
           dispatch(itemAllByPageFetchSuccess(data.data));

@@ -4,8 +4,9 @@ import ItemPreview from "../../Items/ItemPreview";
 
 /*
 The ListContent component excepts 2 arguments:
-type: String + pulls type of content fro parent List component
-content: Array + pulls content from parent List component
+type: String + pulls type of content from parent List component and renders appropriate component
+content: Array + pulls content from parent List component and renders based on type
+
 
 onMount the component ....
 -> displays all content based on type argument
@@ -16,7 +17,9 @@ export class ListContent extends React.Component {
     return (
       <div>
         {this.props.content.map(val => {
-          return <ItemPreview item={val} />;
+          if (this.props.type === "items") {
+            return <ItemPreview item={val} />;
+          }
         })}
       </div>
     );
