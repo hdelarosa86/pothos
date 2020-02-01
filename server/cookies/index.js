@@ -1,7 +1,7 @@
 const cookieRouter = require("express").Router();
 const express = require("express");
 const app = express();
-const { User, Session, Order } = require("../db/index");
+const { User, Session } = require("../db/index");
 const chalk = require("chalk");
 const moment = require("moment");
 require("dotenv").config();
@@ -12,7 +12,6 @@ cookieRouter.use((req, res, next) => {
   if (!req.cookies[COOKIE_NAME]) {
     Session.create()
       .then(session => {
-        console.log(session);
         res.cookie([COOKIE_NAME], session.id);
         next();
       })
@@ -42,8 +41,12 @@ cookieRouter.use((req, res, next) => {
 });
 
 cookieRouter.post("/login", (req, res, next) => {
+  const { email, password } = req.body;
   User.findOne({
-    where: req.body
+    where: {
+      email,
+      password
+    }
   })
     .then(user => {
       if (!user) {
@@ -70,7 +73,6 @@ cookieRouter.post("/logout", (req, res, next) => {
     req.loggedIn = false;
     req.user = null;
     res.clearCookie("sessionId", { path: "/" });
-    res.clearCookie("connect.sid", { path: "/" });
     res.status(201).redirect("/");
   } else {
     res.status(401).redirect("/");
@@ -95,24 +97,3 @@ app.use((req, res, next) => {
 });
 
 module.exports = cookieRouter;
-
-// cookieRouter.use((req, res, next) => {
-//   if (req.cookies.sessionId) {
-//     User.findByPk(req.cookies.sessionId)
-//       .then(user => {
-//         if (user) {
-//           req.loggedIn = true;
-//           req.user = user;
-//           next();
-//         } else {
-//           next();
-//         }
-//       })
-//       .catch(err => {
-//         console.error(err);
-//         next();
-//       });
-//   } else {
-//     next();
-//   }
-// });
