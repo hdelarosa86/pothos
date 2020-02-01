@@ -12,6 +12,7 @@ import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
+import List from "./Components/List/List";
 import Footer from "./Components/Footer";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
 import { connect } from "react-redux";
@@ -36,20 +37,33 @@ export class App extends React.Component {
         <main>
           <NavBar />
 
-          <p className="User">
+          <p className='User'>
             {!this.props.user.currentUser
               ? "Loading"
               : `Hey ${this.props.user.currentUser.firstName}`}
           </p>
         </main>
-        <div class="page-container">
+        <div class='page-container'>
           <Route exact path={"/"} render={() => <Home />} />
-          <Route exact path={"/shop"} render={() => <AllItems />} />
           <Route
+            exact
+            path={"/shop/pages/:pageId"}
+            render={() => (
+              <List
+                type='items'
+                pagination={true}
+                filterMethods={["size", "price", null]}
+                perPage={5}
+              />
+            )}
+          />
+          <Route
+            exact
             path={"/shop/:id"}
             render={id => <DetailedItem Location={id} />}
           />
           <Route
+            exact
             path={"/shop/:id/update"}
             render={id => <SingleItemUpdate Location={id} />}
           />
