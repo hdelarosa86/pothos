@@ -12,7 +12,7 @@ import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
-
+import Footer from "./Components/Footer";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
 import { connect } from "react-redux";
 
@@ -36,13 +36,13 @@ export class App extends React.Component {
         <main>
           <NavBar />
 
-          <p>
+          <p className="User">
             {!this.props.user.currentUser
               ? "Loading"
-              : `Hello ${this.props.user.currentUser.firstName}`}
+              : `Hey ${this.props.user.currentUser.firstName}`}
           </p>
         </main>
-        <div class="col s12">
+        <div class="page-container">
           <Route exact path={"/"} render={() => <Home />} />
           <Route exact path={"/shop"} render={() => <AllItems />} />
           <Route
@@ -66,6 +66,7 @@ export class App extends React.Component {
           />
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
+        <Footer />
       </div>
     );
   }
