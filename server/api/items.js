@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express.Router();
+const chalk = require("chalk");
 const { Item } = require("../db/index");
 
 const paginate = (page, resultPerPage) => {
