@@ -58,7 +58,7 @@ export const allOrderAdminFetchStartAsync = (perPage, page, filter) => {
     return acc;
   }, "?");
   return dispatch => {
-    dispatch(itemFetchStart());
+    dispatch(orderAdminFetchStart());
     return axios
       .get(`/api/orders/${query}`)
       .then(data => {
