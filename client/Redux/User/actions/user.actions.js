@@ -42,14 +42,18 @@ export const userLogIn = user => {
   };
 };
 // Adds a new user to the site and makes them the current user
+
 export const addInUser = user => {
   return dispatch => {
-    return axios.post("/api/users/", user).then(data => {
-      dispatch(logInUser(data));
-      dispatch(loggedIn());
+    return axios.post("/api/users/", user).then(() => {
+      return axios.post("/login", user).then(result => {
+        dispatch(addUser(result));
+        dispatch(logInUser(result))
+        dispatch(loggedIn())
     });
-  };
+  });
 };
+}
 
 export const verifyUserCookie = () => {
   return dispatch => {
