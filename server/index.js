@@ -3,10 +3,7 @@ const path = require("path");
 const { db } = require("./db");
 const chalk = require("chalk");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
-const passport = require("passport");
 const cors = require("cors");
-const { Session, Order } = require("./db/index");
 const seed = require("../seed");
 
 if (process.env.NODE_ENV !== "production") require("dotenv").config();

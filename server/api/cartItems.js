@@ -2,7 +2,8 @@ const express = require("express");
 const app = express();
 const { CartItem } = require("../db/index");
 
-// these two routes are mostly for clarity but do add some functionality. Especially when it comes to decremeting the quantity of a cartItem.
+// These two routes are mostly for clarity but do add some functionality.
+// Especially when it comes to decremeting the quantity of a cartItem.
 
 // increment
 app.put("/:id/increment/", (req, res, next) => {
