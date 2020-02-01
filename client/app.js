@@ -37,20 +37,20 @@ export class App extends React.Component {
         <main>
           <NavBar />
 
-          <p className='User'>
+          <p className="User">
             {!this.props.user.currentUser
               ? "Loading"
               : `Hey ${this.props.user.currentUser.firstName}`}
           </p>
         </main>
-        <div class='page-container'>
+        <div class="page-container">
           <Route exact path={"/"} render={() => <Home />} />
           <Route
             exact
             path={"/shop/pages/:pageId"}
             render={() => (
               <List
-                type='items'
+                type="items"
                 pagination={true}
                 filterMethods={["size", "price", null]}
                 perPage={5}

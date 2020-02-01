@@ -18,34 +18,34 @@ class NavBar extends React.Component {
       { id: loggedInStatus, url: `${loggedInStatus}` }
     ];
     return (
-      <nav className='pothos-nav'>
-        <div className='row'>
-          <div className='col s3'>
-            <div className='logo'>
-              <Link to='/'>
-                <img src='https://i.postimg.cc/HxDNcTyj/pothos-02.png'></img>
+      <nav className="pothos-nav">
+        <div className="row">
+          <div className="col s3">
+            <div className="logo">
+              <Link to="/">
+                <img src="https://i.postimg.cc/HxDNcTyj/pothos-02.png"></img>
               </Link>
             </div>
           </div>
-          <div className='col s9'>
-            <a className='dropdown-trigger btn' data-target='dropdown1'>
+          <div className="col s9">
+            <a className="dropdown-trigger btn" data-target="dropdown1">
               &#709;
             </a>
-            <ul id='dropdown1' class='dropdown-content'>
+            <ul id="dropdown1" class="dropdown-content">
               <li>
-                <Link to='/'>Home</Link>
+                <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to='/shop/pages/1'>Shop</Link>
+                <Link to="/shop/pages/1">Shop</Link>
               </li>
               <li>
-                <Link to='/cart'>Cart</Link>
+                <Link to="/cart">Cart</Link>
               </li>
               <li>
                 {this.props.user.loggedIn ? (
-                  <div className='admin-user-access'>
+                  <div className="admin-user-access">
                     <li>
-                      <Link to='/dashboard'>Dashboard</Link>
+                      <Link to="/dashboard">Dashboard</Link>
                     </li>
                     <li>
                       <a href={"/logout"} onClick={this.props.userLogOut}>
@@ -54,7 +54,7 @@ class NavBar extends React.Component {
                     </li>
                   </div>
                 ) : (
-                  <Link to='/login'>Login</Link>
+                  <Link to="/login">Login</Link>
                 )}
               </li>
             </ul>
