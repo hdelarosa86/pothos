@@ -4,6 +4,7 @@ import itemTypes from "../types/items.types";
 const INITIAL_STATE = {
   isFetching: false,
   errorMessage: "",
+  count: 0,
   items: [],
   selectedItem: {}
   // INITIAL STATE object
@@ -33,6 +34,13 @@ const itemsReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isFetching: false,
         selectedItem: action.payload
+      };
+    case itemTypes.FETCH_All_ITEM_BY_PAGE_SUCCESS:
+      return {
+        ...state,
+        isFetching: false,
+        items: action.payload.rows,
+        count: action.payload.count
       };
     default:
       return state;

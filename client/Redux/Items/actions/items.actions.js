@@ -13,6 +13,11 @@ export const itemAllFetchSuccess = data => ({
   payload: data
 });
 
+export const itemAllByPageFetchSuccess = data => ({
+  type: itemTypes.FETCH_All_ITEM_BY_PAGE_SUCCESS,
+  payload: data
+});
+
 export const itemSingleFetchSuccess = data => ({
   type: itemTypes.FETCH_SINGLE_ITEM_SUCCESS,
   payload: data
@@ -39,13 +44,29 @@ export const singleItemFetchStartAsync = id => {
   };
 };
 
-export const allItemsFetchStartAsync = () => {
+export const allItemsFetchStartAsync = (perPage, page, filter) => {
+  const arg = [
+    ["page", page],
+    ["perPage", perPage],
+    ["filter", filter]
+  ];
+  const query = arg.reduce((acc, [key, value], idx) => {
+    acc += `${key}=${value}`;
+    if (idx !== arg.length - 1) {
+      acc += "&";
+    }
+    return acc;
+  }, "?");
   return dispatch => {
     dispatch(itemFetchStart());
     return axios
-      .get("/api/items/")
+      .get(`/api/items/${query}`)
       .then(data => {
-        dispatch(itemAllFetchSuccess(data.data));
+        if (page) {
+          dispatch(itemAllByPageFetchSuccess(data.data));
+        } else {
+          dispatch(itemAllFetchSuccess(data.data));
+        }
       })
       .catch(error => {
         dispatch(itemFetchFailure(error));
