@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import List from "./List/List";
 
 export class Home extends React.Component {
   render() {
@@ -11,7 +12,7 @@ export class Home extends React.Component {
             <h1 className="headline">New on Pothos</h1>
             <div className="call-to-action">
               <h4 className="subhead">Check out all the new plants</h4>
-              <Link to="/shop">Shop</Link>
+              <Link to="/shop/pages/1">Shop</Link>
             </div>
           </div>
         </div>
@@ -59,11 +60,16 @@ export class Home extends React.Component {
               </div>
               <div className="col s12 m12 l2 left-align">
                 <span className="shop-link">
-                  <Link to="/shop">View More</Link>
+                  <Link to="/shop/pages/1">View More</Link>
                 </span>
               </div>
               <div className="col s12 m12 l12 center-align">
-                <h4 className="container">Items are loading...</h4>
+                <List
+                  type="items"
+                  pagination={true}
+                  filterMethods={["size", "price", null]}
+                  perPage={5}
+                />
               </div>
             </div>
           </div>

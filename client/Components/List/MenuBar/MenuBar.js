@@ -26,6 +26,12 @@ export class MenuBar extends React.Component {
       .map((val, idx) => (val = idx + 1));
   };
 
+  menuRouter = {
+    items: "shop",
+    carts: "",
+    users: ""
+  };
+
   render() {
     return (
       <div className="listComponentMenuBar">
@@ -34,7 +40,11 @@ export class MenuBar extends React.Component {
           {this.props.pagination
             ? this.pages().map(num => (
                 <span>
-                  <Link to={`/${this.props.type}/pages/${num}`}>{num} - </Link>
+                  <Link
+                    to={`/${this.menuRouter[this.props.type]}/pages/${num}`}
+                  >
+                    {num} -{" "}
+                  </Link>
                 </span>
               ))
             : null}

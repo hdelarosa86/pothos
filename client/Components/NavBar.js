@@ -13,7 +13,7 @@ class NavBar extends React.Component {
     const loggedInStatus = this.props.user.loggedIn ? "logout" : "login";
     const subNavItems = [
       { id: "home", url: "/" },
-      { id: "shop", url: "/shop" },
+      { id: "shop", url: "/shop/pages/1" },
       { id: "cart", url: "/cart" },
       { id: loggedInStatus, url: `${loggedInStatus}` }
     ];
@@ -36,7 +36,7 @@ class NavBar extends React.Component {
                 <Link to="/">Home</Link>
               </li>
               <li>
-                <Link to="/shop">Shop</Link>
+                <Link to="/shop/pages/1">Shop</Link>
               </li>
               <li>
                 <Link to="/cart">Cart</Link>
