@@ -59,6 +59,30 @@ export class App extends React.Component {
           />
           <Route
             exact
+            path={"/users/pages/:pageId"}
+            render={() => (
+              <List
+                type="users"
+                pagination={true}
+                filterMethods={["lastName", "admin", null]}
+                perPage={5}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={"/orders/pages/:pageId"}
+            render={() => (
+              <List
+                type="orders"
+                pagination={true}
+                filterMethods={["total", "status", null]}
+                perPage={5}
+              />
+            )}
+          />
+          <Route
+            exact
             path={"/shop/:id"}
             render={id => <DetailedItem Location={id} />}
           />

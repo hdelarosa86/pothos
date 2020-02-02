@@ -2,6 +2,7 @@ import React from "react";
 //utils
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 //actions
 import { selectFilter } from "../../../Redux/Nav/actions/nav.actions";
 
@@ -12,7 +13,6 @@ pagination: Boolean +Pulls pagination argument from parent list component
 filterMethods: Array +Pulls filter methods from parent list component
 perPage: Num +uses perPage num to calulate appropriate number of available links
 count: Num +uses count num to calulate appropriate number of available links
-
 
 onMount the component ....
 -> displays available pages with links if pagination is true
@@ -28,16 +28,18 @@ export class MenuBar extends React.Component {
 
   menuRouter = {
     items: "shop",
-    carts: "",
-    users: ""
+    orders: "orders",
+    users: "users"
   };
 
   render() {
     return (
       <div className="listComponentMenuBar">
         <div className="listComponentMenuBar_pages">
-          {this.props.pagination ? `PAGES :` : null}
-          {this.props.pagination
+          {this.props.pagination && this.props.match.params.pageId
+            ? `PAGES :`
+            : null}
+          {this.props.pagination && this.props.match.params.pageId
             ? this.pages().map(num => (
                 <span>
                   <Link
@@ -79,4 +81,4 @@ const mapDispatchToprops = dispatch => ({
   selectFilter: filter => dispatch(selectFilter(filter))
 });
 
-export default connect(null, mapDispatchToprops)(MenuBar);
+export default withRouter(connect(null, mapDispatchToprops)(MenuBar));

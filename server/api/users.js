@@ -19,20 +19,55 @@ app.use((req, res, next) => {
   }
 });
 
+
+const paginate = (page, resultPerPage) => {
+  return { limit: resultPerPage, offset: page * resultPerPage };
+};
+
 app.get("/", (req, res, next) => {
   if (req.user.guest || !req.adminAuth) {
     console.error(chalk.redBright("Not Authorized."));
     res.status(401).redirect("/");
   } else {
-    User.findAll({ include: [{ model: Order }] })
-      .then(users => res.status(200).send(users))
-      .catch(err => {
-        res.status(404);
-        console.error(chalk.redBright("Could not retrive Users."));
-        next(err);
+  const { perPage, page, filter } = req.query;
+  if (page !== "undefined") {
+    const resultPerPage = perPage;
+    const { limit, offset } = paginate(page - 1, resultPerPage);
+    if (filter !== "undefined") {
+      User.findAndCountAll({
+        order: [[filter, "DESC"]],
+        limit,
+        offset
+      }).then(items => {
+        res.status(200).send(items);
       });
+    } else {
+      User.findAndCountAll({
+        limit,
+        offset
+      }).then(items => {
+        res.status(200).send(items);
+      });
+    }
+  } else {
+    if (filter !== "undefined") {
+      User.findAll({
+        order: [[filter, "DESC"]]
+      })
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
+    } else {
+      User.findAll()
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
+    }
   }
 });
+// if (!req.user.admin) {
+//   const err = new Error(chalk.redBright("Not Authorized"));
+//   console.error(err);
+//   res.status(401).redirect("/");
+// } else {}
 
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;

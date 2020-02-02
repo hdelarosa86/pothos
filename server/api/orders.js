@@ -2,12 +2,49 @@ const express = require("express");
 const app = express();
 const { User, Order, CartItem, Item } = require("../db/index");
 
+const paginate = (page, resultPerPage) => {
+  return { limit: resultPerPage, offset: page * resultPerPage };
+};
+
 app.get("/", (req, res, next) => {
-  Order.findAll({
-    include: [{ model: CartItem, as: "CartItem" }]
-  })
-    .then(orders => res.status(200).send(orders))
-    .catch(err => next(err));
+  const { perPage, page, filter } = req.query;
+  if (page !== "undefined") {
+    const resultPerPage = perPage;
+    const { limit, offset } = paginate(page - 1, resultPerPage);
+    if (filter !== "undefined") {
+      Order.findAndCountAll({
+        order: [[filter, "DESC"]],
+        include: [{ model: CartItem, as: "CartItem" }],
+        limit,
+        offset
+      }).then(items => {
+        res.status(200).send(items);
+      });
+    } else {
+      Order.findAndCountAll({
+        include: [{ model: CartItem, as: "CartItem" }],
+        limit,
+        offset
+      }).then(items => {
+        res.status(200).send(items);
+      });
+    }
+  } else {
+    if (filter !== "undefined") {
+      Order.findAll({
+        order: [[filter, "DESC"]],
+        include: [{ model: CartItem, as: "CartItem" }]
+      })
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
+    } else {
+      Order.findAll({
+        include: [{ model: CartItem, as: "CartItem" }]
+      })
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
+    }
+  }
 });
 
 app.get("/:id", (req, res, next) => {
