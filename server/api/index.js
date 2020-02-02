@@ -1,5 +1,22 @@
 const apiRouter = require("express").Router();
 
+//middleware to verify guest, user or admin privileges
+apiRouter.use((req, res, next) => {
+  if (!req.user) {
+    req.user = {};
+    req.user.guest = true;
+    req.adminAuth = false;
+    req.user.id = req.cookies.sessionId;
+  }
+  if (!req.user.admin) {
+    req.adminAuth = false;
+    next();
+  } else {
+    req.adminAuth = true;
+    next();
+  }
+});
+
 // API ROUTES
 
 apiRouter.use("/items", require("./items"));

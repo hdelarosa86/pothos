@@ -1,30 +1,14 @@
 const express = require("express");
 const app = express();
-const { User, Order } = require("../db/index");
 const chalk = require("chalk");
-
-//middleware to verify guest, user or admin privileges
-app.use((req, res, next) => {
-  if (!req.user) {
-    req.user = {};
-    req.user.guest = true;
-    req.user.id = req.cookies.sessionId;
-  }
-  if (!req.user.admin) {
-    req.adminAuth = false;
-    next();
-  } else {
-    req.adminAuth = true;
-    next();
-  }
-});
+const { User, Order } = require("../db/index");
 
 const paginate = (page, resultPerPage) => {
   return { limit: resultPerPage, offset: page * resultPerPage };
 };
 
 app.get("/", (req, res, next) => {
-  if (req.user.guest || !req.adminAuth) {
+  if (!req.adminAuth) {
     console.error(chalk.redBright("Not Authorized."));
     res.status(401).redirect("/");
   } else {
