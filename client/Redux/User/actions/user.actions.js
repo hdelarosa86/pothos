@@ -55,6 +55,22 @@ export const addInUser = user => {
   };
 };
 
+export const updateInUser = user => {
+  return dispatch => {
+    console.log(user);
+    return axios
+      .put(`/api/users/${user.id}`, user)
+      .then(() => {
+        axios.get("/verifyUser").then(user => {
+          dispatch(persistUser(user.data));
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        console.error(err);
+      });
+  };
+};
 export const verifyUserCookie = () => {
   return dispatch => {
     axios

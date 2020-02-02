@@ -48,7 +48,7 @@ class SignUp extends React.Component {
   // please use this component.
   render() {
     return (
-      <div className="col s6 center-align">
+      <div className="col s12 m12 l6 center-align">
         <h1>Sign up now</h1>
         <form>
           <div>
@@ -66,10 +66,6 @@ class SignUp extends React.Component {
           <div>
             <label>Email</label>
             <input type="email" name="email" onChange={this.handleOnChange} />
-          </div>
-          <div>
-            <label>Username</label>
-            <input type="text" name="username" onChange={this.handleOnChange} />
           </div>
           <div>
             <label>Password</label>

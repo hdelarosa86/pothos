@@ -12,6 +12,7 @@ import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
+import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
@@ -59,6 +60,30 @@ export class App extends React.Component {
           />
           <Route
             exact
+            path={"/users/pages/:pageId"}
+            render={() => (
+              <List
+                type="users"
+                pagination={true}
+                filterMethods={["lastName", "admin", null]}
+                perPage={5}
+              />
+            )}
+          />
+          <Route
+            exact
+            path={"/orders/pages/:pageId"}
+            render={() => (
+              <List
+                type="orders"
+                pagination={true}
+                filterMethods={["total", "status", null]}
+                perPage={5}
+              />
+            )}
+          />
+          <Route
+            exact
             path={"/shop/:id"}
             render={id => <DetailedItem Location={id} />}
           />
@@ -77,6 +102,11 @@ export class App extends React.Component {
             exact
             path={"/dashboard"}
             render={() => <Dashboard assets={this.props} />}
+          />
+          <Route
+            exact
+            path={"/dashboard/:id/update"}
+            render={id => <UserUpdate user={this.props.user} location={id} />}
           />
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>

@@ -45,7 +45,7 @@ class Login extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col s6 center-align">
+          <div className="col s12 m12 l6 center-align">
             <h1>Welcome Back</h1>
             <form>
               <div>

@@ -3,8 +3,13 @@ const app = express();
 const chalk = require("chalk");
 const { User, Order, CartItem, Item } = require("../db/index");
 
+const paginate = (page, resultPerPage) => {
+  return { limit: resultPerPage, offset: page * resultPerPage };
+};
+
 app.get("/", (req, res, next) => {
-  if (!req.adminAuth) {
+
+/*  if (!req.adminAuth) {
     console.error(chalk.redBright("Not Authorized."));
     res.status(401).redirect("/");
   } else {
@@ -14,9 +19,48 @@ app.get("/", (req, res, next) => {
       .then(orders => res.status(200).send(orders))
       .catch(err => {
         res.status(404);
-        console.error(chalk.redBright("Could not retrive Orders."));
+        console.error(chalk.redBright("Could not retrieve Orders."));
         next(err);
+      });*/
+  //commenting this code block for future use, we have to incorporate admin only for this route.
+
+  const { perPage, page, filter } = req.query;
+  if (page !== "undefined") {
+    const resultPerPage = perPage;
+    const { limit, offset } = paginate(page - 1, resultPerPage);
+    if (filter !== "undefined") {
+      Order.findAndCountAll({
+        order: [[filter, "DESC"]],
+        include: [{ model: CartItem, as: "CartItem" }],
+        limit,
+        offset
+      }).then(items => {
+        res.status(200).send(items);
       });
+    } else {
+      Order.findAndCountAll({
+        include: [{ model: CartItem, as: "CartItem" }],
+        limit,
+        offset
+      }).then(items => {
+        res.status(200).send(items);
+      });
+    }
+  } else {
+    if (filter !== "undefined") {
+      Order.findAll({
+        order: [[filter, "DESC"]],
+        include: [{ model: CartItem, as: "CartItem" }]
+      })
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
+    } else {
+      Order.findAll({
+        include: [{ model: CartItem, as: "CartItem" }]
+      })
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
+    }
   }
 });
 
