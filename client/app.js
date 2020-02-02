@@ -12,6 +12,7 @@ import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
+import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
@@ -101,6 +102,11 @@ export class App extends React.Component {
             exact
             path={"/dashboard"}
             render={() => <Dashboard assets={this.props} />}
+          />
+          <Route
+            exact
+            path={"/dashboard/:id/update"}
+            render={id => <UserUpdate user={this.props.user} location={id} />}
           />
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
