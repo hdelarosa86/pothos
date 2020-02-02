@@ -1,7 +1,7 @@
 const cookieRouter = require("express").Router();
 const express = require("express");
 const app = express();
-const { User, Session } = require("../db/index");
+const { User, Session, Order } = require("../db/index");
 const chalk = require("chalk");
 const moment = require("moment");
 require("dotenv").config();
@@ -13,6 +13,7 @@ cookieRouter.use((req, res, next) => {
     Session.create()
       .then(session => {
         res.cookie([COOKIE_NAME], session.id);
+        Order.create({ sessionId: session.id })
         next();
       })
       .catch(err => {
