@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const { CartItem } = require("../db/index");
+const chalk = require("chalk");
+const { CartItem, Order } = require("../db/index");
 
 // These two routes are mostly for clarity but do add some functionality.
 // Especially when it comes to decremeting the quantity of a cartItem.
@@ -37,9 +38,18 @@ app.put("/:id/decrement/", (req, res, next) => {
 });
 
 app.get("/", (req, res, next) => {
-  CartItem.findAll()
-    .then(cartItems => res.status(200).send(cartItems))
-    .catch(err => next(err));
+  if (!req.adminAuth) {
+    console.error(chalk.redBright("Not Authorized."));
+    res.status(401).redirect("/");
+  } else {
+    CartItem.findAll()
+      .then(cartItems => res.status(200).send(cartItems))
+      .catch(err => {
+        res.status(404);
+        console.error(chalk.redBright("Could not retrive Cart Items."));
+        next(err);
+      });
+  }
 });
 
 app.get("/:id", (req, res, next) => {
