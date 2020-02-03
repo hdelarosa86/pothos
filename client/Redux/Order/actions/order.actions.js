@@ -2,7 +2,7 @@ import orderTypes from "../types/order.types";
 import axios from "axios";
 
 export const fetchOrderStart = () => ({
-  type: orderTypes.FETCH_CART_START
+  type: orderTypes.FETCH_ORDER_START
 });
 
 export const fetchOrderFailure = error => ({
@@ -12,6 +12,10 @@ export const fetchOrderFailure = error => ({
 
 export const fetchOrderSuccess = data => ({
   type: orderTypes.FETCH_ORDER_SUCCESS,
+  payload: data
+});
+export const fetchOrderInfoSuccess = data => ({
+  type: orderTypes.FETCH_ORDER_INFO_SUCCESS,
   payload: data
 });
 
@@ -45,11 +49,11 @@ export const decrementItemStartAsync = (cartItemId, orderId) => {
   };
 };
 
-export const addToOrderStartAsync = (itemId, orderId) => {
+export const addToOrderStartAsync = (itemId, orderId, itemTotal) => {
   return dispatch => {
     dispatch(fetchOrderStart());
     return axios
-      .post(`api/cart-items`, { itemId, orderId })
+      .post(`api/cart-items`, { itemId: itemId, orderId: orderId, itemTotal: itemTotal })
       .then(() => {
         dispatch(fetchOrderStartAsync(orderId));
       })
@@ -72,3 +76,15 @@ export const fetchOrderStartAsync = orderId => {
       });
   };
 };
+
+export const fetchOrderBySession = () => {
+  return dispatch => {
+    return axios.get(`api/orders/session`)
+      .then(data => {
+        dispatch(fetchOrderInfoSuccess(data.data))
+      })
+      .catch(error => {
+        dispatch(fetchOrderFailure(error));
+      });
+  }
+}

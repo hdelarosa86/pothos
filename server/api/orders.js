@@ -46,7 +46,16 @@ app.get("/", (req, res, next) => {
     }
   }
 });
-
+app.get("/session", (req, res, next) => {
+  const id = req.cookies.sessionId;
+  Order.findOne({
+    where: { sessionId: id }
+  })
+    .then(order => {
+      res.status(200).send(order)
+    })
+    .catch(err => next(err));
+});
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
   Order.findOne({

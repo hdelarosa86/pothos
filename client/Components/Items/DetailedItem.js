@@ -2,16 +2,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { singleItemFetchStartAsync } from "../../Redux/Items/actions/items.actions";
-
+import { fetchOrderBySession, addToOrderStartAsync } from "../../Redux/Order/actions/order.actions"
 export class DetailedItem extends React.Component {
   componentDidMount() {
     const { fetchItem } = this.props;
     fetchItem(this.props.Location.match.params.id);
+
+    if (document.cookie) {
+      this.props.fetchOrder()
+    }
+
   }
+
   render() {
     if (this.props.singleItem.name) {
-      const { singleItem } = this.props;
-      console.log(singleItem);
+      const { singleItem, addToCart, order } = this.props;
       return (
         <div className="container">
           <div className="row">
@@ -22,7 +27,7 @@ export class DetailedItem extends React.Component {
               <h2>{singleItem.name}</h2>
               <h6>{singleItem.description}</h6>
               <h6>${singleItem.price}</h6>
-              <button>ADD TO CART</button>
+              <button onClick={() => addToCart(singleItem.id, order.orderInfo.id, singleItem.price)}>ADD TO CART</button>
               <Link to={`/shop/${singleItem.id}/update`}>
                 <button>EDIT ITEM</button>
               </Link>
@@ -36,10 +41,13 @@ export class DetailedItem extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchItem: id => dispatch(singleItemFetchStartAsync(id))
+  fetchItem: id => dispatch(singleItemFetchStartAsync(id)),
+  fetchOrder: () => dispatch(fetchOrderBySession()),
+  addToCart: (itemId, orderId, itemTotal) => dispatch(addToOrderStartAsync(itemId, orderId, itemTotal))
 });
 const mapStateToProps = state => ({
-  singleItem: state.inventory.selectedItem
+  singleItem: state.inventory.selectedItem,
+  order: state.order
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailedItem);

@@ -12,9 +12,11 @@ cookieRouter.use((req, res, next) => {
   if (!req.cookies[COOKIE_NAME]) {
     Session.create()
       .then(session => {
-        res.cookie([COOKIE_NAME], session.id);
-        Order.create({ sessionId: session.id })
-        next();
+        res.cookie(COOKIE_NAME, session.id);
+        return Order.create({ sessionId: session.id })
+
+      }).then(() => {
+        next()
       })
       .catch(err => {
         console.log(chalk.redBright("Could not create Session cookie"));
