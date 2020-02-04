@@ -8,8 +8,7 @@ const paginate = (page, resultPerPage) => {
 };
 
 app.get("/", (req, res, next) => {
-
-/*  if (!req.adminAuth) {
+  /*  if (!req.adminAuth) {
     console.error(chalk.redBright("Not Authorized."));
     res.status(401).redirect("/");
   } else {
