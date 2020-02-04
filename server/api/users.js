@@ -1,73 +1,65 @@
 const express = require("express");
 const app = express();
-const { User, Order } = require("../db/index");
 const chalk = require("chalk");
-
-//middleware to verify guest, user or admin privileges
-app.use((req, res, next) => {
-  if (!req.user) {
-    req.user = {};
-    req.user.guest = true;
-    req.user.id = req.cookies.sessionId;
-  }
-  if (!req.user.admin) {
-    req.adminAuth = false;
-    next();
-  } else {
-    req.adminAuth = true;
-    next();
-  }
-});
+const { User, Order } = require("../db/index");
 
 const paginate = (page, resultPerPage) => {
   return { limit: resultPerPage, offset: page * resultPerPage };
 };
 
 app.get("/", (req, res, next) => {
-  if (req.user.guest || !req.adminAuth) {
+  if (!req.adminAuth) {
     console.error(chalk.redBright("Not Authorized."));
     res.status(401).redirect("/");
   } else {
-    const { perPage, page, filter } = req.query;
-    if (page !== "undefined") {
-      const resultPerPage = perPage;
-      const { limit, offset } = paginate(page - 1, resultPerPage);
-      if (filter !== "undefined") {
-        User.findAndCountAll({
-          order: [[filter, "DESC"]],
-          limit,
-          offset
-        }).then(items => {
-          res.status(200).send(items);
+    if (
+      Object.entries(req.query).length === 0 &&
+      req.query.constructor === Object
+    ) {
+      User.findAll()
+        .then(users => res.status(200).send(users))
+        .catch(err => {
+          res.status(404);
+          console.error(chalk.redBright("Could not retrieve Users."));
+          next(err);
         });
-      } else {
-        User.findAndCountAll({
-          limit,
-          offset
-        }).then(items => {
-          res.status(200).send(items);
-        });
-      }
     } else {
-      if (filter !== "undefined") {
-        User.findAll({
-          order: [[filter, "DESC"]]
-        })
-          .then(items => res.status(200).send(items))
-          .catch(err => next(err));
+      const { perPage, page, filter } = req.query;
+      if (page !== "undefined") {
+        const resultPerPage = perPage;
+        const { limit, offset } = paginate(page - 1, resultPerPage);
+        if (filter !== "undefined") {
+          User.findAndCountAll({
+            order: [[filter, "DESC"]],
+            limit,
+            offset
+          }).then(items => {
+            res.status(200).send(items);
+          });
+        } else {
+          User.findAndCountAll({
+            limit,
+            offset
+          }).then(items => {
+            res.status(200).send(items);
+          });
+        }
       } else {
-        User.findAll()
-          .then(items => res.status(200).send(items))
-          .catch(err => next(err));
+        if (filter !== "undefined") {
+          User.findAll({
+            order: [[filter, "DESC"]]
+          })
+            .then(items => res.status(200).send(items))
+            .catch(err => next(err));
+        } else {
+          User.findAll()
+            .then(items => res.status(200).send(items))
+            .catch(err => next(err));
+        }
       }
     }
   }
 });
-// if (!req.user.admin) {
-//   const err = new Error(chalk.redBright("Not Authorized"));
-//   console.error(err);
-//   res.status(401).redirect("/");
-// } else {}
 
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
@@ -86,13 +78,18 @@ app.get("/:id", (req, res, next) => {
 });
 
 app.post("/", (req, res, next) => {
-  const { firstName, lastName, email, password } = req.body;
-  User.create({ firstName, lastName, email, password })
-    .then(user => res.status(201).send(user))
-    .catch(err => {
-      console.error(chalk.redBright("Could not create new User."));
-      next(err);
-    });
+  if (!req.cookies.sessionId) {
+    console.error(chalk.redBright("Session id not found"));
+    res.status(401).send("Please do not delete session cookie");
+  } else {
+    const { firstName, lastName, email, password } = req.body;
+    User.create({ firstName, lastName, email, password })
+      .then(user => res.status(201).send(user))
+      .catch(err => {
+        console.error(chalk.redBright("Could not create new User."));
+        next(err);
+      });
+  }
 });
 
 app.delete("/:id", (req, res, next) => {
@@ -113,7 +110,6 @@ app.delete("/:id", (req, res, next) => {
 
 app.put("/:id", (req, res, next) => {
   const { id } = req.params;
-  console.log("session", req.user.id !== id, !req.adminAuth);
   if (req.user.id !== id || (req.user.id !== id && !req.adminAuth)) {
     console.error(chalk.redBright("Not Authorized."));
     res.status(401).redirect("/");
