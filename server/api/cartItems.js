@@ -52,7 +52,6 @@ app.get("/:id", (req, res, next) => {
 //if you post an item to a cart where it already exists it increments the quantity
 app.post("/", (req, res, next) => {
   const { itemId, orderId, itemTotal } = req.body;
-  console.log(req.body)
   CartItem.findOne({
     where: {
       itemId: itemId,
@@ -67,7 +66,7 @@ app.post("/", (req, res, next) => {
       }
       if (foundCartItem) {
         return foundCartItem
-          .update({ quantity: foundCartItem.quantity + 1, itemTotal: foundCartItem.itemTotal })
+          .update({ quantity: foundCartItem.quantity + 1, itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(itemTotal) })
           .then(() => res.status(201).send(console.log("item incremented")));
       }
     })

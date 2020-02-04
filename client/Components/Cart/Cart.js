@@ -16,7 +16,7 @@ class Cart extends React.Component {
         <div className="container">
           <h1>Your Cart</h1>
           <ul>{this.props.order.orderContent.CartItem.map(cartRow => <div>
-            <li>{cartRow.item.name} x {cartRow.quantity}</li>
+            <li><div>{cartRow.item.name} x {cartRow.quantity}</div><div>{cartRow.itemTotal}</div></li>
           </div>)}</ul>
           <button className="checkout btn">
             <Link to="/cart/1">Checkout</Link>

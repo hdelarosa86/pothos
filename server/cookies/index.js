@@ -11,11 +11,9 @@ const COOKIE_NAME = "sessionId";
 cookieRouter.use((req, res, next) => {
   if (!req.cookies[COOKIE_NAME]) {
     Session.create()
-      .then(session => {
-        res.cookie(COOKIE_NAME, session.id);
-        return Order.create({ sessionId: session.id })
-
-      }).then(() => {
+      .then(session => Order.create({ sessionId: session.id }))
+      .then(newOrder => res.cookie(COOKIE_NAME, newOrder.sessionId))
+      .then(() => {
         next()
       })
       .catch(err => {
