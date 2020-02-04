@@ -8,37 +8,50 @@ const paginate = (page, resultPerPage) => {
 };
 
 app.get("/", (req, res, next) => {
-  const { perPage, page, filter } = req.query;
-  if (page !== "undefined") {
-    const resultPerPage = perPage;
-    const { limit, offset } = paginate(page - 1, resultPerPage);
-    if (filter !== "undefined") {
-      Item.findAndCountAll({
-        order: [[filter, "DESC"]],
-        limit,
-        offset
-      }).then(items => {
-        res.status(200).send(items);
+  if (
+    Object.entries(req.query).length === 0 &&
+    req.query.constructor === Object
+  ) {
+    Item.findAll()
+      .then(items => res.status(200).send(items))
+      .catch(err => {
+        res.status(404);
+        console.error(chalk.redBright("Could not retrieve Items."));
+        next(err);
       });
-    } else {
-      Item.findAndCountAll({
-        limit,
-        offset
-      }).then(items => {
-        res.status(200).send(items);
-      });
-    }
   } else {
-    if (filter !== "undefined") {
-      Item.findAll({
-        order: [[filter, "DESC"]]
-      })
-        .then(items => res.status(200).send(items))
-        .catch(err => next(err));
+    const { perPage, page, filter } = req.query;
+    if (page !== "undefined") {
+      const resultPerPage = perPage;
+      const { limit, offset } = paginate(page - 1, resultPerPage);
+      if (filter !== "undefined") {
+        Item.findAndCountAll({
+          order: [[filter, "DESC"]],
+          limit,
+          offset
+        }).then(items => {
+          res.status(200).send(items);
+        });
+      } else {
+        Item.findAndCountAll({
+          limit,
+          offset
+        }).then(items => {
+          res.status(200).send(items);
+        });
+      }
     } else {
-      Item.findAll()
-        .then(items => res.status(200).send(items))
-        .catch(err => next(err));
+      if (filter !== "undefined") {
+        Item.findAll({
+          order: [[filter, "DESC"]]
+        })
+          .then(items => res.status(200).send(items))
+          .catch(err => next(err));
+      } else {
+        Item.findAll()
+          .then(items => res.status(200).send(items))
+          .catch(err => next(err));
+      }
     }
   }
 });
