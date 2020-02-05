@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   fetchOrderBySession,
-  fetchOrderStartAsync
+  incrementItemStartAsync,
+  decrementItemStartAsync
 } from "../../Redux/Order/actions/order.actions";
 
 class Cart extends React.Component {
@@ -14,6 +15,7 @@ class Cart extends React.Component {
   }
 
   cartGenerate(arr) {
+    const { addQuantity, minusQuantity } = this.props;
     let cartTotal = 0;
     const rows = arr.map(cartRow => {
       cartTotal += parseInt(cartRow.itemTotal);
@@ -24,6 +26,22 @@ class Cart extends React.Component {
               {cartRow.item.name} x {cartRow.quantity}
             </div>
             <div>{cartRow.itemTotal}</div>
+            <div>
+              <button
+                onClick={() =>
+                  addQuantity(cartRow.id, cartRow.orderId, cartRow.item.price)
+                }
+              >
+                +
+              </button>
+              <button
+                onClick={() =>
+                  minusQuantity(cartRow.id, cartRow.orderId, cartRow.item.price)
+                }
+              >
+                -
+              </button>
+            </div>
           </li>
         </div>
       );
@@ -63,7 +81,11 @@ class Cart extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchOrderBySess: () => dispatch(fetchOrderBySession())
+  fetchOrderBySess: () => dispatch(fetchOrderBySession()),
+  addQuantity: (cartItemId, orderId, price) =>
+    dispatch(incrementItemStartAsync(cartItemId, orderId, price)),
+  minusQuantity: (cartItemId, orderId, price) =>
+    dispatch(decrementItemStartAsync(cartItemId, orderId, price))
 });
 const mapStateToProps = state => ({
   order: state.order

@@ -21,11 +21,11 @@ export const fetchOrderInfoSuccess = data => ({
 
 //Thunks
 
-export const incrementItemStartAsync = (cartItemId, orderId) => {
+export const incrementItemStartAsync = (cartItemId, orderId, price) => {
   return dispatch => {
     dispatch(fetchOrderStart());
     return axios
-      .put(`api/cart-items/${cartItemId}/increment/`)
+      .put(`api/cart-items/${cartItemId}/increment/`, { price })
       .then(() => {
         dispatch(fetchOrderStartAsync(orderId));
       })
@@ -35,11 +35,11 @@ export const incrementItemStartAsync = (cartItemId, orderId) => {
   };
 };
 
-export const decrementItemStartAsync = (cartItemId, orderId) => {
+export const decrementItemStartAsync = (cartItemId, orderId, price) => {
   return dispatch => {
     dispatch(fetchOrderStart());
     return axios
-      .put(`api/cart-items/${cartItemId}/decrement/`)
+      .put(`api/cart-items/${cartItemId}/decrement/`, { price })
       .then(() => {
         dispatch(fetchOrderStartAsync(orderId));
       })

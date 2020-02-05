@@ -9,9 +9,13 @@ const { CartItem, Order } = require("../db/index");
 // increment
 app.put("/:id/increment/", (req, res, next) => {
   const { id } = req.params;
+  const { price } = req.body;
   CartItem.findByPk(id)
     .then(foundCartItem => {
-      return foundCartItem.update({ quantity: foundCartItem.quantity + 1 });
+      return foundCartItem.update({
+        quantity: foundCartItem.quantity + 1,
+        itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(price)
+      });
     })
     .then(updatedCartItem => {
       return res.status(201).send(updatedCartItem);
@@ -22,13 +26,17 @@ app.put("/:id/increment/", (req, res, next) => {
 //decrement
 app.put("/:id/decrement/", (req, res, next) => {
   const { id } = req.params;
+  const { price } = req.body;
   CartItem.findByPk(id)
     .then(foundCartItem => {
       if (foundCartItem.quantity === 1 || !foundCartItem.quantity) {
         return foundCartItem.destroy();
       }
       if (foundCartItem.quantity > 1) {
-        return foundCartItem.update({ quantity: foundCartItem.quantity - 1 });
+        return foundCartItem.update({
+          quantity: foundCartItem.quantity - 1,
+          itemTotal: parseInt(foundCartItem.itemTotal) - parseInt(price)
+        });
       }
     })
     .then(updatedCartItem => {
