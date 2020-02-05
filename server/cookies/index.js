@@ -55,20 +55,22 @@ cookieRouter.post("/login", (req, res, next) => {
         res.sendStatus(401);
         console.error(new Error(chalk.red(`User not Found ${res.statusCode}`)));
       } else {
-        Order.findOne({ where: { userId: user.id } })
-          .then(existingOrder => {
-            Order.findOne({
-              where: { sessionId: guestSessionId },
-              include: [{ model: CartItem, as: "CartItem", include: [{ model: Item }] }]
-            })
-              .then(guestOrder => {
-                guestOrder.CartItem.forEach(cartRow => {
-                  CartItem.findOne({ where: { id: cartRow.id } })
-                    .then(foundCartItem => foundCartItem.update({ orderId: existingOrder.id }))
-
-                })
-              })
-          })
+        Order.findOne({ where: { userId: user.id } }).then(existingOrder => {
+          Order.findOne({
+            where: { sessionId: guestSessionId },
+            include: [
+              { model: CartItem, as: "CartItem", include: [{ model: Item }] }
+            ]
+          }).then(guestOrder => {
+            guestOrder.CartItem.forEach(cartRow => {
+              CartItem.findOne({
+                where: { id: cartRow.id }
+              }).then(foundCartItem =>
+                foundCartItem.update({ orderId: existingOrder.id })
+              );
+            });
+          });
+        });
         res
           .status(200)
           .cookie("sessionId", user.id, {

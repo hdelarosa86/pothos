@@ -1,7 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchOrderBySession, fetchOrderStartAsync } from "../../Redux/Order/actions/order.actions";
+import {
+  fetchOrderBySession,
+  fetchOrderStartAsync
+} from "../../Redux/Order/actions/order.actions";
 
 class Cart extends React.Component {
   componentDidMount() {
@@ -11,29 +14,28 @@ class Cart extends React.Component {
   }
 
   cartGenerate(arr) {
-    let cartTotal = 0
+    let cartTotal = 0;
     const rows = arr.map(cartRow => {
-      cartTotal += parseInt(cartRow.itemTotal)
-      return <div>
-        <li>
-          <div>
-            {cartRow.item.name} x {cartRow.quantity}
-          </div>
-          <div>{cartRow.itemTotal}</div>
-        </li>
+      cartTotal += parseInt(cartRow.itemTotal);
+      return (
+        <div>
+          <li>
+            <div>
+              {cartRow.item.name} x {cartRow.quantity}
+            </div>
+            <div>{cartRow.itemTotal}</div>
+          </li>
+        </div>
+      );
+    });
+    let cartTotalFloat = cartTotal.toFixed(2);
+
+    return (
+      <div>
+        <ul>{rows}</ul>
+        <div>TOTAL:{cartTotalFloat}</div>
       </div>
-
-
-    })
-    let cartTotalFloat = cartTotal.toFixed(2)
-
-    return (<div>
-      <ul>
-        {rows}
-      </ul>
-      <div>TOTAL:{cartTotalFloat}</div>
-    </div>
-    )
+    );
   }
 
   render() {

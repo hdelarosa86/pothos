@@ -69,7 +69,7 @@ app.get("/session", (req, res, next) => {
     include: [{ model: CartItem, as: "CartItem", include: [{ model: Item }] }]
   })
     .then(order => {
-      res.status(200).send(order)
+      res.status(200).send(order);
     })
     .catch(err => next(err));
 });

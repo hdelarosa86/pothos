@@ -4,7 +4,7 @@ import { addItemToOrder, removeItemFromOrder } from "../utils/order.utils";
 const INITIAL_STATE = {
   isFetching: false,
   errorMessage: "",
-  orderInfo: {},
+  orderInfo: {}
 };
 
 const orderReducer = (state = INITIAL_STATE, action) => {

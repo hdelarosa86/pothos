@@ -16,7 +16,10 @@ import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
-import { fetchOrderBySession, fetchOrderStartAsync } from "./Redux/Order/actions/order.actions";
+import {
+  fetchOrderBySession,
+  fetchOrderStartAsync
+} from "./Redux/Order/actions/order.actions";
 import { connect } from "react-redux";
 
 export class App extends React.Component {
