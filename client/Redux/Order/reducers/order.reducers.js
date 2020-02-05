@@ -5,7 +5,6 @@ const INITIAL_STATE = {
   isFetching: false,
   errorMessage: "",
   orderInfo: {},
-  orderContent: {}
 };
 
 const orderReducer = (state = INITIAL_STATE, action) => {
@@ -33,7 +32,7 @@ const orderReducer = (state = INITIAL_STATE, action) => {
         ...state,
         errorMessage: "",
         isFetching: false,
-        orderContent: action.payload
+        orderInfo: action.payload
       };
     default:
       return state;

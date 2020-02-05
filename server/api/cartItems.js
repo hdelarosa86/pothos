@@ -70,13 +70,18 @@ app.post("/", (req, res, next) => {
   })
     .then(foundCartItem => {
       if (foundCartItem === null) {
-        return CartItem.create({ itemId: itemId, orderId: orderId, itemTotal: itemTotal }).then(() =>
-          res.status(201).send(console.log("item created"))
-        );
+        return CartItem.create({
+          itemId: itemId,
+          orderId: orderId,
+          itemTotal: itemTotal
+        }).then(() => res.status(201).send(console.log("item created")));
       }
       if (foundCartItem) {
         return foundCartItem
-          .update({ quantity: foundCartItem.quantity + 1, itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(itemTotal) })
+          .update({
+            quantity: foundCartItem.quantity + 1,
+            itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(itemTotal)
+          })
           .then(() => res.status(201).send(console.log("item incremented")));
       }
     })

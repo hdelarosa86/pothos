@@ -16,14 +16,14 @@ import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
-import { fetchOrderBySession } from "./Redux/Order/actions/order.actions"
+import { fetchOrderBySession, fetchOrderStartAsync } from "./Redux/Order/actions/order.actions";
 import { connect } from "react-redux";
 
 export class App extends React.Component {
   componentDidMount() {
     this.props.persistUser();
     if (document.cookie) {
-      this.props.fetchOrder()
+      this.props.fetchOrder();
     }
   }
 
@@ -119,7 +119,8 @@ export class App extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   persistUser: () => dispatch(verifyUserCookie()),
-  fetchOrder: () => dispatch(fetchOrderBySession())
+  fetchOrder: () => dispatch(fetchOrderBySession()),
+  fetchOrderById: id => dispatch(fetchOrderStartAsync(id))
 });
 
 const mapStateToProps = state => ({
