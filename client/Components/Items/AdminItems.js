@@ -26,9 +26,7 @@ const AdminItems = ({ item }) => {
       <CardActionArea>
         <CardMedia className={classes.media} image={item.imageUrl} />
         <CardContent>
-          <Typography>
-            {item.name}
-          </Typography>
+          <Typography>{item.name}</Typography>
         </CardContent>
       </CardActionArea>
       <button>Edit</button>

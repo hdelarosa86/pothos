@@ -36,9 +36,11 @@ export class DetailedItem extends React.Component {
               >
                 ADD TO CART
               </button>
-              {this.props.admin && <Link to={`/shop/${singleItem.id}/update`}>
-                <button>EDIT ITEM</button>
-              </Link>}
+              {this.props.admin && (
+                <Link to={`/shop/${singleItem.id}/update`}>
+                  <button>EDIT ITEM</button>
+                </Link>
+              )}
             </div>
           </div>
         </div>

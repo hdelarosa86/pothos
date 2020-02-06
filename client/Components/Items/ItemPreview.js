@@ -40,7 +40,7 @@ const ItemPreview = ({ item, admin }) => {
           </Link>
         </Card>
       ) : (
-        <AdminItems item={item}/>
+        <AdminItems item={item} />
       )}
     </div>
   );
