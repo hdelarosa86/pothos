@@ -1,24 +1,25 @@
-const { db, User, Item, Order, CartItem } = require("./server/db");
+const { db, User, Item, Order, CartItem, Session } = require("./server/db");
 const chalk = require("chalk");
 
 const seed = () => {
-  return db.sync({ force: true }).then(() => User.bulkCreate([
-    {
-      firstName: "John",
-      lastName: "Doe",
-      email: "johnDoe@gmail.com",
-      username: "johndoe",
-      password: "password"
-    },
-    {
-      firstName: "Jane",
-      lastName: "Doe",
-      email: "janeDoe@gmail.com",
-      username: "janedoe",
-      password: "password",
-      admin: true
-    }
-  ]))
+  return db.sync({ force: true })
+    .then(() => User.bulkCreate([
+      {
+        firstName: "John",
+        lastName: "Doe",
+        email: "johnDoe@gmail.com",
+        username: "johndoe",
+        password: "password"
+      },
+      {
+        firstName: "Jane",
+        lastName: "Doe",
+        email: "janeDoe@gmail.com",
+        username: "janedoe",
+        password: "password",
+        admin: true
+      }
+    ]))
     .then(() =>
       Item.bulkCreate([
         {
@@ -27,7 +28,7 @@ const seed = () => {
           size: "large",
           description: "The Snake Plant",
           imageUrl:
-            "http://cdn.shopify.com/s/files/1/0062/8532/8445/products/Golden-Pothos-800-mainimage_grande.gif?v=1557174910"
+            "https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_snake-plant-laurentii_variant_small_prospect_blush_768x.jpg?v=1578340438"
         },
         {
           price: 20,
@@ -35,16 +36,19 @@ const seed = () => {
           size: "small",
           description: "A purifying plant for beginners",
           imageUrl:
-            "http://cdn.shopify.com/s/files/1/0062/8532/8445/products/Golden-Pothos-800-mainimage_grande.gif?v=1557174910"
+            "https://cdn.shopify.com/s/files/1/0150/6262/products/the-sill_large-zz-plant_variant_large_grant_pale-grey_768x.jpg?v=1579805696"
         }
       ])
     )
     .then(() => User.findOne({ where: { username: "johndoe" } }))
     .then(johndoeUser =>
-      Order.create({
-        total: 10,
-        userId: johndoeUser.id
-      })
+      Session.create({ id: johndoeUser.id })
+    )
+    .then(johnSession => Order.create({
+      total: 10,
+      userId: johnSession.id,
+      sessionId: johnSession.id
+    })
     )
     .then(johnCart =>
       Item.create({
@@ -59,11 +63,12 @@ const seed = () => {
       )
     )
     .then(() => User.findOne({ where: { username: "janedoe" } }))
-    .then(janeUser =>
-      Order.create({
+    .then(janeUser => Session.create({ id: janeUser.id })
+      .then(janeSession => Order.create({
         total: 0,
-        userId: janeUser.id
-      })
+        userId: janeSession.id,
+        sessionId: janeSession.id
+      }))
     )
 };
 

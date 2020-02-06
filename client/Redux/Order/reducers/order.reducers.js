@@ -4,9 +4,7 @@ import { addItemToOrder, removeItemFromOrder } from "../utils/order.utils";
 const INITIAL_STATE = {
   isFetching: false,
   errorMessage: "",
-  orderContent: {
-    CartItem: []
-  }
+  orderInfo: {}
 };
 
 const orderReducer = (state = INITIAL_STATE, action) => {
@@ -22,11 +20,19 @@ const orderReducer = (state = INITIAL_STATE, action) => {
         isFetching: false,
         errorMessage: action.payload
       };
+    case orderTypes.FETCH_ORDER_INFO_SUCCESS:
+      return {
+        ...state,
+        errorMessage: "",
+        isFetching: false,
+        orderInfo: action.payload
+      };
     case orderTypes.FETCH_ORDER_SUCCESS:
       return {
         ...state,
+        errorMessage: "",
         isFetching: false,
-        orderContent: action.payload
+        orderInfo: action.payload
       };
     default:
       return state;
