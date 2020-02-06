@@ -23,9 +23,9 @@ export class DetailedItem extends React.Component {
               <h6>{singleItem.description}</h6>
               <h6>${singleItem.price}</h6>
               <button>ADD TO CART</button>
-              <Link to={`/shop/${singleItem.id}/update`}>
+              {this.props.admin && <Link to={`/shop/${singleItem.id}/update`}>
                 <button>EDIT ITEM</button>
-              </Link>
+              </Link>}
             </div>
           </div>
         </div>
@@ -39,7 +39,8 @@ const mapDispatchToProps = dispatch => ({
   fetchItem: id => dispatch(singleItemFetchStartAsync(id))
 });
 const mapStateToProps = state => ({
-  singleItem: state.inventory.selectedItem
+  singleItem: state.inventory.selectedItem,
+  admin: state.user.currentUser.admin
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailedItem);
