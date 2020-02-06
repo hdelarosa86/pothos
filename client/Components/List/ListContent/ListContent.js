@@ -1,6 +1,8 @@
 import React from "react";
 //components
 import ItemPreview from "../../Items/ItemPreview";
+import AllUsers from "../../Users/AllUsers";
+import AllOrders from "../../Cart/AdminOrders";
 
 /*
 The ListContent component excepts 2 arguments:
@@ -19,9 +21,9 @@ export class ListContent extends React.Component {
           if (this.props.type === "items") {
             return <ItemPreview item={val} />;
           } else if (this.props.type === "users") {
-            return <div>{val.firstName}</div>;
+            return <AllUsers user={val} />;
           } else if (this.props.type === "orders") {
-            return <div>{val.id}</div>;
+            return <AllOrders order={val} />;
           }
         })}
       </div>

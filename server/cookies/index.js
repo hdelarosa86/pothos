@@ -66,17 +66,28 @@ cookieRouter.post("/login", (req, res, next) => {
               CartItem.findOne({
                 where: { id: cartRow.id }
               }).then(foundGuestCartItem => {
-                CartItem.findOne({ where: { itemId: foundGuestCartItem.itemId, orderId: existingOrder.id } }).then(existingCartItem => {
+                CartItem.findOne({
+                  where: {
+                    itemId: foundGuestCartItem.itemId,
+                    orderId: existingOrder.id
+                  }
+                }).then(existingCartItem => {
                   if (existingCartItem) {
                     return existingCartItem.update({
-                      quantity: parseInt(existingCartItem.quantity) + parseInt(cartRow.quantity), itemTotal: parseInt(existingCartItem.itemTotal) + parseInt(cartRow.itemTotal)
-                    })
+                      quantity:
+                        parseInt(existingCartItem.quantity) +
+                        parseInt(cartRow.quantity),
+                      itemTotal:
+                        parseInt(existingCartItem.itemTotal) +
+                        parseInt(cartRow.itemTotal)
+                    });
                   } else {
-                    return foundGuestCartItem.update({ orderId: existingOrder.id })
+                    return foundGuestCartItem.update({
+                      orderId: existingOrder.id
+                    });
                   }
-                })
-              }
-              );
+                });
+              });
             });
           });
         });
@@ -91,8 +102,6 @@ cookieRouter.post("/login", (req, res, next) => {
         //     { model: CartItem, as: "CartItem", include: [{ model: Item }] }
         //   ]
         // })])
-
-
 
         res
           .status(200)
@@ -124,7 +133,7 @@ cookieRouter.get("/verifyUser", (req, res, next) => {
   if (req.loggedIn) {
     res.send(req.user);
   } else {
-    res.send({ id: "guest", firstName: "Guest" });
+    res.send({ id: "guest", firstName: "Guest", admin: false });
     //Need to come up with a better else res.send
     //this is just a placeholder for the Redux Store
   }

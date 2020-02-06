@@ -28,6 +28,7 @@ export class DetailedItem extends React.Component {
               <h2>{singleItem.name}</h2>
               <h6>{singleItem.description}</h6>
               <h6>${singleItem.price}</h6>
+
               <button
                 onClick={() =>
                   addToCart(singleItem.id, order.orderInfo.id, singleItem.price)
@@ -35,9 +36,11 @@ export class DetailedItem extends React.Component {
               >
                 ADD TO CART
               </button>
-              <Link to={`/shop/${singleItem.id}/update`}>
-                <button>EDIT ITEM</button>
-              </Link>
+              {this.props.admin && (
+                <Link to={`/shop/${singleItem.id}/update`}>
+                  <button>EDIT ITEM</button>
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -55,6 +58,7 @@ const mapDispatchToProps = dispatch => ({
 });
 const mapStateToProps = state => ({
   singleItem: state.inventory.selectedItem,
+  admin: state.user.currentUser.admin,
   order: state.order
 });
 

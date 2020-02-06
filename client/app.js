@@ -3,7 +3,6 @@ import "materialize-css/dist/css/materialize.min.css";
 import "./app.css";
 import { Route } from "react-router-dom";
 //component
-import AllItems from "./Components/Items/AllItems";
 import DetailedItem from "./Components/Items/DetailedItem";
 import Home from "./Components/Home";
 import Login from "./Components/Users/LogIn";
@@ -15,6 +14,7 @@ import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
 import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
+import AdminDashboard from "./Components/Admin/Admin";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
 import {
   fetchOrderBySession,
@@ -62,9 +62,11 @@ export class App extends React.Component {
               />
             )}
           />
+          {/* START OF ADMIN ROUTES */}
+          <Route path={"/admin"} component={AdminDashboard} />
+
           <Route
-            exact
-            path={"/users/pages/:pageId"}
+            path={"/admin/users/pages/:pageId"}
             render={() => (
               <List
                 type="users"
@@ -74,9 +76,9 @@ export class App extends React.Component {
               />
             )}
           />
+
           <Route
-            exact
-            path={"/orders/pages/:pageId"}
+            path={"/admin/orders/pages/:pageId"}
             render={() => (
               <List
                 type="orders"
@@ -86,6 +88,20 @@ export class App extends React.Component {
               />
             )}
           />
+
+          <Route
+            path={"/admin/items/pages/:pageId"}
+            render={() => (
+              <List
+                type="items"
+                pagination={true}
+                filterMethods={["size", "price", null]}
+                perPage={5}
+              />
+            )}
+          />
+          {/* END OF ADMIN ROUTES */}
+
           <Route
             exact
             path={"/shop/:id"}
@@ -112,6 +128,7 @@ export class App extends React.Component {
             path={"/dashboard/:id/update"}
             render={id => <UserUpdate user={this.props.user} location={id} />}
           />
+
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
         <Footer />
