@@ -124,7 +124,7 @@ cookieRouter.get("/verifyUser", (req, res, next) => {
   if (req.loggedIn) {
     res.send(req.user);
   } else {
-    res.send({ id: "guest", firstName: "Guest" });
+    res.send({ id: "guest", firstName: "Guest", admin:false});
     //Need to come up with a better else res.send
     //this is just a placeholder for the Redux Store
   }

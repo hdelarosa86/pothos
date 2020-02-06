@@ -33,11 +33,14 @@ class AdminDashboard extends React.Component {
       <div>
         <h2>Hello Admin</h2>
         <div>
-          <Link to="/admin/orders/pages/1">
-            <button>Orders</button>
-          </Link>
           <Link to="/admin/users/pages/1">
             <button>Users</button>
+          </Link>
+          <Link to="/admin/items/pages/1">
+            <button>Items</button>
+          </Link>
+          <Link to="/admin/orders/pages/1">
+            <button>Orders</button>
           </Link>
         </div>
       </div>

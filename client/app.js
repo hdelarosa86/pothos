@@ -3,7 +3,6 @@ import "materialize-css/dist/css/materialize.min.css";
 import "./app.css";
 import { Route } from "react-router-dom";
 //component
-import AllItems from "./Components/Items/AllItems";
 import DetailedItem from "./Components/Items/DetailedItem";
 import Home from "./Components/Home";
 import Login from "./Components/Users/LogIn";
@@ -63,11 +62,10 @@ export class App extends React.Component {
               />
             )}
           />
-
+          {/* START OF ADMIN ROUTES */}
           <Route path={"/admin"} component={AdminDashboard} />
 
           <Route
-            //exact
             path={"/admin/users/pages/:pageId"}
             render={() => (
               <List
@@ -80,7 +78,6 @@ export class App extends React.Component {
           />
 
           <Route
-            //exact
             path={"/admin/orders/pages/:pageId"}
             render={() => (
               <List
@@ -91,6 +88,20 @@ export class App extends React.Component {
               />
             )}
           />
+
+          <Route
+            path={"/admin/items/pages/:pageId"}
+            render={() => (
+              <List
+                type="items"
+                pagination={true}
+                filterMethods={["size", "price", null]}
+                perPage={5}
+              />
+            )}
+          />
+          {/* END OF ADMIN ROUTES */}
+
           <Route
             exact
             path={"/shop/:id"}

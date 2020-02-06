@@ -1,6 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
-import { allUserAdminFetchStartAsync } from "../../Redux/AllUsers/action/AllUsers.action";
 
 const AllUsers = ({ user }) => {
   console.log(user);
@@ -9,11 +7,13 @@ const AllUsers = ({ user }) => {
       <span>
         <img src={user.imageUrl} />
       </span>
-      <span>{user.id}</span>
-      <span>{user.firstName}</span>
-      <span>{user.lastName}</span>
-      <span>{user.email}</span>
-      <span>{`${user.admin}`}</span>
+      <span>Id: {user.id}</span>
+      <span>First Name: {user.firstName}</span>
+      <span>Last Name: {user.lastName}</span>
+      <span>Email: {user.email}</span>
+      <span>admin: {`${user.admin}`}</span>
+      <button>Edit</button>
+      <button>Delete</button>
     </div>
   );
 };
