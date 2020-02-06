@@ -3,9 +3,12 @@ import { connect } from "react-redux";
 import { allUserAdminFetchStartAsync } from "../../Redux/AllUsers/action/AllUsers.action";
 
 const AllUsers = ({ user }) => {
-    console.log(user);
+  console.log(user);
   return (
     <div>
+      <span>
+        <img src={user.imageUrl} />
+      </span>
       <span>{user.id}</span>
       <span>{user.firstName}</span>
       <span>{user.lastName}</span>
