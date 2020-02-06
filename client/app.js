@@ -15,6 +15,7 @@ import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
 import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
+import AdminDashboard from "./Components/Admin/Admin";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
 import { connect } from "react-redux";
 
@@ -58,9 +59,12 @@ export class App extends React.Component {
               />
             )}
           />
+
+          <Route path={"/admin"} component={AdminDashboard} />
+
           <Route
-            exact
-            path={"/users/pages/:pageId"}
+            //exact
+            path={"/admin/users/pages/:pageId"}
             render={() => (
               <List
                 type="users"
@@ -70,9 +74,10 @@ export class App extends React.Component {
               />
             )}
           />
+
           <Route
-            exact
-            path={"/orders/pages/:pageId"}
+            //exact
+            path={"/admin/orders/pages/:pageId"}
             render={() => (
               <List
                 type="orders"
@@ -108,6 +113,7 @@ export class App extends React.Component {
             path={"/dashboard/:id/update"}
             render={id => <UserUpdate user={this.props.user} location={id} />}
           />
+
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
         <Footer />
