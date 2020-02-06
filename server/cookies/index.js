@@ -65,12 +65,35 @@ cookieRouter.post("/login", (req, res, next) => {
             guestOrder.CartItem.forEach(cartRow => {
               CartItem.findOne({
                 where: { id: cartRow.id }
-              }).then(foundCartItem =>
-                foundCartItem.update({ orderId: existingOrder.id })
+              }).then(foundGuestCartItem => {
+                CartItem.findOne({ where: { itemId: foundGuestCartItem.itemId, orderId: existingOrder.id } }).then(existingCartItem => {
+                  if (existingCartItem) {
+                    return existingCartItem.update({
+                      quantity: parseInt(existingCartItem.quantity) + parseInt(cartRow.quantity), itemTotal: parseInt(existingCartItem.itemTotal) + parseInt(cartRow.itemTotal)
+                    })
+                  } else {
+                    return foundGuestCartItem.update({ orderId: existingOrder.id })
+                  }
+                })
+              }
               );
             });
           });
         });
+
+        // const [guestOrder, existingOrder] = Promise.all([Order.findOne({
+        //   where: { sessionId: guestSessionId },
+        //   include: [
+        //     { model: CartItem, as: "CartItem", include: [{ model: Item }], }
+        //   ]
+        // }), Order.findOne({
+        //   where: { userId: user.id }, include: [
+        //     { model: CartItem, as: "CartItem", include: [{ model: Item }] }
+        //   ]
+        // })])
+
+
+
         res
           .status(200)
           .cookie("sessionId", user.id, {
