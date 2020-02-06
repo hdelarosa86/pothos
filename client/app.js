@@ -16,17 +16,21 @@ import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
+import {
+  fetchOrderBySession,
+  fetchOrderStartAsync
+} from "./Redux/Order/actions/order.actions";
 import { connect } from "react-redux";
 
 export class App extends React.Component {
   componentDidMount() {
-    //console.log("component did mount");
     this.props.persistUser();
+    if (document.cookie) {
+      this.props.fetchOrder();
+    }
   }
 
   componentDidUpdate(prevState, prevProps) {
-    // console.log("component did udate");
-    // console.log(prevState.user);
     if (prevState.user.loggedIn !== this.props.user.loggedIn) {
       this.props.persistUser();
     }
@@ -117,11 +121,13 @@ export class App extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  persistUser: () => dispatch(verifyUserCookie())
+  persistUser: () => dispatch(verifyUserCookie()),
+  fetchOrder: () => dispatch(fetchOrderBySession()),
+  fetchOrderById: id => dispatch(fetchOrderStartAsync(id))
 });
 
 const mapStateToProps = state => ({
-  order: state.order.orderContent,
+  order: state.order,
   user: state.user,
   inventory: state.inventory.items
 });

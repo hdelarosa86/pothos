@@ -23,7 +23,7 @@ const Order = db.define("order", {
       isDate: true
     }
   },
-  total: {
+  checkoutTotal: {
     type: DECIMAL(10, 2),
     allowNull: true,
     defaultValue: 0

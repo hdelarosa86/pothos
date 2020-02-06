@@ -9,9 +9,13 @@ const { CartItem, Order } = require("../db/index");
 // increment
 app.put("/:id/increment/", (req, res, next) => {
   const { id } = req.params;
+  const { price } = req.body;
   CartItem.findByPk(id)
     .then(foundCartItem => {
-      return foundCartItem.update({ quantity: foundCartItem.quantity + 1 });
+      return foundCartItem.update({
+        quantity: foundCartItem.quantity + 1,
+        itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(price)
+      });
     })
     .then(updatedCartItem => {
       return res.status(201).send(updatedCartItem);
@@ -22,13 +26,17 @@ app.put("/:id/increment/", (req, res, next) => {
 //decrement
 app.put("/:id/decrement/", (req, res, next) => {
   const { id } = req.params;
+  const { price } = req.body;
   CartItem.findByPk(id)
     .then(foundCartItem => {
       if (foundCartItem.quantity === 1 || !foundCartItem.quantity) {
         return foundCartItem.destroy();
       }
       if (foundCartItem.quantity > 1) {
-        return foundCartItem.update({ quantity: foundCartItem.quantity - 1 });
+        return foundCartItem.update({
+          quantity: foundCartItem.quantity - 1,
+          itemTotal: parseInt(foundCartItem.itemTotal) - parseInt(price)
+        });
       }
     })
     .then(updatedCartItem => {
@@ -61,22 +69,27 @@ app.get("/:id", (req, res, next) => {
 
 //if you post an item to a cart where it already exists it increments the quantity
 app.post("/", (req, res, next) => {
-  const { itemId, cartId } = req.body;
+  const { itemId, orderId, itemTotal } = req.body;
   CartItem.findOne({
     where: {
       itemId: itemId,
-      cartId: cartId
+      orderId: orderId
     }
   })
     .then(foundCartItem => {
       if (foundCartItem === null) {
-        return CartItem.create({ itemId: itemId, cartId: cartId }).then(() =>
-          res.status(201).send(console.log("item created"))
-        );
+        return CartItem.create({
+          itemId: itemId,
+          orderId: orderId,
+          itemTotal: itemTotal
+        }).then(() => res.status(201).send(console.log("item created")));
       }
       if (foundCartItem) {
         return foundCartItem
-          .update({ quantity: foundCartItem.quantity + 1 })
+          .update({
+            quantity: foundCartItem.quantity + 1,
+            itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(itemTotal)
+          })
           .then(() => res.status(201).send(console.log("item incremented")));
       }
     })

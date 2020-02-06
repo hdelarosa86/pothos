@@ -62,7 +62,17 @@ app.get("/", (req, res, next) => {
     }
   }
 });
-
+app.get("/session", (req, res, next) => {
+  const id = req.cookies.sessionId;
+  Order.findOne({
+    where: { sessionId: id },
+    include: [{ model: CartItem, as: "CartItem", include: [{ model: Item }] }]
+  })
+    .then(order => {
+      res.status(200).send(order);
+    })
+    .catch(err => next(err));
+});
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
   Order.findOne({
@@ -71,7 +81,6 @@ app.get("/:id", (req, res, next) => {
       {
         model: CartItem,
         as: "CartItem",
-        where: { orderId: id },
         include: [
           {
             model: Item
