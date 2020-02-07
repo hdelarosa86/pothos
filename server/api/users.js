@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const chalk = require("chalk");
-const { User, Order } = require("../db/index");
+const { User, Order, Session } = require("../db/index");
 
 const paginate = (page, resultPerPage) => {
   return { limit: resultPerPage, offset: page * resultPerPage };
@@ -84,7 +84,12 @@ app.post("/", (req, res, next) => {
   } else {
     const { firstName, lastName, email, password } = req.body;
     User.create({ firstName, lastName, email, password })
-      .then(user => res.status(201).send(user))
+      .then(user => {
+        return Session.create({ id: user.id }).then(newSession => Order.create({
+          sessionId: newSession.id,
+          userId: user.id
+        })).then(() => res.status(201).send(user))
+      })
       .catch(err => {
         console.error(chalk.redBright("Could not create new User."));
         next(err);
