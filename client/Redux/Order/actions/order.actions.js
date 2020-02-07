@@ -82,7 +82,6 @@ export const fetchOrderStartAsync = orderId => {
 };
 
 export const fetchOrderBySession = () => {
-  console.log("fetching order by session");
   return dispatch => {
     return axios
       .get(`/api/orders/session`)

@@ -32,6 +32,8 @@ class StripeCheckoutButton extends React.Component {
         currency={this.currency}
         stripeKey={this.publishableKey}
         email={email}
+        shippingAddress
+        billingAddress
       />
     );
   }

@@ -85,10 +85,14 @@ app.post("/", (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
     User.create({ firstName, lastName, email, password })
       .then(user => {
-        return Session.create({ id: user.id }).then(newSession => Order.create({
-          sessionId: newSession.id,
-          userId: user.id
-        })).then(() => res.status(201).send(user))
+        return Session.create({ id: user.id })
+          .then(newSession =>
+            Order.create({
+              sessionId: newSession.id,
+              userId: user.id
+            })
+          )
+          .then(() => res.status(201).send(user));
       })
       .catch(err => {
         console.error(chalk.redBright("Could not create new User."));

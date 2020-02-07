@@ -6,6 +6,7 @@ import {
   incrementItemStartAsync,
   decrementItemStartAsync
 } from "../../Redux/Order/actions/order.actions";
+import StripeCheckoutButton from "../StripeButton/StripeButton";
 
 class Cart extends React.Component {
   componentDidMount() {
@@ -63,14 +64,20 @@ class Cart extends React.Component {
   }
 
   render() {
-    if (this.props.order.orderInfo.id) {
+    if (this.props.order.orderInfo.id && this.props.user) {
+      const { firstName, lastName, email } = this.props.user;
       return (
         <div className="container">
           <h1>Your Cart</h1>
           {this.cartGenerate(this.props.order.orderInfo.CartItem)}
-          <button className="checkout btn">
-            <Link to="/cart/1">Checkout</Link>
-          </button>
+          {/* <button className="checkout btn">
+            <Link to="/cart/1"></Link>
+          </button> */}
+          <StripeCheckoutButton
+            name={firstName}
+            description={`Checkout`}
+            email={email ? email : null}
+          />
         </div>
       );
     }
@@ -78,9 +85,6 @@ class Cart extends React.Component {
       <div className="container">
         <h1>Your Cart</h1>
         <div>Cart Items are Loading</div>
-        <button className="checkout btn">
-          <Link to="/cart/1">Checkout</Link>
-        </button>
       </div>
     );
   }
@@ -94,7 +98,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(decrementItemStartAsync(cartItemId, orderId, price))
 });
 const mapStateToProps = state => ({
-  order: state.order
+  order: state.order,
+  user: state.user.currentUser
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
