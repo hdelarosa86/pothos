@@ -58,7 +58,9 @@ export class DetailedItem extends React.Component {
                         // This error would occur when the add to cart is pressed twice
                         // This was not an issue before on hashRouter, however, browser router does push this error
                         // Added the fetch order after the add to cart is called, and it fixed the issue
-                        this.props.fetchOrder();
+                        if (document.cookie) {
+                          this.props.fetchOrder();
+                        }
                       })
                       .catch(err => console.error(err))
                   }
