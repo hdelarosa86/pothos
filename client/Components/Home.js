@@ -5,6 +5,8 @@ import List from "./List/List";
 
 export class Home extends React.Component {
   render() {
+    // When users login the signup section will switch to a dashboard section
+    const { user } = this.props;
     return (
       <div id="homepage">
         <div className="home-bkgd-img">
@@ -41,15 +43,27 @@ export class Home extends React.Component {
         </div>
         <div className="signup-bkgd-img">
           <div className="container">
-            <div className="row">
-              <div className="col s12 center-align">
-                <p className="sign-subheader">Get The best from Pothos</p>
-                <h1 className="signup-headline">And Sign Up</h1>
-                <div className="call-to-action">
-                  <Link to="/login">Sign Up</Link>
+            {!user.loggedIn || user === null ? (
+              <div className="row">
+                <div className="col s12 center-align">
+                  <p className="sign-subheader">Get The best from Pothos</p>
+                  <h1 className="signup-headline">And Sign Up</h1>
+                  <div className="call-to-action">
+                    <Link to="/login">Sign Up</Link>
+                  </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <div className="row">
+                <div className="col s12 center-align">
+                  <p className="sign-subheader">Welcome back to Pothos</p>
+                  <h1 className="signup-headline">Go to Your Page</h1>
+                  <div className="call-to-action">
+                    <Link to="/dashboard">Dashboard</Link>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         <div className="Best-Seller">
@@ -58,20 +72,18 @@ export class Home extends React.Component {
               <div className="col s12 m12 l10 left-align">
                 <h3>Our Plants</h3>
               </div>
-              <div className="col s12 m12 l2 left-align">
-                <span className="shop-link">
-                  <Link to="/shop/pages/1">View More</Link>
-                </span>
-              </div>
-              <div className="col s12 m12 l12 center-align">
-                <List
-                  type="items"
-                  pagination={true}
-                  filterMethods={["size", "price", null]}
-                  perPage={3}
-                />
-              </div>
+              <span className="shop-link">
+                <Link to="/shop/pages/1">View More</Link>
+              </span>
             </div>
+          </div>
+          <div className="col s12 m12 l12 center-align">
+            <List
+              type="items"
+              pagination={true}
+              filterMethods={["size", "price", null]}
+              perPage={3}
+            />
           </div>
         </div>
       </div>

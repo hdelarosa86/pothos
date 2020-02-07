@@ -1,5 +1,6 @@
 import userTypes from "../types/user.types";
 import axios from "axios";
+import INITIAL_STATE from "../reducers/user.reducers";
 
 //actions
 
@@ -84,13 +85,16 @@ export const verifyUserCookie = () => {
       });
   };
 };
-
+// userLogOut was pushing null when ever a user logged out 
+// This created the admin / null issue from before
+// I passed the INITIAL_STATE into the logoutUser dispatch
+// This fixed the error; however, if you there any issues please advise
 export const userLogOut = () => {
   return dispatch => {
     axios
       .post("/logout")
       .then(() => {
-        dispatch(logOutUser(null));
+        dispatch(logOutUser(INITIAL_STATE));
       })
       .catch(err => {
         console.error(err);

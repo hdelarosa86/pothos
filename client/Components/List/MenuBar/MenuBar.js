@@ -36,41 +36,55 @@ export class MenuBar extends React.Component {
     return (
       <div className="listComponentMenuBar">
         <div className="listComponentMenuBar_pages">
-          {this.props.pagination && this.props.match.params.pageId
-            ? `PAGES :`
-            : null}
+          {this.props.pagination && this.props.match.params.pageId ? (
+            <div className="col s12 m12 l12 center-align">
+              <h1>ALL THE PLANTS YOU WANT IN POTHOS</h1>
+            </div>
+          ) : null}
           {this.props.pagination && this.props.match.params.pageId
             ? this.pages().map(num => (
-                <span>
+                <div className="col s12 m12 l12 center-align">
                   <Link
                     to={`/${this.menuRouter[this.props.type]}/pages/${num}`}
                   >
                     {num} -{" "}
                   </Link>
-                </span>
+                </div>
               ))
             : null}
         </div>
         <div className="listComponentMenuBar_filters">
-          {this.props.filterMethods ? `FILTER :` : null}
-          {this.props.filterMethods
-            ? this.props.filterMethods.map(method => {
-                return (
-                  <span>
-                    {!method ? (
-                      <button onClick={() => this.props.selectFilter(method)}>
-                        NO FILTER
-                      </button>
-                    ) : (
-                      <button onClick={() => this.props.selectFilter(method)}>
-                        {" "}
-                        {method}{" "}
-                      </button>
-                    )}
-                  </span>
-                );
-              })
-            : null}
+          <div className="row">
+            <div className="col s12 m12 l12 center-align">
+              {this.props.filterMethods ? (
+                <div className="filter-label">
+                  FILTER PLANTS BY SIZE OR PRICE
+                </div>
+              ) : null}
+              {this.props.filterMethods
+                ? this.props.filterMethods.map(method => {
+                    return (
+                      <span>
+                        {!method ? (
+                          <button
+                            onClick={() => this.props.selectFilter(method)}
+                          >
+                            NO FILTER
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => this.props.selectFilter(method)}
+                          >
+                            {" "}
+                            {method}{" "}
+                          </button>
+                        )}
+                      </span>
+                    );
+                  })
+                : null}
+            </div>
+          </div>
         </div>
       </div>
     );

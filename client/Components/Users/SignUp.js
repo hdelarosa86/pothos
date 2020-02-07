@@ -48,8 +48,8 @@ class SignUp extends React.Component {
   // please use this component.
   render() {
     return (
-      <div className="col s12 m12 l6 center-align">
-        <h1>Sign up now</h1>
+      <div className="col s12 m12 l6 left-align">
+        <h3>SIGN UP NOW</h3>
         <form>
           <div>
             <label>First Name</label>
@@ -83,11 +83,13 @@ class SignUp extends React.Component {
               onChange={this.showPassword}
             />
           </label>
-          <Link to="/">
-            <button type="button" name="logIn" onClick={this.handleLogIn}>
-              Sign up
-            </button>
-          </Link>
+          <div className="filter">
+            <Link to="/">
+              <button type="button" name="logIn" onClick={this.handleLogIn}>
+                Sign up
+              </button>
+            </Link>
+          </div>
         </form>
         {this.state.logInErr && <p>Fill out form correctly</p>}
       </div>
