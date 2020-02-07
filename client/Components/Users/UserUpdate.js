@@ -74,14 +74,17 @@ class UserUpdate extends React.Component {
                 onChange={this.handleOnChange}
               />
             </div>
+
             <Link to="/dashboard">
-              <button
-                type="button"
-                name="submitFormErr"
-                onClick={e => this.handleSubmit(e)}
-              >
-                Update User
-              </button>
+              <span className="admin-update">
+                <button
+                  type="button"
+                  name="submitFormErr"
+                  onClick={e => this.handleSubmit(e)}
+                >
+                  Update User
+                </button>
+              </span>
             </Link>
           </form>
           {this.state.submitFormErr && <p>Please fill out form correctly</p>}

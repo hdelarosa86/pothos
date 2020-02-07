@@ -45,8 +45,8 @@ class Login extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col s12 m12 l6 center-align">
-            <h1>Welcome Back</h1>
+          <div className="col s12 m12 l6 left-align">
+            <h3>WELCOME BACK</h3>
             <form>
               <div>
                 <label>Email</label>
@@ -70,17 +70,19 @@ class Login extends React.Component {
                   onChange={this.showPassword}
                 />
               </div>
-
-              <Link to="/">
-                <button type="button" name="logIn" onClick={this.handleLogIn}>
-                  Log In
-                </button>
-              </Link>
-              <a href={"/api/github/login"}>
-                <button type="button" name="logIn">
-                  Github
-                </button>
-              </a>
+              <br />
+              <div className="filter">
+                <Link to="/">
+                  <button type="button" name="logIn" onClick={this.handleLogIn}>
+                    Log In
+                  </button>
+                </Link>
+                <a href={"/api/github/login"}>
+                  <button type="button" name="logIn">
+                    Github
+                  </button>
+                </a>
+              </div>
             </form>
             {this.state.logInErr && <p>Invalid email or password</p>}
             {this.props.loggedIn && <Redirect to="/" />}

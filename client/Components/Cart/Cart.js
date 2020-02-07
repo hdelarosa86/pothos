@@ -20,13 +20,17 @@ class Cart extends React.Component {
     const rows = arr.map(cartRow => {
       cartTotal += parseInt(cartRow.itemTotal);
       return (
-        <div>
-          <li>
-            <div>
-              {cartRow.item.name} x {cartRow.quantity}
+        <div className="cart-box">
+          <div className="row">
+            <div className="col s12 m12 l5 left-align">
+              <h6>
+                {cartRow.item.name} x {cartRow.quantity}
+              </h6>
             </div>
-            <div>{cartRow.itemTotal}</div>
-            <div>
+            <div className="col s12 m12 l5 left-align">
+              <h6>{cartRow.itemTotal}</h6>
+            </div>
+            <div className="col s12 m12 l2 left-align">
               <button
                 onClick={() =>
                   addQuantity(cartRow.id, cartRow.orderId, cartRow.item.price)
@@ -42,16 +46,18 @@ class Cart extends React.Component {
                 -
               </button>
             </div>
-          </li>
+          </div>
         </div>
       );
     });
     let cartTotalFloat = cartTotal.toFixed(2);
 
     return (
-      <div>
+      <div className="row">
         <ul>{rows}</ul>
-        <div>TOTAL:{cartTotalFloat}</div>
+        <div className="col s12 m12 l12 left-align">
+          <h5>TOTAL:{cartTotalFloat}</h5>
+        </div>
       </div>
     );
   }

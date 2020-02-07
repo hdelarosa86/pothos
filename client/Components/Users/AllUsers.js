@@ -3,17 +3,30 @@ import React from "react";
 const AllUsers = ({ user }) => {
   console.log(user);
   return (
-    <div>
-      <span>
-        <img src={user.imageUrl} />
-      </span>
-      <span>Id: {user.id}</span>
-      <span>First Name: {user.firstName}</span>
-      <span>Last Name: {user.lastName}</span>
-      <span>Email: {user.email}</span>
-      <span>admin: {`${user.admin}`}</span>
-      <button>Edit</button>
-      <button>Delete</button>
+    <div className="admin-user">
+      <div className="row">
+        <div className="col s12 m12 l4 left-align">
+          <img className={"responsive-img"} src={user.imageUrl} />
+        </div>
+        <div className="col s12 m12 l8 left-align">
+          <strong>Fullname</strong>
+          {user.firstName} {user.lastName}
+          <br />
+          <strong>Email</strong>
+          {user.email}
+          <br />
+          <strong>Id</strong>
+          {`${user.id}`}
+          <br />
+          <strong>Admin</strong>
+          {`${user.admin}`}
+          <br />
+          <br />
+          <button className="edit">Edit</button>
+          <br />
+          <button className="delete">Delete</button>
+        </div>
+      </div>
     </div>
   );
 };

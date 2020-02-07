@@ -49,7 +49,11 @@ export class App extends React.Component {
           </p>
         </main>
         <div class="page-container">
-          <Route exact path={"/"} render={() => <Home />} />
+          <Route
+            exact
+            path={"/"}
+            render={() => <Home user={this.props.user} />}
+          />
           <Route
             exact
             path={"/shop/pages/:pageId"}

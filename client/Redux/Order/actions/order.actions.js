@@ -53,7 +53,7 @@ export const addToOrderStartAsync = (itemId, orderId, itemTotal) => {
   return dispatch => {
     dispatch(fetchOrderStart());
     return axios
-      .post(`api/cart-items`, {
+      .post(`/api/cart-items/`, {
         itemId: itemId,
         orderId: orderId,
         itemTotal: itemTotal
@@ -85,7 +85,7 @@ export const fetchOrderBySession = () => {
   console.log("fetching order by session");
   return dispatch => {
     return axios
-      .get(`api/orders/session`)
+      .get(`/api/orders/session`)
       .then(data => {
         dispatch(fetchOrderInfoSuccess(data.data));
       })
