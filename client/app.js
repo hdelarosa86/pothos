@@ -3,7 +3,6 @@ import "materialize-css/dist/css/materialize.min.css";
 import "./app.css";
 import { Route } from "react-router-dom";
 //component
-import AllItems from "./Components/Items/AllItems";
 import DetailedItem from "./Components/Items/DetailedItem";
 import Home from "./Components/Home";
 import Login from "./Components/Users/LogIn";
@@ -12,20 +11,26 @@ import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
+import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
+import AdminDashboard from "./Components/Admin/Admin";
 import { verifyUserCookie } from "./Redux/User/actions/user.actions";
+import {
+  fetchOrderBySession,
+  fetchOrderStartAsync
+} from "./Redux/Order/actions/order.actions";
 import { connect } from "react-redux";
 
 export class App extends React.Component {
   componentDidMount() {
-    //console.log("component did mount");
     this.props.persistUser();
+    if (document.cookie) {
+      this.props.fetchOrder();
+    }
   }
 
   componentDidUpdate(prevState, prevProps) {
-    // console.log("component did udate");
-    // console.log(prevState.user);
     if (prevState.user.loggedIn !== this.props.user.loggedIn) {
       this.props.persistUser();
     }
@@ -57,9 +62,11 @@ export class App extends React.Component {
               />
             )}
           />
+          {/* START OF ADMIN ROUTES */}
+          <Route path={"/admin"} component={AdminDashboard} />
+
           <Route
-            exact
-            path={"/users/pages/:pageId"}
+            path={"/admin/users/pages/:pageId"}
             render={() => (
               <List
                 type="users"
@@ -69,9 +76,9 @@ export class App extends React.Component {
               />
             )}
           />
+
           <Route
-            exact
-            path={"/orders/pages/:pageId"}
+            path={"/admin/orders/pages/:pageId"}
             render={() => (
               <List
                 type="orders"
@@ -81,6 +88,20 @@ export class App extends React.Component {
               />
             )}
           />
+
+          <Route
+            path={"/admin/items/pages/:pageId"}
+            render={() => (
+              <List
+                type="items"
+                pagination={true}
+                filterMethods={["size", "price", null]}
+                perPage={5}
+              />
+            )}
+          />
+          {/* END OF ADMIN ROUTES */}
+
           <Route
             exact
             path={"/shop/:id"}
@@ -102,6 +123,12 @@ export class App extends React.Component {
             path={"/dashboard"}
             render={() => <Dashboard assets={this.props} />}
           />
+          <Route
+            exact
+            path={"/dashboard/:id/update"}
+            render={id => <UserUpdate user={this.props.user} location={id} />}
+          />
+
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
         <Footer />
@@ -111,11 +138,13 @@ export class App extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  persistUser: () => dispatch(verifyUserCookie())
+  persistUser: () => dispatch(verifyUserCookie()),
+  fetchOrder: () => dispatch(fetchOrderBySession()),
+  fetchOrderById: id => dispatch(fetchOrderStartAsync(id))
 });
 
 const mapStateToProps = state => ({
-  order: state.order.orderContent,
+  order: state.order,
   user: state.user,
   inventory: state.inventory.items
 });

@@ -1,7 +1,7 @@
 const cookieRouter = require("express").Router();
 const express = require("express");
 const app = express();
-const { User, Session } = require("../db/index");
+const { User, Session, Order, CartItem, Item } = require("../db/index");
 const chalk = require("chalk");
 const moment = require("moment");
 require("dotenv").config();
@@ -11,8 +11,9 @@ const COOKIE_NAME = "sessionId";
 cookieRouter.use((req, res, next) => {
   if (!req.cookies[COOKIE_NAME]) {
     Session.create()
-      .then(session => {
-        res.cookie([COOKIE_NAME], session.id);
+      .then(session => Order.create({ sessionId: session.id }))
+      .then(newOrder => res.cookie(COOKIE_NAME, newOrder.sessionId))
+      .then(() => {
         next();
       })
       .catch(err => {
@@ -42,6 +43,7 @@ cookieRouter.use((req, res, next) => {
 
 cookieRouter.post("/login", (req, res, next) => {
   const { email, password } = req.body;
+  const guestSessionId = req.cookies.sessionId;
   User.findOne({
     where: {
       email,
@@ -53,6 +55,54 @@ cookieRouter.post("/login", (req, res, next) => {
         res.sendStatus(401);
         console.error(new Error(chalk.red(`User not Found ${res.statusCode}`)));
       } else {
+        Order.findOne({ where: { userId: user.id } }).then(existingOrder => {
+          Order.findOne({
+            where: { sessionId: guestSessionId },
+            include: [
+              { model: CartItem, as: "CartItem", include: [{ model: Item }] }
+            ]
+          }).then(guestOrder => {
+            guestOrder.CartItem.forEach(cartRow => {
+              CartItem.findOne({
+                where: { id: cartRow.id }
+              }).then(foundGuestCartItem => {
+                CartItem.findOne({
+                  where: {
+                    itemId: foundGuestCartItem.itemId,
+                    orderId: existingOrder.id
+                  }
+                }).then(existingCartItem => {
+                  if (existingCartItem) {
+                    return existingCartItem.update({
+                      quantity:
+                        parseInt(existingCartItem.quantity) +
+                        parseInt(cartRow.quantity),
+                      itemTotal:
+                        parseInt(existingCartItem.itemTotal) +
+                        parseInt(cartRow.itemTotal)
+                    });
+                  } else {
+                    return foundGuestCartItem.update({
+                      orderId: existingOrder.id
+                    });
+                  }
+                });
+              });
+            });
+          });
+        });
+
+        // const [guestOrder, existingOrder] = Promise.all([Order.findOne({
+        //   where: { sessionId: guestSessionId },
+        //   include: [
+        //     { model: CartItem, as: "CartItem", include: [{ model: Item }], }
+        //   ]
+        // }), Order.findOne({
+        //   where: { userId: user.id }, include: [
+        //     { model: CartItem, as: "CartItem", include: [{ model: Item }] }
+        //   ]
+        // })])
+
         res
           .status(200)
           .cookie("sessionId", user.id, {
@@ -83,7 +133,7 @@ cookieRouter.get("/verifyUser", (req, res, next) => {
   if (req.loggedIn) {
     res.send(req.user);
   } else {
-    res.send({ id: "guest", firstName: "Guest" });
+    res.send({ id: "guest", firstName: "Guest", admin: false });
     //Need to come up with a better else res.send
     //this is just a placeholder for the Redux Store
   }

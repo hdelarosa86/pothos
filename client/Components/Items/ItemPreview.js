@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import AdminItems from "./AdminItems";
+import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -19,25 +21,32 @@ const useStyles = makeStyles({
   }
 });
 
-const ItemPreview = ({ item }) => {
+const ItemPreview = ({ item, admin }) => {
   const classes = useStyles();
   return (
     <div className="col s4 center-align">
-      <Card id="itemPreviewCard" className={classes.card}>
-        <Link to={`/shop/${item.id}`}>
-          <CardActionArea>
-            <CardMedia className={classes.media} image={item.imageUrl} />
-            <CardContent>
-              <Typography>
-                {item.name}
-                <p>VIEW PLANT</p>
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-        </Link>
-      </Card>
+      {!admin ? (
+        <Card id="itemPreviewCard" className={classes.card}>
+          <Link to={`/shop/${item.id}`}>
+            <CardActionArea>
+              <CardMedia className={classes.media} image={item.imageUrl} />
+              <CardContent>
+                <Typography>
+                  {item.name}
+                  <p>VIEW PLANT</p>
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Link>
+        </Card>
+      ) : (
+        <AdminItems item={item} />
+      )}
     </div>
   );
 };
 
-export default ItemPreview;
+const mapStateToProps = state => ({
+  admin: state.user.currentUser.admin
+});
+export default connect(mapStateToProps, null)(ItemPreview);
