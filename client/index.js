@@ -6,15 +6,15 @@ import { Provider } from "react-redux";
 import Store from "./Redux/store";
 //components
 import App from "./app";
-import { HashRouter, Switch } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 
 render(
   <Provider store={Store}>
-    <HashRouter>
+    <BrowserRouter>
       <Switch>
         <App />
       </Switch>
-    </HashRouter>
+    </BrowserRouter>
   </Provider>,
   document.querySelector("#root")
 );

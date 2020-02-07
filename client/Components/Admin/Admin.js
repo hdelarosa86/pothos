@@ -30,18 +30,20 @@ class AdminDashboard extends React.Component {
 
   render() {
     return (
-      <div>
-        <h2>Hello Admin</h2>
-        <div>
-          <Link to="/admin/users/pages/1">
-            <button>Users</button>
-          </Link>
-          <Link to="/admin/items/pages/1">
-            <button>Items</button>
-          </Link>
-          <Link to="/admin/orders/pages/1">
-            <button>Orders</button>
-          </Link>
+      <div className="filter">
+        <div className="row">
+          <div className="col s12 m12 l12 center-align">
+            <h2>Hello Admin</h2>
+            <Link to="/admin/users/pages/1">
+              <button>Users</button>
+            </Link>
+            <Link to="/admin/items/pages/1">
+              <button>Items</button>
+            </Link>
+            <Link to="/admin/orders/pages/1">
+              <button>Orders</button>
+            </Link>
+          </div>
         </div>
       </div>
     );

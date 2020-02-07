@@ -15,9 +15,13 @@ export class AllItems extends React.Component {
         return (
           <div className="container">
             <div className="row">
-              {inventoryArr.map(item => (
-                <ItemPreview item={item} />
-              ))}
+              <div className="col s12 m12 l4">
+                <h1>Pothos has all the plants you want</h1>
+                <h4>Shop for the plants you want</h4>
+                {inventoryArr.map(item => (
+                  <ItemPreview item={item} />
+                ))}
+              </div>
             </div>
           </div>
         );

@@ -12,7 +12,8 @@ import {
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 350
+    maxWidth: 350,
+    margin: "20px 0 20px"
   },
   media: {
     height: 300
@@ -22,16 +23,23 @@ const useStyles = makeStyles({
 const AdminItems = ({ item }) => {
   const classes = useStyles();
   return (
-    <Card id="itemPreviewCard" className={classes.card}>
-      <CardActionArea>
-        <CardMedia className={classes.media} image={item.imageUrl} />
-        <CardContent>
-          <Typography>{item.name}</Typography>
-        </CardContent>
-      </CardActionArea>
-      <Link to={`/shop/${item.id}/update`}><button>Edit</button></Link>
-      <button>Delete</button>
-    </Card>
+    <div className="admin-item">
+      <Card id="itemPreviewCard" className={classes.card}>
+        <Link to={`/shop/${item.id}`}>
+          <CardActionArea>
+            <CardMedia className={classes.media} image={item.imageUrl} />
+            <CardContent>
+              <Typography>{item.name}</Typography>
+            </CardContent>
+          </CardActionArea>
+        </Link>
+        <Link to={`/shop/${item.id}/update`}>
+          <button className="edit">Edit</button>
+        </Link>
+        <br />
+        <button className="delete">Delete</button>
+      </Card>
+    </div>
   );
 };
 

@@ -29,7 +29,9 @@ class NavBar extends React.Component {
           </div>
           <div className="col s9">
             <a className="dropdown-trigger btn" data-target="dropdown1">
-              &#709;
+              <div></div>
+              <div></div>
+              <div></div>
             </a>
             <ul id="dropdown1" class="dropdown-content">
               <li>

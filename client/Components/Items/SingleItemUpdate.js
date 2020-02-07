@@ -42,6 +42,7 @@ class SingleItemUpdate extends React.Component {
       .then(() => {
         this.setState({ submitForm: false });
         this.props.Location.history.push("/admin/items/pages/1");
+        //this.props.Location.history.push("/shop/pages/1");
       })
       .catch(err => {
         this.setState({ submitForm: true });
@@ -54,7 +55,7 @@ class SingleItemUpdate extends React.Component {
     if (this.props.singleItem.name && this.state.item.id !== undefined) {
       return (
         <div className="container">
-          <h1>Where Form Lives</h1>
+          <h1>Edit {this.props.singleItem.name}</h1>
           <form>
             <div>
               <label>Name</label>
@@ -111,13 +112,15 @@ class SingleItemUpdate extends React.Component {
               />
             </div>
             <Link to="/shop">
-              <button
-                type="button"
-                name="submitForm"
-                onClick={e => this.handleSubmit(e)}
-              >
-                Update Item
-              </button>
+              <span className="admin-update">
+                <button
+                  type="button"
+                  name="submitForm"
+                  onClick={e => this.handleSubmit(e)}
+                >
+                  Update Item
+                </button>
+              </span>
             </Link>
           </form>
           {this.state.submitForm && <p>Please fill out form correctly</p>}
