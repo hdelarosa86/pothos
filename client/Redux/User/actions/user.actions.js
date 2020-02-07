@@ -85,7 +85,7 @@ export const verifyUserCookie = () => {
       });
   };
 };
-// userLogOut was pushing null when ever a user logged out 
+// userLogOut was pushing null when ever a user logged out
 // This created the admin / null issue from before
 // I passed the INITIAL_STATE into the logoutUser dispatch
 // This fixed the error; however, if you there any issues please advise

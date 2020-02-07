@@ -9,7 +9,7 @@ import {
 import List from "../List/List";
 
 export class DetailedItem extends React.Component {
-  // This will update the params Id when a different item is clicked 
+  // This will update the params Id when a different item is clicked
   // This will allow users to switch between the list items below the selected single item
   componentDidUpdate(oldProps) {
     if (
@@ -52,13 +52,15 @@ export class DetailedItem extends React.Component {
                       singleItem.id,
                       order.orderInfo.id,
                       singleItem.price
-                    ).then(() => {
-                      // Noticed that the order info would change into the wrong session which will cause an error
-                      // This error would occur when the add to cart is pressed twice
-                      // This was not an issue before on hashRouter, however, browser router does push this error 
-                      // Added the fetch order after the add to cart is called, and it fixed the issue
-                      this.props.fetchOrder();
-                    }).catch(err => console.error(err))
+                    )
+                      .then(() => {
+                        // Noticed that the order info would change into the wrong session which will cause an error
+                        // This error would occur when the add to cart is pressed twice
+                        // This was not an issue before on hashRouter, however, browser router does push this error
+                        // Added the fetch order after the add to cart is called, and it fixed the issue
+                        this.props.fetchOrder();
+                      })
+                      .catch(err => console.error(err))
                   }
                 >
                   ADD TO CART
