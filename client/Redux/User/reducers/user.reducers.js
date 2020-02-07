@@ -1,7 +1,9 @@
 import userTypes from "../types/user.types";
 
 const INITIAL_STATE = {
-  currentUser: null,
+  currentUser: {
+    admin: false
+  },
   loggedIn: false
   //// INITIAL STATE object
 };
