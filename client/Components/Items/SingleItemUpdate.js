@@ -41,7 +41,7 @@ class SingleItemUpdate extends React.Component {
       .updateItem(this.state.item)
       .then(() => {
         this.setState({ submitForm: false });
-        this.props.Location.history.push("/shop");
+        this.props.Location.history.push("/admin/items/pages/1");
       })
       .catch(err => {
         this.setState({ submitForm: true });

@@ -29,7 +29,7 @@ const AdminItems = ({ item }) => {
           <Typography>{item.name}</Typography>
         </CardContent>
       </CardActionArea>
-      <button>Edit</button>
+      <Link to={`/shop/${item.id}/update`}><button>Edit</button></Link>
       <button>Delete</button>
     </Card>
   );

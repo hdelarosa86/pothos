@@ -6,7 +6,6 @@ const UserDashboard = ({ assets }) => {
   // please use this component to make any changes in user profile.
   // Component will display users information on page
   if (assets.user.loggedIn && assets.user.currentUser.email) {
-    console.log(assets);
     return (
       <div className="container">
         <div className="row">
