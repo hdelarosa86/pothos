@@ -31,6 +31,11 @@ const config = {
     hints: false,
     maxEntrypointSize: 512000,
     maxAssetSize: 512000
+},
+devServer: {
+  historyApiFallback:{
+      index:'static/index.html'
+  },
 }
 };
 

@@ -14,7 +14,8 @@ import {
 
 const useStyles = makeStyles({
   card: {
-    maxWidth: 350
+    maxWidth: 350,
+    margin: "20px 0 20px"
   },
   media: {
     height: 300
@@ -24,7 +25,7 @@ const useStyles = makeStyles({
 const ItemPreview = ({ item, admin }) => {
   const classes = useStyles();
   return (
-    <div className="col s4 center-align">
+    <div className="col s12 m6 l4 center-align">
       {!admin ? (
         <Card id="itemPreviewCard" className={classes.card}>
           <Link to={`/shop/${item.id}`}>

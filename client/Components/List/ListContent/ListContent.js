@@ -16,16 +16,18 @@ onMount the component ....
 export class ListContent extends React.Component {
   render() {
     return (
-      <div>
-        {this.props.content.map(val => {
-          if (this.props.type === "items") {
-            return <ItemPreview item={val} />;
-          } else if (this.props.type === "users") {
-            return <AllUsers user={val} />;
-          } else if (this.props.type === "orders") {
-            return <AllOrders order={val} />;
-          }
-        })}
+      <div className="container">
+        <div className="row">
+          {this.props.content.map(val => {
+            if (this.props.type === "items") {
+              return <ItemPreview item={val} />;
+            } else if (this.props.type === "users") {
+              return <AllUsers user={val} />;
+            } else if (this.props.type === "orders") {
+              return <AllOrders order={val} />;
+            }
+          })}
+        </div>
       </div>
     );
   }
