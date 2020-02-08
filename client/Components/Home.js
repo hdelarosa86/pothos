@@ -54,16 +54,16 @@ export class Home extends React.Component {
                 </div>
               </div>
             ) : (
-                <div className="row">
-                  <div className="col s12 center-align">
-                    <p className="sign-subheader">Welcome back to Pothos</p>
-                    <h1 className="signup-headline">Go to Your Page</h1>
-                    <div className="call-to-action">
-                      <Link to="/dashboard">Dashboard</Link>
-                    </div>
+              <div className="row">
+                <div className="col s12 center-align">
+                  <p className="sign-subheader">Welcome back to Pothos</p>
+                  <h1 className="signup-headline">Go to Your Page</h1>
+                  <div className="call-to-action">
+                    <Link to="/dashboard">Dashboard</Link>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -41,6 +41,6 @@ class StripeCheckoutButton extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  order: state.order,
-})
+  order: state.order
+});
 export default connect(mapStateToProps, null)(StripeCheckoutButton);

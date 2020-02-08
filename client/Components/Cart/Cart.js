@@ -100,9 +100,13 @@ class Cart extends React.Component {
           <h1>Your Cart</h1>
           {this.cartGenerate(this.props.order.orderInfo.CartItem)}
           <div className="filter">
-            <button><Link to="/shop/pages/1">Shop for More Plants!</Link></button>
+            <button>
+              <Link to="/shop/pages/1">Shop for More Plants!</Link>
+            </button>
 
-            <button><Link to="/login">Save my cart! Create new account!</Link></button>
+            <button>
+              <Link to="/login">Save my cart! Create new account!</Link>
+            </button>
           </div>
           <StripeCheckoutButton
             name={firstName}
