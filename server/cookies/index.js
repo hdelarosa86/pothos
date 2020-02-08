@@ -14,6 +14,7 @@ cookieRouter.use((req, res, next) => {
       .then(session => Order.create({ sessionId: session.id }))
       .then(newOrder => res.cookie(COOKIE_NAME, newOrder.sessionId))
       .then(() => {
+        res.redirect("/");
         next();
       })
       .catch(err => {
