@@ -50,7 +50,7 @@ const seed = () => {
     .then(johndoeUser => Session.create({ id: johndoeUser.id }))
     .then(johnSession =>
       Order.create({
-        total: 10,
+        checkoutTotal: 10,
         userId: johnSession.id,
         sessionId: johnSession.id
       })
