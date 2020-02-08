@@ -32,6 +32,7 @@ export const userAdminAllByPageFetchSuccess = data => ({
 export const singleUserAdminFetchStartAsync = id => {
   return dispatch => {
     dispatch(userAdminFetchStart());
+
     return axios
       .get(`/api/users/${id}`)
       .then(data => {

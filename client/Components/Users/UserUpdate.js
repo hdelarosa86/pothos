@@ -14,7 +14,21 @@ class UserUpdate extends React.Component {
 
   // Fetches single item state
   componentDidMount() {
-    this.setState({ ...this.state, user: this.props.user.currentUser });
+    this.setState({
+      ...this.state,
+      user: this.props.user.currentUser
+      // : this.props.fetchUserForAdmin(this.props.location.match.params.id)
+    });
+    if (this.props.admin) {
+      this.props.fetchUserForAdmin(this.props.location.match.params.id);
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    console.log("prev: ", prevProps);
+    console.log("this.props: ", this.props);
+    if (prevProps.selectedUser !== this.props.selectedUser) {
+      this.setState({ ...this.state, user: this.props.selectedUser });
+    }
   }
   // Changes current state value to new state value
   handleOnChange = ({ target: { name, value } }) => {
@@ -33,7 +47,9 @@ class UserUpdate extends React.Component {
       .updateUser(this.state.user)
       .then(() => {
         this.setState({ submitFormErr: false });
-        this.props.location.history.push("/dashboard");
+        this.props.location.history.push(
+          this.props.admin ? "/admin/users/pages/1" : "/dashboard"
+        );
       })
       .catch(err => {
         this.setState({ submitFormErr: true });
@@ -43,6 +59,7 @@ class UserUpdate extends React.Component {
 
   render() {
     const { user } = this.state;
+    //const { selectedUser } = this.props;
     if (user !== null) {
       return (
         <div className="container">
@@ -102,7 +119,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  selectedUser: state.allUsers.selectedUsers,
+  admin: state.user.currentUser.admin
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserUpdate);
