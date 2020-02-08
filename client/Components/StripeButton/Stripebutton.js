@@ -1,17 +1,18 @@
 import React from "react";
+import { connect } from "react-redux";
 // utilities
 import axios from "axios";
 import StripeCheckout from "react-stripe-checkout";
 
 class StripeCheckoutButton extends React.Component {
   currency = "usd";
-  stripePrice = this.props.amount * 100;
+  stripePrice = this.props.order.orderInfo.checkoutTotal * 100;
   publishableKey = "pk_test_caMWnDLW56OiDvnLwYcll7g600SkFDQ6Pq";
 
   onToken = token => {
     axios
       .post("api/payment", {
-        amount: this.stripePrice,
+        amount: this.props.order.orderInfo.checkoutTotal,
         token
       })
       .then(res => {
@@ -28,7 +29,7 @@ class StripeCheckoutButton extends React.Component {
         name={name}
         ComponentClass="div"
         description={description}
-        amount={this.stripePrice}
+        amount={this.props.order.orderInfo.checkoutTotal * 100}
         token={this.onToken}
         currency={this.currency}
         stripeKey={this.publishableKey}
@@ -39,5 +40,7 @@ class StripeCheckoutButton extends React.Component {
     );
   }
 }
-
-export default StripeCheckoutButton;
+const mapStateToProps = state => ({
+  order: state.order
+});
+export default connect(mapStateToProps, null)(StripeCheckoutButton);

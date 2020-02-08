@@ -99,8 +99,16 @@ class Cart extends React.Component {
         <div className="container">
           <h1>Your Cart</h1>
           {this.cartGenerate(this.props.order.orderInfo.CartItem)}
+          <div className="filter">
+            <button>
+              <Link to="/shop/pages/1">Shop for More Plants!</Link>
+            </button>
+
+            <button>
+              <Link to="/login">Save my cart! Create new account!</Link>
+            </button>
+          </div>
           <StripeCheckoutButton
-            amount={this.props.order.orderInfo.checkoutTotal}
             name={firstName}
             description={`Checkout`}
             email={email ? email : null}

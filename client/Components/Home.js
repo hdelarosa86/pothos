@@ -66,26 +66,6 @@ export class Home extends React.Component {
             )}
           </div>
         </div>
-        <div className="Best-Seller">
-          <div className="container">
-            <div className="row">
-              <div className="col s12 m12 l10 left-align">
-                <h3>Our Plants</h3>
-              </div>
-              <span className="shop-link">
-                <Link to="/shop/pages/1">View More</Link>
-              </span>
-            </div>
-          </div>
-          <div className="col s12 m12 l12 center-align">
-            <List
-              type="items"
-              pagination={true}
-              filterMethods={["size", "price", null]}
-              perPage={3}
-            />
-          </div>
-        </div>
       </div>
     );
   }
