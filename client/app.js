@@ -10,6 +10,7 @@ import NavBar from "./Components/NavBar";
 import Cart from "./Components/Cart/Cart";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
+import ItemCreate from "./Components/Items/ItemCreate";
 import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
@@ -20,9 +21,11 @@ import {
   fetchOrderStartAsync
 } from "./Redux/Order/actions/order.actions";
 import { connect } from "react-redux";
+import Admin from "./Components/Admin/Admin";
 
 export class App extends React.Component {
   componentDidMount() {
+    console.log(this.props);
     this.props.persistUser();
     if (document.cookie) {
       this.props.fetchOrder();
@@ -66,11 +69,13 @@ export class App extends React.Component {
             )}
           />
           {/* START OF ADMIN ROUTES */}
-          <Route path={"/admin"}>
-            {!this.props.admin ? <Redirect to="/" /> : <AdminDashboard />}
+          <Route path={"/admin"} render={() => <AdminDashboard />}>
+            {!this.props.admin ? <Redirect to="/" /> : null}
           </Route>
 
+          {/* <Route path={"/admin"} component={AdminDashboard} /> */}
           <Route
+            exact
             path={"/admin/users/pages/:pageId"}
             render={() => (
               <List
@@ -82,17 +87,20 @@ export class App extends React.Component {
             )}
           />
           <Route
+            exact
             path={"/admin/orders/pages/:pageId"}
             render={() => (
               <List
                 type="orders"
-                pagination={true}
+                pagination={false}
                 filterMethods={["total", "status", null]}
                 perPage={5}
               />
             )}
           />
+          <Route exact path={"/admin/item/create"} component={ItemCreate} />
           <Route
+            exact
             path={"/admin/items/pages/:pageId"}
             render={() => (
               <List
@@ -108,7 +116,6 @@ export class App extends React.Component {
             path={"/admin/item/:id/update"}
             render={id => <SingleItemUpdate Location={id} />}
           />
-
           <Route
             exact
             path={"/admin/dashboard/:id/update"}

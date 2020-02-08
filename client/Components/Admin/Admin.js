@@ -43,6 +43,9 @@ class AdminDashboard extends React.Component {
             <Link to="/admin/orders/pages/1">
               <button>Orders</button>
             </Link>
+            <Link to="/admin/item/create">
+              <button>Create Item</button>
+            </Link>
           </div>
         </div>
       </div>

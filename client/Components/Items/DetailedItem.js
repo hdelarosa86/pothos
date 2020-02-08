@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { singleItemFetchStartAsync } from "../../Redux/Items/actions/items.actions";
+import {
+  singleItemFetchStartAsync,
+  deleteItemThenFetchAll
+} from "../../Redux/Items/actions/items.actions";
 import {
   fetchOrderBySession,
   addToOrderStartAsync,
@@ -20,13 +23,26 @@ export class DetailedItem extends React.Component {
     }
   }
   componentDidMount() {
+    console.log(this.props);
     if (document.cookie) {
       this.props.fetchOrder();
     }
     const { fetchItem } = this.props;
     fetchItem(this.props.Location.match.params.id);
   }
-
+  handleOnClickDelete = (e, id) => {
+    console.log("here: ", id);
+    e.preventDefault();
+    this.props
+      .deleteItem(id)
+      .then(() => {
+        console.log("Success");
+        this.props.Location.history.push("/admin/items/pages/1");
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
   render() {
     if (this.props.singleItem.name) {
       const {
@@ -51,6 +67,25 @@ export class DetailedItem extends React.Component {
                 <h6>{singleItem.size}</h6>
                 <p>price:</p>
                 <h6>${singleItem.price}</h6>
+                <div className="filter">
+                  {this.props.admin && (
+                    <Link to={`/admin/item/${singleItem.id}/update`}>
+                      <button>EDIT ITEM</button>
+                    </Link>
+                  )}
+                  {this.props.admin && (
+                    <button
+                      onClick={e =>
+                        this.handleOnClickDelete(
+                          e,
+                          this.props.Location.match.params.id
+                        )
+                      }
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
 
                 <button
                   className="item-add"
@@ -84,11 +119,6 @@ export class DetailedItem extends React.Component {
                 >
                   ADD TO CART
                 </button>
-                {this.props.admin && (
-                  <Link to={`/admin/item/${singleItem.id}/update`}>
-                    <button className="item-edit">EDIT ITEM</button>
-                  </Link>
-                )}
               </div>
             </div>
           </div>
@@ -120,6 +150,7 @@ const mapDispatchToProps = dispatch => ({
   fetchOrder: () => dispatch(fetchOrderBySession()),
   addToCart: (itemId, orderId, itemTotal) =>
     dispatch(addToOrderStartAsync(itemId, orderId, itemTotal)),
+  deleteItem: item => dispatch(deleteItemThenFetchAll(item)),
   updateCheckoutTotal: (orderId, checkoutTotal) =>
     dispatch(updateOrderTotal(orderId, checkoutTotal))
 });

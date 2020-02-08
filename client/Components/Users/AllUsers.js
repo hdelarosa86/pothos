@@ -8,17 +8,17 @@ class AllUsers extends React.Component {
     super();
   }
 
-  handleOnClickDelete = (e, id) => {
-    e.preventDefault();
-    this.props
-      .deleteUser(id)
-      .then(() => {
-        console.log("Success");
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  };
+  // handleOnClickDelete = (e, id) => {
+  //   e.preventDefault();
+  //   this.props
+  //     .deleteUser(id)
+  //     .then(() => {
+  //       console.log("Success");
+  //     })
+  //     .catch(err => {
+  //       console.error(err);
+  //     });
+  // };
 
   render() {
     const { user } = this.props;
@@ -43,16 +43,16 @@ class AllUsers extends React.Component {
             <br />
             <br />
             <Link to={`/admin/dashboard/${user.id}/update`}>
-              <button className="edit">Edit</button>
+              <button className="edit">Edit or Delete</button>
             </Link>
             <br />
-            <button
+            {/* <button
               disabled={this.props.currentUserId === user.id}
               className="delete"
               onClick={e => this.handleOnClickDelete(e, user.id)}
             >
               Delete
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
