@@ -110,7 +110,7 @@ app.delete("/:id", (req, res, next) => {
 
 app.put("/:id", (req, res, next) => {
   const { id } = req.params;
-  if ((req.user.id !== id && !req.adminAuth)) {
+  if (req.user.id !== id && !req.adminAuth) {
     console.error(chalk.redBright("Not Authorized."));
     res.status(401).redirect("/");
   } else {
