@@ -4,7 +4,8 @@ const {
   DECIMAL,
   UUID,
   UUIDV4,
-  BOOLEAN
+  BOOLEAN,
+  TEXT
 } = require("sequelize");
 const db = require("./database");
 
@@ -47,7 +48,7 @@ const Item = db.define("item", {
     }
   },
   imageUrl: {
-    type: STRING,
+    type: TEXT,
     defaultValue:
       "https://cdn.dribbble.com/users/716261/screenshots/6856546/artboard_1_4x.jpg",
     validate: {

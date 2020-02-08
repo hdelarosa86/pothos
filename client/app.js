@@ -61,7 +61,7 @@ export class App extends React.Component {
                 type="items"
                 pagination={true}
                 filterMethods={["size", "price", null]}
-                perPage={5}
+                perPage={6}
               />
             )}
           />
