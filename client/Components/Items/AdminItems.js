@@ -22,11 +22,11 @@ const useStyles = makeStyles({
   }
 });
 
-const AdminItems = ({item, deleteItem}) => {
+const AdminItems = ({ item, deleteItem }) => {
   const classes = useStyles();
 
   const handleOnClickDelete = (e, id) => {
-    console.log('here: ', id);
+    console.log("here: ", id);
     e.preventDefault();
     deleteItem(id)
       .then(() => {

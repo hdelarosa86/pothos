@@ -106,7 +106,7 @@ export class App extends React.Component {
             path={"/admin/item/:id/update"}
             render={id => <SingleItemUpdate Location={id} />}
           />
-         
+
           <Route
             exact
             path={"/admin/dashboard/:id/update"}

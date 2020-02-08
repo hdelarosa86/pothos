@@ -57,9 +57,7 @@ export class MenuBar extends React.Component {
           <div className="row">
             <div className="col s12 m12 l12 center-align">
               {this.props.filterMethods ? (
-                <div className="filter-label">
-                  FILTER
-                </div>
+                <div className="filter-label">FILTER</div>
               ) : null}
               {this.props.filterMethods
                 ? this.props.filterMethods.map(method => {

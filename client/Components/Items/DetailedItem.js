@@ -24,7 +24,6 @@ export class DetailedItem extends React.Component {
     }
     const { fetchItem } = this.props;
     fetchItem(this.props.Location.match.params.id);
-    
   }
 
   render() {
@@ -74,7 +73,6 @@ export class DetailedItem extends React.Component {
               </div>
             </div>
           </div>
-          
           <div className="row">
             <div className="col s12 m12 l12 center-align">
               <div>
@@ -89,7 +87,8 @@ export class DetailedItem extends React.Component {
                 perPage={3}
               />
             </div>
-          </div>}
+          </div>
+          }
         </div>
       );
     }
