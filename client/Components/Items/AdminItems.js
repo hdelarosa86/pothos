@@ -22,16 +22,13 @@ const useStyles = makeStyles({
   }
 });
 
-
-
-const AdminItems = props => {
+const AdminItems = ({item, deleteItem}) => {
   const classes = useStyles();
 
   const handleOnClickDelete = (e, id) => {
     console.log('here: ', id);
     e.preventDefault();
-    props
-      .deleteItem(id)
+    deleteItem(id)
       .then(() => {
         console.log("Success");
       })
@@ -39,12 +36,10 @@ const AdminItems = props => {
         console.error(err);
       });
   };
-  console.log("prop:", props);
-  const { item } = props;
   return (
     <div className="admin-item">
       <Card id="itemPreviewCard" className={classes.card}>
-        <Link to={`/shop/${item.id}`}>
+        <Link to={`/admin/shop/${item.id}`}>
           <CardActionArea>
             <CardMedia className={classes.media} image={item.imageUrl} />
             <CardContent>
@@ -52,7 +47,7 @@ const AdminItems = props => {
             </CardContent>
           </CardActionArea>
         </Link>
-        <Link to={`/shop/${item.id}/update`}>
+        <Link to={`/admin/item/${item.id}/update`}>
           <button className="edit">Edit</button>
         </Link>
         <br />

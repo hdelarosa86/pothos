@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { deleteUserAdminThenFetchAll } from "../../Redux/AllUsers/action/AllUsers.action";
 
 class AllUsers extends React.Component {
@@ -41,7 +42,9 @@ class AllUsers extends React.Component {
             {`${user.admin}`}
             <br />
             <br />
-            <button className="edit">Edit</button>
+            <Link to={`/admin/dashboard/${user.id}/update`}>
+              <button className="edit">Edit</button>
+            </Link>
             <br />
             <button
               className="delete"
