@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import {
   fetchOrderBySession,
   incrementItemStartAsync,
-  decrementItemStartAsync
+  decrementItemStartAsync,
+  updateOrderTotal
 } from "../../Redux/Order/actions/order.actions";
 import StripeCheckoutButton from "../StripeButton/StripeButton";
 
@@ -16,10 +17,11 @@ class Cart extends React.Component {
   }
 
   cartGenerate(arr) {
-    const { addQuantity, minusQuantity } = this.props;
+    const { addQuantity, minusQuantity, updateCheckoutTotal } = this.props;
     let cartTotal = 0;
     const rows = arr.map(cartRow => {
       cartTotal += parseInt(cartRow.itemTotal);
+      console.log(cartTotal);
       return (
         <div className="cart-box">
           <div className="row">
@@ -34,14 +36,32 @@ class Cart extends React.Component {
             <div className="col s12 m12 l2 left-align">
               <button
                 onClick={() =>
-                  addQuantity(cartRow.id, cartRow.orderId, cartRow.item.price)
+                  addQuantity(
+                    cartRow.id,
+                    cartRow.orderId,
+                    cartRow.item.price
+                  ).then(() =>
+                    updateCheckoutTotal(
+                      cartRow.orderId,
+                      cartTotal + parseInt(cartRow.item.price)
+                    )
+                  )
                 }
               >
                 +
               </button>
               <button
                 onClick={() =>
-                  minusQuantity(cartRow.id, cartRow.orderId, cartRow.item.price)
+                  minusQuantity(
+                    cartRow.id,
+                    cartRow.orderId,
+                    cartRow.item.price
+                  ).then(() =>
+                    updateCheckoutTotal(
+                      cartRow.orderId,
+                      cartTotal - parseInt(cartRow.item.price)
+                    )
+                  )
                 }
               >
                 -
@@ -52,7 +72,6 @@ class Cart extends React.Component {
       );
     });
     let cartTotalFloat = cartTotal.toFixed(2);
-
     return (
       <div className="row">
         <ul>{rows}</ul>
@@ -70,10 +89,8 @@ class Cart extends React.Component {
         <div className="container">
           <h1>Your Cart</h1>
           {this.cartGenerate(this.props.order.orderInfo.CartItem)}
-          {/* <button className="checkout btn">
-            <Link to="/cart/1"></Link>
-          </button> */}
           <StripeCheckoutButton
+            amount={this.props.order.orderInfo.checkoutTotal}
             name={firstName}
             description={`Checkout`}
             email={email ? email : null}
@@ -95,7 +112,9 @@ const mapDispatchToProps = dispatch => ({
   addQuantity: (cartItemId, orderId, price) =>
     dispatch(incrementItemStartAsync(cartItemId, orderId, price)),
   minusQuantity: (cartItemId, orderId, price) =>
-    dispatch(decrementItemStartAsync(cartItemId, orderId, price))
+    dispatch(decrementItemStartAsync(cartItemId, orderId, price)),
+  updateCheckoutTotal: (orderId, checkoutTotal) =>
+    dispatch(updateOrderTotal(orderId, checkoutTotal))
 });
 const mapStateToProps = state => ({
   order: state.order,

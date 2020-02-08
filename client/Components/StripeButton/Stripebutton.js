@@ -26,6 +26,7 @@ class StripeCheckoutButton extends React.Component {
     return (
       <StripeCheckout
         name={name}
+        ComponentClass="div"
         description={description}
         amount={this.stripePrice}
         token={this.onToken}

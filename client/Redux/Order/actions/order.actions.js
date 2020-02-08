@@ -93,3 +93,17 @@ export const fetchOrderBySession = () => {
       });
   };
 };
+
+export const updateOrderTotal = (orderId, checkoutTotal) => {
+  return dispatch => {
+    dispatch(fetchOrderStart());
+    return axios
+      .put(`/api/orders/${orderId}`, { checkoutTotal })
+      .then(() => {
+        dispatch(fetchOrderStartAsync(orderId));
+      })
+      .catch(error => {
+        dispatch(fetchOrderailure(error));
+      });
+  };
+};
