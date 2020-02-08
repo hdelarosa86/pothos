@@ -23,11 +23,12 @@ class ItemCreate extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    console.log(this.props);
     this.props
       .createItem(this.state.item)
       .then(() => {
         this.setState({ submitForm: false });
-        this.props.Location.history.push("/admin/items/pages/1");
+        this.props.history.push("/admin/items/pages/1");
       })
       .catch(err => {
         this.setState({ submitForm: true });

@@ -87,7 +87,7 @@ export class App extends React.Component {
             render={() => (
               <List
                 type="orders"
-                pagination={true}
+                pagination={false}
                 filterMethods={["total", "status", null]}
                 perPage={5}
               />
@@ -112,7 +112,11 @@ export class App extends React.Component {
             path={"/admin/item/:id/update"}
             render={id => <SingleItemUpdate Location={id} />}
           />
-
+          <Route
+            exact
+            path={"/admin/dashboard/:id"}
+            render={() => <Dashboard assets={this.props} />}
+          />
           <Route
             exact
             path={"/admin/dashboard/:id/update"}

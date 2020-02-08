@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { singleItemFetchStartAsync } from "../../Redux/Items/actions/items.actions";
+import {
+  singleItemFetchStartAsync,
+  deleteItemThenFetchAll
+} from "../../Redux/Items/actions/items.actions";
 import {
   fetchOrderBySession,
   addToOrderStartAsync
@@ -19,13 +22,26 @@ export class DetailedItem extends React.Component {
     }
   }
   componentDidMount() {
+    console.log(this.props);
     if (document.cookie) {
       this.props.fetchOrder();
     }
     const { fetchItem } = this.props;
     fetchItem(this.props.Location.match.params.id);
   }
-
+  handleOnClickDelete = (e, id) => {
+    console.log("here: ", id);
+    e.preventDefault();
+    this.props
+      .deleteItem(id)
+      .then(() => {
+        console.log("Success");
+        this.props.Location.history.push("/admin/items/pages/1");
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
   render() {
     if (this.props.singleItem.name) {
       const { singleItem, addToCart, order } = this.props;
@@ -44,34 +60,46 @@ export class DetailedItem extends React.Component {
                 <h6>{singleItem.size}</h6>
                 <p>price:</p>
                 <h6>${singleItem.price}</h6>
-
-                <button
-                  className="item-add"
-                  onClick={() =>
-                    addToCart(
-                      singleItem.id,
-                      order.orderInfo.id,
-                      singleItem.price
-                    )
-                      .then(() => {
-                        // Noticed that the order info would change into the wrong session which will cause an error
-                        // This error would occur when the add to cart is pressed twice
-                        // This was not an issue before on hashRouter, however, browser router does push this error
-                        // Added the fetch order after the add to cart is called, and it fixed the issue
-                        if (document.cookie) {
-                          this.props.fetchOrder();
-                        }
-                      })
-                      .catch(err => console.error(err))
-                  }
-                >
-                  ADD TO CART
-                </button>
-                {this.props.admin && (
-                  <Link to={`/admin/item/${singleItem.id}/update`}>
-                    <button className="item-edit">EDIT ITEM</button>
-                  </Link>
-                )}
+                <div className="filter">
+                  <button
+                    onClick={() =>
+                      addToCart(
+                        singleItem.id,
+                        order.orderInfo.id,
+                        singleItem.price
+                      )
+                        .then(() => {
+                          // Noticed that the order info would change into the wrong session which will cause an error
+                          // This error would occur when the add to cart is pressed twice
+                          // This was not an issue before on hashRouter, however, browser router does push this error
+                          // Added the fetch order after the add to cart is called, and it fixed the issue
+                          if (document.cookie) {
+                            this.props.fetchOrder();
+                          }
+                        })
+                        .catch(err => console.error(err))
+                    }
+                  >
+                    ADD TO CART
+                  </button>
+                  {this.props.admin && (
+                    <Link to={`/admin/item/${singleItem.id}/update`}>
+                      <button>EDIT ITEM</button>
+                    </Link>
+                  )}
+                  {this.props.admin && (
+                    <button
+                      onClick={e =>
+                        this.handleOnClickDelete(
+                          e,
+                          this.props.Location.match.params.id
+                        )
+                      }
+                    >
+                      Delete
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -102,7 +130,8 @@ const mapDispatchToProps = dispatch => ({
   fetchItem: id => dispatch(singleItemFetchStartAsync(id)),
   fetchOrder: () => dispatch(fetchOrderBySession()),
   addToCart: (itemId, orderId, itemTotal) =>
-    dispatch(addToOrderStartAsync(itemId, orderId, itemTotal))
+    dispatch(addToOrderStartAsync(itemId, orderId, itemTotal)),
+  deleteItem: item => dispatch(deleteItemThenFetchAll(item))
 });
 const mapStateToProps = state => ({
   singleItem: state.inventory.selectedItem,

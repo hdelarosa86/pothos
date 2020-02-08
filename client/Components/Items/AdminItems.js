@@ -25,17 +25,17 @@ const useStyles = makeStyles({
 const AdminItems = ({ item, deleteItem }) => {
   const classes = useStyles();
 
-  const handleOnClickDelete = (e, id) => {
-    console.log("here: ", id);
-    e.preventDefault();
-    deleteItem(id)
-      .then(() => {
-        console.log("Success");
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  };
+  // const handleOnClickDelete = (e, id) => {
+  //   console.log("here: ", id);
+  //   e.preventDefault();
+  //   deleteItem(id)
+  //     .then(() => {
+  //       console.log("Success");
+  //     })
+  //     .catch(err => {
+  //       console.error(err);
+  //     });
+  // };
   return (
     <div className="admin-item">
       <Card id="itemPreviewCard" className={classes.card}>
@@ -51,12 +51,12 @@ const AdminItems = ({ item, deleteItem }) => {
           <button className="edit">Edit</button>
         </Link>
         <br />
-        <button
+        {/* <button
           className="delete"
           onClick={e => handleOnClickDelete(e, item.id)}
         >
           Delete
-        </button>
+        </button> */}
       </Card>
     </div>
   );
