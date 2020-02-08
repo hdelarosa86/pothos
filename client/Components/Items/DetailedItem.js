@@ -76,6 +76,9 @@ export class DetailedItem extends React.Component {
                           fetchOrder();
                         }
                       })
+                      .then(() => {
+                        this.props.Location.history.push(`/cart`);
+                      })
                       .catch(err => console.error(err))
                   }
                 >
