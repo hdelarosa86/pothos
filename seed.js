@@ -2,24 +2,30 @@ const { db, User, Item, Order, CartItem, Session } = require("./server/db");
 const chalk = require("chalk");
 
 const seed = () => {
-  return db.sync({ force: true })
-    .then(() => User.bulkCreate([
-      {
-        firstName: "John",
-        lastName: "Doe",
-        email: "johnDoe@gmail.com",
-        username: "johndoe",
-        password: "password"
-      },
-      {
-        firstName: "Jane",
-        lastName: "Doe",
-        email: "janeDoe@gmail.com",
-        username: "janedoe",
-        password: "password",
-        admin: true
-      }
-    ]))
+  return db
+    .sync({ force: true })
+    .then(() =>
+      User.bulkCreate(
+        [
+          {
+            firstName: "John",
+            lastName: "Doe",
+            email: "johnDoe@gmail.com",
+            username: "johndoe",
+            password: "password2"
+          },
+          {
+            firstName: "Jane",
+            lastName: "Doe",
+            email: "janeDoe@gmail.com",
+            username: "janedoe",
+            password: "password1",
+            admin: true
+          }
+        ],
+        { individualHooks: true }
+      )
+    )
     .then(() =>
       Item.bulkCreate([
         {
@@ -41,15 +47,14 @@ const seed = () => {
       ])
     )
     .then(() => User.findOne({ where: { username: "johndoe" } }))
-    .then(johndoeUser =>
-      Session.create({ id: johndoeUser.id })
-    )
-    .then(johnSession => Order.create({
-      total: 10,
-      userId: johnSession.id,
-      sessionId: johnSession.id,
-      checkoutTotal: 10
-    })
+    .then(johndoeUser => Session.create({ id: johndoeUser.id }))
+    .then(johnSession =>
+      Order.create({
+        total: 10,
+        userId: johnSession.id,
+        sessionId: johnSession.id
+      })
+
     )
     .then(johnCart =>
       Item.create({
@@ -60,18 +65,24 @@ const seed = () => {
         imageUrl:
           "http://cdn.shopify.com/s/files/1/0062/8532/8445/products/Golden-Pothos-800-mainimage_grande.gif?v=1557174910"
       }).then(pothosItem =>
-        CartItem.create({ itemId: pothosItem.id, orderId: johnCart.id, itemTotal: pothosItem.price })
+        CartItem.create({
+          itemId: pothosItem.id,
+          orderId: johnCart.id,
+          itemTotal: pothosItem.price
+        })
       )
     )
     .then(() => User.findOne({ where: { username: "janedoe" } }))
-    .then(janeUser => Session.create({ id: janeUser.id })
-      .then(janeSession => Order.create({
-        checkoutTotal: 0,
-        userId: janeSession.id,
-        sessionId: janeSession.id
-      }))
-    )
-};
+    .then(janeUser =>
+      Session.create({ id: janeUser.id }).then(janeSession =>
+        Order.create({
+          total: 0,
+          userId: janeSession.id,
+          sessionId: janeSession.id
+        })
+      )
+    );
+
 
 module.exports = seed;
 

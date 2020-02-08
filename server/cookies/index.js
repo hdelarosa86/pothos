@@ -46,14 +46,16 @@ cookieRouter.post("/login", (req, res, next) => {
   const guestSessionId = req.cookies.sessionId;
   User.findOne({
     where: {
-      email,
-      password
+      email
     }
   })
     .then(user => {
       if (!user) {
         res.sendStatus(401);
         console.error(new Error(chalk.red(`User not Found ${res.statusCode}`)));
+      } else if (!user.validPassword(password)) {
+        res.sendStatus(401);
+        console.error(new Error(chalk.red("password is not valid")));
       } else {
         Order.findOne({ where: { userId: user.id } }).then(existingOrder => {
           Order.findOne({

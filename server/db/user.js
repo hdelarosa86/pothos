@@ -1,5 +1,6 @@
 const { STRING, INTEGER, BIGINT, UUID, UUIDV4, BOOLEAN } = require("sequelize");
 const db = require("./database");
+const bcrypt = require("bcrypt");
 //Leaving some keys commented out to simplify building tier one routes/tests/components
 
 const User = db.define(
@@ -40,13 +41,10 @@ const User = db.define(
       // }
     },
     password: {
-      type: STRING
-      //   allowNull: false,
-      //   validate: {
-      //     notEmpty: true
-      //   }
+      type: STRING,
+      unique: true,
+      allowNull: false
     },
-
     github_access_token: {
       type: STRING,
       allowNull: true,
@@ -165,12 +163,17 @@ const User = db.define(
     // },
   },
   {
-    defaultScope: {
-      attributes: {
-        exclude: ["password"]
+    hooks: {
+      beforeCreate: user => {
+        const salt = bcrypt.genSaltSync();
+        user.password = bcrypt.hashSync(user.password, salt);
       }
     }
   }
 );
+
+User.prototype.validPassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 module.exports = User;
