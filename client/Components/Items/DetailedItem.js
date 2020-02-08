@@ -7,7 +7,8 @@ import {
 } from "../../Redux/Items/actions/items.actions";
 import {
   fetchOrderBySession,
-  addToOrderStartAsync
+  addToOrderStartAsync,
+  updateOrderTotal
 } from "../../Redux/Order/actions/order.actions";
 import List from "../List/List";
 
@@ -44,7 +45,13 @@ export class DetailedItem extends React.Component {
   };
   render() {
     if (this.props.singleItem.name) {
-      const { singleItem, addToCart, order } = this.props;
+      const {
+        singleItem,
+        addToCart,
+        order,
+        fetchOrder,
+        updateCheckoutTotal
+      } = this.props;
       return (
         <div className="single-item">
           <div className="container">
@@ -61,27 +68,6 @@ export class DetailedItem extends React.Component {
                 <p>price:</p>
                 <h6>${singleItem.price}</h6>
                 <div className="filter">
-                  <button
-                    onClick={() =>
-                      addToCart(
-                        singleItem.id,
-                        order.orderInfo.id,
-                        singleItem.price
-                      )
-                        .then(() => {
-                          // Noticed that the order info would change into the wrong session which will cause an error
-                          // This error would occur when the add to cart is pressed twice
-                          // This was not an issue before on hashRouter, however, browser router does push this error
-                          // Added the fetch order after the add to cart is called, and it fixed the issue
-                          if (document.cookie) {
-                            this.props.fetchOrder();
-                          }
-                        })
-                        .catch(err => console.error(err))
-                    }
-                  >
-                    ADD TO CART
-                  </button>
                   {this.props.admin && (
                     <Link to={`/admin/item/${singleItem.id}/update`}>
                       <button>EDIT ITEM</button>
@@ -100,6 +86,36 @@ export class DetailedItem extends React.Component {
                     </button>
                   )}
                 </div>
+
+                <button
+                  className="item-add"
+                  onClick={() =>
+                    addToCart(
+                      singleItem.id,
+                      order.orderInfo.id,
+                      singleItem.price
+                    )
+                      .then(() =>
+                        updateCheckoutTotal(
+                          order.orderInfo.id,
+                          parseInt(order.orderInfo.checkoutTotal) +
+                            parseInt(singleItem.price)
+                        )
+                      )
+                      .then(() => {
+                        // Noticed that the order info would change into the wrong session which will cause an error
+                        // This error would occur when the add to cart is pressed twice
+                        // This was not an issue before on hashRouter, however, browser router does push this error
+                        // Added the fetch order after the add to cart is called, and it fixed the issue
+                        if (document.cookie) {
+                          fetchOrder();
+                        }
+                      })
+                      .catch(err => console.error(err))
+                  }
+                >
+                  ADD TO CART
+                </button>
               </div>
             </div>
           </div>
@@ -131,7 +147,9 @@ const mapDispatchToProps = dispatch => ({
   fetchOrder: () => dispatch(fetchOrderBySession()),
   addToCart: (itemId, orderId, itemTotal) =>
     dispatch(addToOrderStartAsync(itemId, orderId, itemTotal)),
-  deleteItem: item => dispatch(deleteItemThenFetchAll(item))
+  deleteItem: item => dispatch(deleteItemThenFetchAll(item)),
+  updateCheckoutTotal: (orderId, checkoutTotal) =>
+    dispatch(updateOrderTotal(orderId, checkoutTotal))
 });
 const mapStateToProps = state => ({
   singleItem: state.inventory.selectedItem,

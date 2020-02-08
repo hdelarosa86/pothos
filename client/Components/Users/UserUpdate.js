@@ -2,7 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { updateInUser } from "../../Redux/User/actions/user.actions";
-import { singleUserAdminFetchStartAsync } from "../../Redux/AllUsers/action/AllUsers.action";
+import {
+  singleUserAdminFetchStartAsync,
+  deleteUserAdminThenFetchAll
+} from "../../Redux/AllUsers/action/AllUsers.action";
 class UserUpdate extends React.Component {
   constructor(user) {
     super(user);
@@ -14,7 +17,19 @@ class UserUpdate extends React.Component {
 
   // Fetches single item state
   componentDidMount() {
-    this.setState({ ...this.state, user: this.props.user.currentUser });
+    this.setState({
+      ...this.state,
+      user: this.props.user.currentUser
+      // : this.props.fetchUserForAdmin(this.props.location.match.params.id)
+    });
+    if (this.props.admin) {
+      this.props.fetchUserForAdmin(this.props.location.match.params.id);
+    }
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.selectedUser !== this.props.selectedUser) {
+      this.setState({ ...this.state, user: this.props.selectedUser });
+    }
   }
   // Changes current state value to new state value
   handleOnChange = ({ target: { name, value } }) => {
@@ -28,12 +43,13 @@ class UserUpdate extends React.Component {
   // Submit and updates current item in item list
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state.user);
     this.props
       .updateUser(this.state.user)
       .then(() => {
         this.setState({ submitFormErr: false });
-        this.props.location.history.push("/dashboard");
+        this.props.location.history.push(
+          this.props.admin ? "/admin/users/pages/1" : "/dashboard"
+        );
       })
       .catch(err => {
         this.setState({ submitFormErr: true });
@@ -41,8 +57,22 @@ class UserUpdate extends React.Component {
       });
   };
 
+  handleOnClickDelete = (e, id) => {
+    e.preventDefault();
+    this.props
+      .deleteUser(id)
+      .then(() => {
+        console.log("Success");
+        this.props.location.history.push("/admin/users/pages/1");
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   render() {
     const { user } = this.state;
+    console.log(this.props);
     if (user !== null) {
       return (
         <div className="container">
@@ -87,6 +117,24 @@ class UserUpdate extends React.Component {
                 </button>
               </span>
             </Link>
+
+            {this.props.admin && (
+              <Link to="/admin">
+                <span className="admin-update">
+                  <button
+                    type="button"
+                    name="delete"
+                    disabled={
+                      this.props.selectedUser.id ===
+                      this.props.user.currentUser.id
+                    }
+                    onClick={e => this.handleOnClickDelete(e, user.id)}
+                  >
+                    Delete
+                  </button>
+                </span>
+              </Link>
+            )}
           </form>
           {this.state.submitFormErr && <p>Please fill out form correctly</p>}
         </div>
@@ -98,11 +146,14 @@ class UserUpdate extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateInUser(user)),
-  fetchUserForAdmin: userId => dispatch(singleUserAdminFetchStartAsync(userId))
+  fetchUserForAdmin: userId => dispatch(singleUserAdminFetchStartAsync(userId)),
+  deleteUser: user => dispatch(deleteUserAdminThenFetchAll(user))
 });
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  selectedUser: state.allUsers.selectedUsers,
+  admin: state.user.currentUser.admin
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserUpdate);

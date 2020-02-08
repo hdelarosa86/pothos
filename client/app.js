@@ -1,14 +1,13 @@
 import React from "react";
 import "materialize-css/dist/css/materialize.min.css";
 import "./app.css";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 //component
 import DetailedItem from "./Components/Items/DetailedItem";
 import Home from "./Components/Home";
 import Login from "./Components/Users/LogIn";
 import NavBar from "./Components/NavBar";
 import Cart from "./Components/Cart/Cart";
-import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
 import ItemCreate from "./Components/Items/ItemCreate";
@@ -22,9 +21,11 @@ import {
   fetchOrderStartAsync
 } from "./Redux/Order/actions/order.actions";
 import { connect } from "react-redux";
+import Admin from "./Components/Admin/Admin";
 
 export class App extends React.Component {
   componentDidMount() {
+    console.log(this.props);
     this.props.persistUser();
     if (document.cookie) {
       this.props.fetchOrder();
@@ -68,9 +69,13 @@ export class App extends React.Component {
             )}
           />
           {/* START OF ADMIN ROUTES */}
+          <Route path={"/admin"} render={() => <AdminDashboard />}>
+            {!this.props.admin ? <Redirect to="/" /> : null}
+          </Route>
 
-          <Route path={"/admin"} component={AdminDashboard} />
+          {/* <Route path={"/admin"} component={AdminDashboard} /> */}
           <Route
+            exact
             path={"/admin/users/pages/:pageId"}
             render={() => (
               <List
@@ -81,8 +86,8 @@ export class App extends React.Component {
               />
             )}
           />
-
           <Route
+            exact
             path={"/admin/orders/pages/:pageId"}
             render={() => (
               <List
@@ -93,10 +98,9 @@ export class App extends React.Component {
               />
             )}
           />
-
-          <Route path={"/admin/item/create"} component={ItemCreate} />
-
+          <Route exact path={"/admin/item/create"} component={ItemCreate} />
           <Route
+            exact
             path={"/admin/items/pages/:pageId"}
             render={() => (
               <List
@@ -114,11 +118,6 @@ export class App extends React.Component {
           />
           <Route
             exact
-            path={"/admin/dashboard/:id"}
-            render={() => <Dashboard assets={this.props} />}
-          />
-          <Route
-            exact
             path={"/admin/dashboard/:id/update"}
             render={id => <UserUpdate user={this.props.user} location={id} />}
           />
@@ -127,7 +126,6 @@ export class App extends React.Component {
             path={"/admin/shop/:id"}
             render={id => <DetailedItem Location={id} />}
           />
-
           {/* END OF ADMIN ROUTES */}
           <Route
             exact
@@ -140,11 +138,6 @@ export class App extends React.Component {
             render={id => <SingleItemUpdate Location={id} />}
           />
           <Route exact path={"/cart"} render={() => <Cart />} />
-          <Route
-            exact
-            path={"/cart/:id"}
-            render={id => <Checkout Location={id} />}
-          />
           <Route
             exact
             path={"/dashboard"}
@@ -172,7 +165,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   order: state.order,
   user: state.user,
-  inventory: state.inventory.items
+  inventory: state.inventory.items,
+  admin: state.user.currentUser.admin
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

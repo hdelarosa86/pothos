@@ -41,17 +41,17 @@ export class MenuBar extends React.Component {
               <h1>ALL THE PLANTS YOU WANT IN POTHOS</h1>
             </div>
           ) : null}
-          {this.props.pagination && this.props.match.params.pageId
-            ? this.pages().map(num => (
-                <div className="col s12 m12 l12 center-align">
+          <div className="col s12 m12 l12 center-align">
+            {this.props.pagination && this.props.match.params.pageId
+              ? this.pages().map(num => (
                   <Link
                     to={`/${this.menuRouter[this.props.type]}/pages/${num}`}
                   >
-                    {num} -{" "}
+                    {num}{" "}
                   </Link>
-                </div>
-              ))
-            : null}
+                ))
+              : null}
+          </div>
         </div>
         <div className="listComponentMenuBar_filters">
           <div className="row">

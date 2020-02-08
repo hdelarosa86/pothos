@@ -82,7 +82,6 @@ export const fetchOrderStartAsync = orderId => {
 };
 
 export const fetchOrderBySession = () => {
-  console.log("fetching order by session");
   return dispatch => {
     return axios
       .get(`/api/orders/session`)
@@ -91,6 +90,20 @@ export const fetchOrderBySession = () => {
       })
       .catch(error => {
         dispatch(fetchOrderFailure(error));
+      });
+  };
+};
+
+export const updateOrderTotal = (orderId, checkoutTotal) => {
+  return dispatch => {
+    dispatch(fetchOrderStart());
+    return axios
+      .put(`/api/orders/${orderId}`, { checkoutTotal })
+      .then(() => {
+        dispatch(fetchOrderStartAsync(orderId));
+      })
+      .catch(error => {
+        dispatch(fetchOrderailure(error));
       });
   };
 };

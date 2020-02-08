@@ -30,7 +30,7 @@ const UserDashboard = ({ assets }) => {
                     <button>Edit Profile</button>
                   </Link>
                   {assets.user.currentUser.admin && (
-                    <Link to={"/admin"}>
+                    <Link to={"/admin/users/pages/1"}>
                       <button>Admin Dashboard</button>
                     </Link>
                   )}
