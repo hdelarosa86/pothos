@@ -8,7 +8,6 @@ import Home from "./Components/Home";
 import Login from "./Components/Users/LogIn";
 import NavBar from "./Components/NavBar";
 import Cart from "./Components/Cart/Cart";
-import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
 import UserUpdate from "./Components/Users/UserUpdate";
@@ -129,11 +128,6 @@ export class App extends React.Component {
             render={id => <SingleItemUpdate Location={id} />}
           />
           <Route exact path={"/cart"} render={() => <Cart />} />
-          <Route
-            exact
-            path={"/cart/:id"}
-            render={id => <Checkout Location={id} />}
-          />
           <Route
             exact
             path={"/dashboard"}

@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { singleItemFetchStartAsync } from "../../Redux/Items/actions/items.actions";
 import {
   fetchOrderBySession,
-  addToOrderStartAsync
+  addToOrderStartAsync,
+  updateOrderTotal
 } from "../../Redux/Order/actions/order.actions";
 import List from "../List/List";
 
@@ -28,7 +29,13 @@ export class DetailedItem extends React.Component {
 
   render() {
     if (this.props.singleItem.name) {
-      const { singleItem, addToCart, order } = this.props;
+      const {
+        singleItem,
+        addToCart,
+        order,
+        fetchOrder,
+        updateCheckoutTotal
+      } = this.props;
       return (
         <div className="single-item">
           <div className="container">
@@ -53,13 +60,20 @@ export class DetailedItem extends React.Component {
                       order.orderInfo.id,
                       singleItem.price
                     )
+                      .then(() =>
+                        updateCheckoutTotal(
+                          order.orderInfo.id,
+                          parseInt(order.orderInfo.checkoutTotal) +
+                            parseInt(singleItem.price)
+                        )
+                      )
                       .then(() => {
                         // Noticed that the order info would change into the wrong session which will cause an error
                         // This error would occur when the add to cart is pressed twice
                         // This was not an issue before on hashRouter, however, browser router does push this error
                         // Added the fetch order after the add to cart is called, and it fixed the issue
                         if (document.cookie) {
-                          this.props.fetchOrder();
+                          fetchOrder();
                         }
                       })
                       .catch(err => console.error(err))
@@ -102,7 +116,9 @@ const mapDispatchToProps = dispatch => ({
   fetchItem: id => dispatch(singleItemFetchStartAsync(id)),
   fetchOrder: () => dispatch(fetchOrderBySession()),
   addToCart: (itemId, orderId, itemTotal) =>
-    dispatch(addToOrderStartAsync(itemId, orderId, itemTotal))
+    dispatch(addToOrderStartAsync(itemId, orderId, itemTotal)),
+  updateCheckoutTotal: (orderId, checkoutTotal) =>
+    dispatch(updateOrderTotal(orderId, checkoutTotal))
 });
 const mapStateToProps = state => ({
   singleItem: state.inventory.selectedItem,

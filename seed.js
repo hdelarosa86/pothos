@@ -47,7 +47,8 @@ const seed = () => {
     .then(johnSession => Order.create({
       total: 10,
       userId: johnSession.id,
-      sessionId: johnSession.id
+      sessionId: johnSession.id,
+      checkoutTotal: 10
     })
     )
     .then(johnCart =>
@@ -65,7 +66,7 @@ const seed = () => {
     .then(() => User.findOne({ where: { username: "janedoe" } }))
     .then(janeUser => Session.create({ id: janeUser.id })
       .then(janeSession => Order.create({
-        total: 0,
+        checkoutTotal: 0,
         userId: janeSession.id,
         sessionId: janeSession.id
       }))
