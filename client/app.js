@@ -1,7 +1,7 @@
 import React from "react";
 import "materialize-css/dist/css/materialize.min.css";
 import "./app.css";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 //component
 import DetailedItem from "./Components/Items/DetailedItem";
 import Home from "./Components/Home";
@@ -67,7 +67,10 @@ export class App extends React.Component {
             )}
           />
           {/* START OF ADMIN ROUTES */}
-          <Route path={"/admin"} component={AdminDashboard} />
+          <Route path={"/admin"}>
+            {!this.props.admin ? <Redirect to="/" /> : <AdminDashboard />}
+          </Route>
+
           <Route
             path={"/admin/users/pages/:pageId"}
             render={() => (
@@ -161,7 +164,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   order: state.order,
   user: state.user,
-  inventory: state.inventory.items
+  inventory: state.inventory.items,
+  admin: state.user.currentUser.admin
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
