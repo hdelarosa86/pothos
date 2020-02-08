@@ -68,7 +68,6 @@ export class App extends React.Component {
           />
           {/* START OF ADMIN ROUTES */}
           <Route path={"/admin"} component={AdminDashboard} />
-
           <Route
             path={"/admin/users/pages/:pageId"}
             render={() => (
@@ -80,7 +79,6 @@ export class App extends React.Component {
               />
             )}
           />
-
           <Route
             path={"/admin/orders/pages/:pageId"}
             render={() => (
@@ -92,7 +90,6 @@ export class App extends React.Component {
               />
             )}
           />
-
           <Route
             path={"/admin/items/pages/:pageId"}
             render={() => (
@@ -104,8 +101,23 @@ export class App extends React.Component {
               />
             )}
           />
-          {/* END OF ADMIN ROUTES */}
+          <Route
+            exact
+            path={"/admin/item/:id/update"}
+            render={id => <SingleItemUpdate Location={id} />}
+          />
 
+          <Route
+            exact
+            path={"/admin/dashboard/:id/update"}
+            render={id => <UserUpdate user={this.props.user} location={id} />}
+          />
+          <Route
+            exact
+            path={"/admin/shop/:id"}
+            render={id => <DetailedItem Location={id} />}
+          />
+          {/* END OF ADMIN ROUTES */}
           <Route
             exact
             path={"/shop/:id"}
@@ -132,7 +144,6 @@ export class App extends React.Component {
             path={"/dashboard/:id/update"}
             render={id => <UserUpdate user={this.props.user} location={id} />}
           />
-
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
         <Footer />

@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { updateInUser } from "../../Redux/User/actions/user.actions";
+import { singleUserAdminFetchStartAsync } from "../../Redux/AllUsers/action/AllUsers.action";
 class UserUpdate extends React.Component {
   constructor(user) {
     super(user);
@@ -96,7 +97,8 @@ class UserUpdate extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateUser: user => dispatch(updateInUser(user))
+  updateUser: user => dispatch(updateInUser(user)),
+  fetchUserForAdmin: userId => dispatch(singleUserAdminFetchStartAsync(userId))
 });
 
 const mapStateToProps = state => ({

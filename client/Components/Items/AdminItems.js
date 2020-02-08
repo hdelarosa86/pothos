@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import { connect } from "react-redux";
+import { deleteItemThenFetchAll } from "../../Redux/Items/actions/items.actions";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -20,12 +22,24 @@ const useStyles = makeStyles({
   }
 });
 
-const AdminItems = ({ item }) => {
+const AdminItems = ({ item, deleteItem }) => {
   const classes = useStyles();
+
+  const handleOnClickDelete = (e, id) => {
+    console.log("here: ", id);
+    e.preventDefault();
+    deleteItem(id)
+      .then(() => {
+        console.log("Success");
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
   return (
     <div className="admin-item">
       <Card id="itemPreviewCard" className={classes.card}>
-        <Link to={`/shop/${item.id}`}>
+        <Link to={`/admin/shop/${item.id}`}>
           <CardActionArea>
             <CardMedia className={classes.media} image={item.imageUrl} />
             <CardContent>
@@ -33,12 +47,27 @@ const AdminItems = ({ item }) => {
             </CardContent>
           </CardActionArea>
         </Link>
-        <button className="edit">Edit</button>
+        <Link to={`/admin/item/${item.id}/update`}>
+          <button className="edit">Edit</button>
+        </Link>
         <br />
-        <button className="delete">Delete</button>
+        <button
+          className="delete"
+          onClick={e => handleOnClickDelete(e, item.id)}
+        >
+          Delete
+        </button>
       </Card>
     </div>
   );
 };
 
-export default AdminItems;
+deleteItemThenFetchAll;
+const mapDispatchToProps = dispatch => {
+  return {
+    deleteItem: item => dispatch(deleteItemThenFetchAll(item))
+  };
+};
+const mapStateToProps = state => ({});
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminItems);

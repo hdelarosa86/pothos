@@ -68,7 +68,7 @@ export class DetailedItem extends React.Component {
                   ADD TO CART
                 </button>
                 {this.props.admin && (
-                  <Link to={`/shop/${singleItem.id}/update`}>
+                  <Link to={`/admin/item/${singleItem.id}/update`}>
                     <button className="item-edit">EDIT ITEM</button>
                   </Link>
                 )}
@@ -90,6 +90,7 @@ export class DetailedItem extends React.Component {
               />
             </div>
           </div>
+          }
         </div>
       );
     }

@@ -105,7 +105,8 @@ export const deleteItemThenFetchAll = id => {
     return axios
       .delete(`/api/items/${id}`)
       .then(() => {
-        dispatch(itemsFetchStartAsync());
+        console.log("hitting API");
+        dispatch(allItemsFetchStartAsync());
       })
       .catch(error => {
         dispatch(itemFetchFailure(error));

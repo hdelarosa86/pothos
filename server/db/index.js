@@ -12,7 +12,7 @@ User.hasMany(Order);
 Order.hasMany(CartItem, { as: "CartItem" });
 CartItem.belongsTo(Order);
 
-CartItem.belongsTo(Item);
+CartItem.belongsTo(Item, { onDelete: "CASCADE" });
 Item.hasMany(CartItem);
 Order.belongsTo(Session);
 Session.hasOne(Order);
