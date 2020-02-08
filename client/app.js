@@ -1,14 +1,13 @@
 import React from "react";
 import "materialize-css/dist/css/materialize.min.css";
 import "./app.css";
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 //component
 import DetailedItem from "./Components/Items/DetailedItem";
 import Home from "./Components/Home";
 import Login from "./Components/Users/LogIn";
 import NavBar from "./Components/NavBar";
 import Cart from "./Components/Cart/Cart";
-import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
 import UserUpdate from "./Components/Users/UserUpdate";
@@ -67,7 +66,9 @@ export class App extends React.Component {
             )}
           />
           {/* START OF ADMIN ROUTES */}
-          <Route path={"/admin"} component={AdminDashboard} />
+          <Route path={"/admin"}>
+            {!this.props.admin ? <Redirect to="/" /> : <AdminDashboard />}
+          </Route>
 
           <Route
             path={"/admin/users/pages/:pageId"}
@@ -80,7 +81,6 @@ export class App extends React.Component {
               />
             )}
           />
-
           <Route
             path={"/admin/orders/pages/:pageId"}
             render={() => (
@@ -92,7 +92,6 @@ export class App extends React.Component {
               />
             )}
           />
-
           <Route
             path={"/admin/items/pages/:pageId"}
             render={() => (
@@ -104,8 +103,23 @@ export class App extends React.Component {
               />
             )}
           />
-          {/* END OF ADMIN ROUTES */}
+          <Route
+            exact
+            path={"/admin/item/:id/update"}
+            render={id => <SingleItemUpdate Location={id} />}
+          />
 
+          <Route
+            exact
+            path={"/admin/dashboard/:id/update"}
+            render={id => <UserUpdate user={this.props.user} location={id} />}
+          />
+          <Route
+            exact
+            path={"/admin/shop/:id"}
+            render={id => <DetailedItem Location={id} />}
+          />
+          {/* END OF ADMIN ROUTES */}
           <Route
             exact
             path={"/shop/:id"}
@@ -119,11 +133,6 @@ export class App extends React.Component {
           <Route exact path={"/cart"} render={() => <Cart />} />
           <Route
             exact
-            path={"/cart/:id"}
-            render={id => <Checkout Location={id} />}
-          />
-          <Route
-            exact
             path={"/dashboard"}
             render={() => <Dashboard assets={this.props} />}
           />
@@ -132,7 +141,6 @@ export class App extends React.Component {
             path={"/dashboard/:id/update"}
             render={id => <UserUpdate user={this.props.user} location={id} />}
           />
-
           <Route exact path={"/login"} render={props => <Login {...props} />} />
         </div>
         <Footer />
@@ -150,7 +158,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
   order: state.order,
   user: state.user,
-  inventory: state.inventory.items
+  inventory: state.inventory.items,
+  admin: state.user.currentUser.admin
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

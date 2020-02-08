@@ -54,6 +54,7 @@ const seed = () => {
         userId: johnSession.id,
         sessionId: johnSession.id
       })
+
     )
     .then(johnCart =>
       Item.create({
@@ -81,7 +82,7 @@ const seed = () => {
         })
       )
     );
-};
+
 
 module.exports = seed;
 
