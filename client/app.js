@@ -11,6 +11,7 @@ import Cart from "./Components/Cart/Cart";
 import Checkout from "./Components/Cart/Checkout";
 import Dashboard from "./Components/Users/Dashboard";
 import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
+import ItemCreate from "./Components/Items/ItemCreate";
 import UserUpdate from "./Components/Users/UserUpdate";
 import List from "./Components/List/List";
 import Footer from "./Components/Footer";
@@ -67,6 +68,7 @@ export class App extends React.Component {
             )}
           />
           {/* START OF ADMIN ROUTES */}
+
           <Route path={"/admin"} component={AdminDashboard} />
           <Route
             path={"/admin/users/pages/:pageId"}
@@ -79,6 +81,7 @@ export class App extends React.Component {
               />
             )}
           />
+
           <Route
             path={"/admin/orders/pages/:pageId"}
             render={() => (
@@ -90,6 +93,9 @@ export class App extends React.Component {
               />
             )}
           />
+
+          <Route path={"/admin/item/create"} component={ItemCreate} />
+
           <Route
             path={"/admin/items/pages/:pageId"}
             render={() => (
@@ -117,6 +123,7 @@ export class App extends React.Component {
             path={"/admin/shop/:id"}
             render={id => <DetailedItem Location={id} />}
           />
+
           {/* END OF ADMIN ROUTES */}
           <Route
             exact
