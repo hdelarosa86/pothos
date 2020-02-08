@@ -19,58 +19,68 @@ class Cart extends React.Component {
   cartGenerate(arr) {
     const { addQuantity, minusQuantity, updateCheckoutTotal } = this.props;
     let cartTotal = 0;
-    const rows = arr.map(cartRow => {
-      cartTotal += parseInt(cartRow.itemTotal);
-      console.log(cartTotal);
-      return (
-        <div className="cart-box">
-          <div className="row">
-            <div className="col s12 m12 l5 left-align">
-              <h6>
-                {cartRow.item.name} x {cartRow.quantity}
-              </h6>
-            </div>
-            <div className="col s12 m12 l5 left-align">
-              <h6>{cartRow.itemTotal}</h6>
-            </div>
-            <div className="col s12 m12 l2 left-align">
-              <button
-                onClick={() =>
-                  addQuantity(
-                    cartRow.id,
-                    cartRow.orderId,
-                    cartRow.item.price
-                  ).then(() =>
-                    updateCheckoutTotal(
+    const rows = arr
+      .sort((a, b) => {
+        console.log(a.id);
+        if (a.id > b.id) {
+          return 1;
+        } else if (b.id > a.id) {
+          return -1;
+        } else {
+          return 0;
+        }
+      })
+      .map(cartRow => {
+        cartTotal += parseInt(cartRow.itemTotal);
+        return (
+          <div className="cart-box">
+            <div className="row">
+              <div className="col s12 m12 l5 left-align">
+                <h6>
+                  {cartRow.item.name} x {cartRow.quantity}
+                </h6>
+              </div>
+              <div className="col s12 m12 l5 left-align">
+                <h6>{cartRow.itemTotal}</h6>
+              </div>
+              <div className="col s12 m12 l2 left-align">
+                <button
+                  onClick={() =>
+                    addQuantity(
+                      cartRow.id,
                       cartRow.orderId,
-                      cartTotal + parseInt(cartRow.item.price)
+                      cartRow.item.price
+                    ).then(() =>
+                      updateCheckoutTotal(
+                        cartRow.orderId,
+                        cartTotal + parseInt(cartRow.item.price)
+                      )
                     )
-                  )
-                }
-              >
-                +
-              </button>
-              <button
-                onClick={() =>
-                  minusQuantity(
-                    cartRow.id,
-                    cartRow.orderId,
-                    cartRow.item.price
-                  ).then(() =>
-                    updateCheckoutTotal(
+                  }
+                >
+                  +
+                </button>
+                <button
+                  onClick={() =>
+                    minusQuantity(
+                      cartRow.id,
                       cartRow.orderId,
-                      cartTotal - parseInt(cartRow.item.price)
+                      cartRow.item.price
+                    ).then(() =>
+                      updateCheckoutTotal(
+                        cartRow.orderId,
+                        cartTotal - parseInt(cartRow.item.price)
+                      )
                     )
-                  )
-                }
-              >
-                -
-              </button>
+                  }
+                >
+                  -
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      );
-    });
+        );
+      });
     let cartTotalFloat = cartTotal.toFixed(2);
     return (
       <div className="row">
