@@ -101,7 +101,7 @@ export class DetailedItem extends React.Component {
               </div>
               <List
                 type="items"
-                pagination={false}
+                pagination={true}
                 filterMethods={null}
                 perPage={3}
               />
