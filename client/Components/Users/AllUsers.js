@@ -47,6 +47,7 @@ class AllUsers extends React.Component {
             </Link>
             <br />
             <button
+              disabled={this.props.currentUserId === user.id}
               className="delete"
               onClick={e => this.handleOnClickDelete(e, user.id)}
             >
@@ -64,6 +65,8 @@ const mapDispatchToProps = dispatch => {
     deleteUser: user => dispatch(deleteUserAdminThenFetchAll(user))
   };
 };
-const mapStateToProps = state => ({});
+const mapStateToProps = state => ({
+  currentUserId: state.user.currentUser.id
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllUsers);
