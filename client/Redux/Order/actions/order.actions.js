@@ -103,7 +103,17 @@ export const updateOrderTotal = (orderId, checkoutTotal) => {
         dispatch(fetchOrderStartAsync(orderId));
       })
       .catch(error => {
-        dispatch(fetchOrderailure(error));
+        dispatch(fetchOrderFailure(error));
       });
   };
 };
+
+export const markOrdercheckedOut = orderId => {
+  return dispatch => {
+    return axios.put(`/api/orders/${orderId}/complete`, { status: "checkedOut" })
+      .then(res => { dispatch(fetchOrderInfoSuccess(res.data)) })
+      .catch(error => {
+        dispatch(fetchOrderFailure(error));
+      })
+  }
+}
