@@ -74,7 +74,7 @@ app.get("/session", (req, res, next) => {
     .catch(err => next(err));
 });
 app.get("/user/:id", (req, res, next) => {
-  const { id } = req.params
+  const { id } = req.params;
   Order.findAll({
     where: { userId: id },
     include: [{ model: CartItem, as: "CartItem", include: [{ model: Item }] }]
@@ -129,28 +129,30 @@ app.delete("/:id", (req, res, next) => {
 app.put("/:id/complete", (req, res, next) => {
   const { id } = req.params;
   Order.findByPk(id)
-    .then(foundOrder => foundOrder.update(req.body)
-    ).then(completedOrder =>
+    .then(foundOrder => foundOrder.update(req.body))
+    .then(completedOrder =>
       Order.create({
         sessionId: completedOrder.sessionId,
         userId: completedOrder.userId
       })
     )
-    .then(newOrder => Order.findOne(
-      {
+    .then(newOrder =>
+      Order.findOne({
         where: { id: newOrder.id },
-        include: [{
-          model: CartItem,
-          as: "CartItem",
-          include: [
-            {
-              model: Item
-            }
-          ]
-        }]
+        include: [
+          {
+            model: CartItem,
+            as: "CartItem",
+            include: [
+              {
+                model: Item
+              }
+            ]
+          }
+        ]
       })
-
-    ).then(newOrderWithItems => res.status(201).send(newOrderWithItems))
+    )
+    .then(newOrderWithItems => res.status(201).send(newOrderWithItems))
     .catch(err => next(err));
 });
 app.put("/:id", (req, res, next) => {

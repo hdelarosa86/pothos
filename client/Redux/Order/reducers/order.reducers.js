@@ -41,7 +41,7 @@ const orderReducer = (state = INITIAL_STATE, action) => {
         errorMessage: "",
         isFetching: false,
         orderHistory: action.payload
-      }
+      };
     default:
       return state;
   }

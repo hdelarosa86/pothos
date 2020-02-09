@@ -21,7 +21,7 @@ export const fetchOrderInfoSuccess = data => ({
 export const fetchOrderHistory = data => ({
   type: orderTypes.FETCH_ORDER_HISTORY,
   payload: data
-})
+});
 
 //Thunks
 
@@ -114,15 +114,18 @@ export const updateOrderTotal = (orderId, checkoutTotal) => {
 
 export const markOrdercheckedOut = orderId => {
   return dispatch => {
-    return axios.put(`/api/orders/${orderId}/complete`, { status: "checkedOut" })
-      .then(res => { dispatch(fetchOrderInfoSuccess(res.data)) })
+    return axios
+      .put(`/api/orders/${orderId}/complete`, { status: "checkedOut" })
+      .then(res => {
+        dispatch(fetchOrderInfoSuccess(res.data));
+      })
       .catch(error => {
         dispatch(fetchOrderFailure(error));
-      })
-  }
-}
+      });
+  };
+};
 
-export const fetchOrderByUser = (userId) => {
+export const fetchOrderByUser = userId => {
   return dispatch => {
     return axios
       .get(`/api/orders/user/${userId}`)
