@@ -25,7 +25,6 @@ import Admin from "./Components/Admin/Admin";
 
 export class App extends React.Component {
   componentDidMount() {
-    console.log(this.props);
     this.props.persistUser();
     if (document.cookie) {
       this.props.fetchOrder();
@@ -93,7 +92,7 @@ export class App extends React.Component {
               <List
                 type="orders"
                 pagination={false}
-                filterMethods={["total", "status", null]}
+                filterMethods={["checkoutTotal", "status", null]}
                 perPage={5}
               />
             )}

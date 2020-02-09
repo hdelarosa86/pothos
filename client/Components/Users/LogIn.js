@@ -77,11 +77,11 @@ class Login extends React.Component {
                     Log In
                   </button>
                 </Link>
-                <a href={"/api/github/login"}>
+                {/* <Link to={"/"}>
                   <button type="button" name="logIn">
                     Github
                   </button>
-                </a>
+                </Link> */}
               </div>
             </form>
             {this.state.logInErr && <p>Invalid email or password</p>}
@@ -97,6 +97,7 @@ class Login extends React.Component {
 const mapDispatchToProps = dispatch => {
   return {
     userLogIn: user => dispatch(userLogIn(user))
+    //githubLogin: () => dispatch(githubLogin())
   };
 };
 const mapStateToProps = state => ({
