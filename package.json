@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "12.8.0"
+  },
   "scripts": {
     "start:dev": "npm run build:watch & npm run start:watch",
     "start:watch": "./node_modules/.bin/nodemon ./server/index.js",
