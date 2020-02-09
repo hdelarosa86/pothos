@@ -107,7 +107,7 @@ export class App extends React.Component {
                 pagination={true}
                 filterMethods={["size", "price", null]}
                 perPage={6}
-                adminBool = {true}
+                adminBool={true}
               />
             )}
           />
