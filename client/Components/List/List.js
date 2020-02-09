@@ -178,6 +178,7 @@ export class List extends React.Component {
           filterMethods={this.props.filterMethods}
           perPage={this.props.perPage}
           count={this.typeCountRouter()}
+          adminBool={this.props.adminBool}
         />
         <ListContent
           type={this.props.type}

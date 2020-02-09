@@ -37,7 +37,7 @@ export class DetailedItem extends React.Component {
       .deleteItem(id)
       .then(() => {
         console.log("Success");
-        this.props.Location.history.push("/admin/items/pages/1");
+        this.props.Location.history.push("/admin/item/pages/1");
       })
       .catch(err => {
         console.error(err);
