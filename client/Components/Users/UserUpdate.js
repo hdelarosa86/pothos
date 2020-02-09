@@ -105,36 +105,37 @@ class UserUpdate extends React.Component {
                 onChange={this.handleOnChange}
               />
             </div>
-
-            <Link to="/dashboard">
-              <span className="admin-update">
-                <button
-                  type="button"
-                  name="submitFormErr"
-                  onClick={e => this.handleSubmit(e)}
-                >
-                  Update User
-                </button>
-              </span>
-            </Link>
-
-            {this.props.admin && (
-              <Link to="/admin">
+            <div className="filter">
+              <Link to="/dashboard">
                 <span className="admin-update">
                   <button
                     type="button"
-                    name="delete"
-                    disabled={
-                      this.props.selectedUser.id ===
-                      this.props.user.currentUser.id
-                    }
-                    onClick={e => this.handleOnClickDelete(e, user.id)}
+                    name="submitFormErr"
+                    onClick={e => this.handleSubmit(e)}
                   >
-                    Delete
+                    Update User
                   </button>
                 </span>
               </Link>
-            )}
+
+              {this.props.admin && (
+                <Link to="/admin">
+                  <span className="admin-update">
+                    <button
+                      type="button"
+                      name="delete"
+                      disabled={
+                        this.props.selectedUser.id ===
+                        this.props.user.currentUser.id
+                      }
+                      onClick={e => this.handleOnClickDelete(e, user.id)}
+                    >
+                      Delete
+                    </button>
+                  </span>
+                </Link>
+              )}
+            </div>
           </form>
           {this.state.submitFormErr && <p>Please fill out form correctly</p>}
         </div>

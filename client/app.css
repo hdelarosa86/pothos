@@ -48,7 +48,7 @@ nav .dropdown-content{
     background: #8fd2c7;
     border: 1px solid #8fd2c7;
     color: #fff;
-    margin: 1em 0 0.2em;
+    margin: 1em 0 1em;
     padding: 0.25em;
     text-transform: uppercase;
     width: 90%;
@@ -225,6 +225,12 @@ nav .dropdown-content{
     padding: 0.5em;
     text-transform: uppercase;
 }
+.filter button a{
+    color: #fff
+}
+.filter button a:hover{
+    color: #8fd2c7
+}
 .filter button:hover{
     background: #fff;
     border: 1px solid #8fd2c7;
@@ -357,7 +363,7 @@ nav .dropdown-content{
     background: #fff;
     border: 1px solid #8fd2c7;
     color: #8fd2c7;
-}
+} 
 .subhead{
     font-size: 2em;
     font-weight: 300;
