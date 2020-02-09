@@ -6,8 +6,8 @@ import {
   incrementItemStartAsync,
   decrementItemStartAsync,
   updateOrderTotal
-} from "../../Redux/Order/actions/order.actions";
-import StripeCheckoutButton from "../StripeButton/StripeButton";
+} from "../../Redux/Order/actions/order.actions.js";
+import StripeCheckoutButton from "../StripeButton/Stripebutton";
 
 class Cart extends React.Component {
   componentDidMount() {
