@@ -45,7 +45,7 @@ export class MenuBar extends React.Component {
             {this.props.pagination && this.props.match.params.pageId
               ? this.pages().map(num => (
                   <Link
-                    to={`/${this.menuRouter[this.props.type]}/pages/${num}`}
+                    to={`/${this.props.adminBool === true ? 'admin/': ''}${this.props.adminBool && this.menuRouter[this.props.type]==='shop'?'item':`${this.menuRouter[this.props.type]}`}/pages/${num}`}
                   >
                     {num}{" "}
                   </Link>
@@ -92,5 +92,8 @@ export class MenuBar extends React.Component {
 const mapDispatchToprops = dispatch => ({
   selectFilter: filter => dispatch(selectFilter(filter))
 });
+const mapStateToprops = state=> ({
+  admin: state.user.currentUser.admin
+});
 
-export default withRouter(connect(null, mapDispatchToprops)(MenuBar));
+export default withRouter(connect(mapStateToprops, mapDispatchToprops)(MenuBar));

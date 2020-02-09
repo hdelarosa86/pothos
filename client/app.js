@@ -100,13 +100,14 @@ export class App extends React.Component {
           <Route exact path={"/admin/item/create"} component={ItemCreate} />
           <Route
             exact
-            path={"/admin/items/pages/:pageId"}
+            path={"/admin/item/pages/:pageId"}
             render={() => (
               <List
                 type="items"
                 pagination={true}
                 filterMethods={["size", "price", null]}
-                perPage={5}
+                perPage={6}
+                adminBool = {true}
               />
             )}
           />
