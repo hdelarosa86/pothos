@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import OrderHistory from "./OrderHistory";
 
 const UserDashboard = ({ assets }) => {
   // This will be the user dashboard
@@ -37,6 +38,7 @@ const UserDashboard = ({ assets }) => {
                 </div>
               </div>
             </div>
+            <OrderHistory />
           </div>
         </div>
         <div className="dashboard-bkgd-img">

@@ -18,6 +18,10 @@ export const fetchOrderInfoSuccess = data => ({
   type: orderTypes.FETCH_ORDER_INFO_SUCCESS,
   payload: data
 });
+export const fetchOrderHistory = data => ({
+  type: orderTypes.FETCH_ORDER_HISTORY,
+  payload: data
+})
 
 //Thunks
 
@@ -117,3 +121,16 @@ export const markOrdercheckedOut = orderId => {
       })
   }
 }
+
+export const fetchOrderByUser = (userId) => {
+  return dispatch => {
+    return axios
+      .get(`/api/orders/user/${userId}`)
+      .then(data => {
+        dispatch(fetchOrderHistory(data.data));
+      })
+      .catch(error => {
+        dispatch(fetchOrderFailure(error));
+      });
+  };
+};

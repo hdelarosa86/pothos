@@ -73,6 +73,17 @@ app.get("/session", (req, res, next) => {
     })
     .catch(err => next(err));
 });
+app.get("/user/:id", (req, res, next) => {
+  const { id } = req.params
+  Order.findAll({
+    where: { userId: id },
+    include: [{ model: CartItem, as: "CartItem", include: [{ model: Item }] }]
+  })
+    .then(order => {
+      res.status(200).send(order);
+    })
+    .catch(err => next(err));
+});
 app.get("/:id", (req, res, next) => {
   const { id } = req.params;
   Order.findOne({
