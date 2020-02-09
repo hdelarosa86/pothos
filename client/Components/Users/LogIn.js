@@ -96,7 +96,7 @@ class Login extends React.Component {
 // Sign Up Component is in render return
 const mapDispatchToProps = dispatch => {
   return {
-    userLogIn: user => dispatch(userLogIn(user)),   
+    userLogIn: user => dispatch(userLogIn(user))
     //githubLogin: () => dispatch(githubLogin())
   };
 };

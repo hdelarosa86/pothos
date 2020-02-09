@@ -25,7 +25,7 @@ router.get("/github/callback", (req, res, next) => {
     )
     .then(async res => {
       req.github_access_token = res.data.access_token;
-     return (
+      return (
         await axios.get("https://api.github.com/user", {
           headers: {
             Authorization: `token ${req.github_access_token}`
@@ -34,7 +34,7 @@ router.get("/github/callback", (req, res, next) => {
       ).data;
     })
 
-    .then((github_data) => {
+    .then(github_data => {
       User.create({
         firstName: github_data.name.split(" ")[0],
         lastName: github_data.name.split(" ")[1],
