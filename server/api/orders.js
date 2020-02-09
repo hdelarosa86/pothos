@@ -65,7 +65,18 @@ app.get("/", (req, res, next) => {
 app.get("/session", (req, res, next) => {
   const id = req.cookies.sessionId;
   Order.findOne({
-    where: { sessionId: id },
+    where: { sessionId: id, status: "pending" },
+    include: [{ model: CartItem, as: "CartItem", include: [{ model: Item }] }]
+  })
+    .then(order => {
+      res.status(200).send(order);
+    })
+    .catch(err => next(err));
+});
+app.get("/user/:id", (req, res, next) => {
+  const { id } = req.params;
+  Order.findAll({
+    where: { userId: id },
     include: [{ model: CartItem, as: "CartItem", include: [{ model: Item }] }]
   })
     .then(order => {
@@ -115,7 +126,35 @@ app.delete("/:id", (req, res, next) => {
     .then(() => res.status(200).end())
     .catch(err => next(err));
 });
-
+app.put("/:id/complete", (req, res, next) => {
+  const { id } = req.params;
+  Order.findByPk(id)
+    .then(foundOrder => foundOrder.update(req.body))
+    .then(completedOrder =>
+      Order.create({
+        sessionId: completedOrder.sessionId,
+        userId: completedOrder.userId
+      })
+    )
+    .then(newOrder =>
+      Order.findOne({
+        where: { id: newOrder.id },
+        include: [
+          {
+            model: CartItem,
+            as: "CartItem",
+            include: [
+              {
+                model: Item
+              }
+            ]
+          }
+        ]
+      })
+    )
+    .then(newOrderWithItems => res.status(201).send(newOrderWithItems))
+    .catch(err => next(err));
+});
 app.put("/:id", (req, res, next) => {
   const { id } = req.params;
   Order.findByPk(id)

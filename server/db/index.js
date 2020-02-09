@@ -15,7 +15,7 @@ CartItem.belongsTo(Order);
 CartItem.belongsTo(Item, { onDelete: "CASCADE" });
 Item.hasMany(CartItem);
 Order.belongsTo(Session);
-Session.hasOne(Order);
+Session.hasMany(Order);
 
 module.exports = {
   db,

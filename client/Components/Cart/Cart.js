@@ -98,7 +98,10 @@ class Cart extends React.Component {
       return (
         <div className="container">
           <h1>Your Cart</h1>
-          {this.cartGenerate(this.props.order.orderInfo.CartItem)}
+          {this.props.order.orderInfo.CartItem.length
+            ? this.cartGenerate(this.props.order.orderInfo.CartItem)
+            : "No plants in your cart!"}
+
           <div className="filter">
             <button>
               <Link to="/shop/pages/1">Shop for More Plants!</Link>

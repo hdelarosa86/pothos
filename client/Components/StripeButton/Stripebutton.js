@@ -3,6 +3,10 @@ import { connect } from "react-redux";
 // utilities
 import axios from "axios";
 import StripeCheckout from "react-stripe-checkout";
+import {
+  markOrdercheckedOut,
+  fetchOrderBySession
+} from "../../Redux/Order/actions/order.actions";
 
 class StripeCheckoutButton extends React.Component {
   currency = "usd";
@@ -12,14 +16,17 @@ class StripeCheckoutButton extends React.Component {
   onToken = token => {
     axios
       .post("api/payment", {
-        amount: this.props.order.orderInfo.checkoutTotal,
+        amount: this.props.order.orderInfo.checkoutTotal * 100,
         token
       })
       .then(res => {
         alert("Payment Complete");
       })
+      .then(() => this.props.markOrderComplete(this.props.order.orderInfo.id))
+      .then(() => this.props.fetchOrderBySess())
       .catch(error => {
         alert("There was an issue with your payment.");
+        console.log(error);
       });
   };
   render() {
@@ -43,4 +50,11 @@ class StripeCheckoutButton extends React.Component {
 const mapStateToProps = state => ({
   order: state.order
 });
-export default connect(mapStateToProps, null)(StripeCheckoutButton);
+const mapDispatchToProps = dispatch => ({
+  markOrderComplete: id => dispatch(markOrdercheckedOut(id)),
+  fetchOrderBySess: () => dispatch(fetchOrderBySession())
+});
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StripeCheckoutButton);
