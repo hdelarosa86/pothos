@@ -40,6 +40,7 @@ app.get('*', (req, res) => {
 
 if (process.env.NODE_ENV === 'production') {
   db.sync()
+    .then(seed)
     .then(() => {
       app.listen(PORT, () => {
         console.log(chalk.cyan("I'm running on", PORT));
