@@ -1,12 +1,12 @@
-const express = require("express");
-const path = require("path");
-const { db } = require("./db");
-const chalk = require("chalk");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const seed = require("../seed");
+const express = require('express');
+const path = require('path');
+const { db } = require('./db');
+const chalk = require('chalk');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const seed = require('../seed');
 
-if (process.env.NODE_ENV !== "production") require("dotenv").config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 //initialize express
 const app = express();
@@ -26,53 +26,48 @@ app.use((req, res, next) => {
 });
 
 // static middleware
-app.use(express.static(path.join(__dirname, "../static")));
+app.use(express.static(path.join(__dirname, '../static')));
 
 //cookie
-app.use(require("./cookies"));
+app.use(require('./cookies'));
 
 // api routes
-app.use("/api", require("./api"));
+app.use('/api', require('./api'));
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../static/index.html"));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../static/index.html'));
 }); // Send index.html for any other requests
 
-const startServer = () =>
-  new Promise(res => {
-    app.listen(PORT, () => {
-      console.log(chalk.cyan("I'm running on", PORT));
-      res(true);
-    });
-  });
-
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === 'production') {
   db.sync()
-    .then(startServer)
     .then(() => {
+      app.listen(PORT, () => {
+        console.log(chalk.cyan("I'm running on", PORT));
+      });
       console.log(
-        chalk.greenBright("Application successfully started in production")
+        chalk.greenBright('Application successfully started in production')
       );
     })
     .catch(e => {
       console.log(
-        chalk.magentaBright("Application failed to start in production")
+        chalk.magentaBright('Application failed to start in production')
       );
       console.error(e);
       process.exit(1);
     });
 } else {
   db.sync()
-    //.then(seed)
-    .then(startServer)
     .then(() => {
+      app.listen(PORT, () => {
+        console.log(chalk.cyan(`I'm running on http://localhost:${PORT}`));
+      });
       console.log(
-        chalk.greenBright("Application successfully started in development")
+        chalk.greenBright('Application successfully started in development')
       );
     })
     .catch(e => {
       console.log(
-        chalk.magentaBright("Application failed to start in development")
+        chalk.magentaBright('Application failed to start in development')
       );
       console.error(e);
       process.exit(1);
