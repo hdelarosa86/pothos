@@ -2,23 +2,29 @@ const chalk = require('chalk');
 const Sequelize = require('sequelize');
 const pkg = require('../../package.json');
 
-//const dbName = process.env.NODE_ENV === 'test' ? `${pkg.name}-test` : pkg.name;
+const dbName = process.env.NODE_ENV === 'test' ? `${pkg.name}-test` : pkg.name;
 
-const dbName = pkg.name;
+let dbConfig;
 
-console.log(chalk.yellow(`Opening database connection to ${dbName}`));
-
-const db = new Sequelize(
-  process.env.DATABASE_URL || `postgres://localhost:5432/${dbName}`,
-  {
+if (process.env.NODE_ENV === 'production') {
+  dbConfig = {
     logging: false,
     dialectOptions: {
       ssl: {
-        require: true, // This will help you. But you will see nwe error
-        rejectUnauthorized: false, // This line will fix new error
+        require: true,
+        rejectUnauthorized: false,
       },
     },
-  }
+  };
+} else {
+  dbConfig = {
+    logging: false,
+  };
+}
+
+const db = new Sequelize(
+  process.env.DATABASE_URL || `postgres://localhost:5432/${dbName}`,
+  dbConfig
 );
 
 module.exports = db;

@@ -1,32 +1,32 @@
-const { STRING, INTEGER, BIGINT, UUID, UUIDV4, BOOLEAN } = require("sequelize");
-const db = require("./database");
-const bcrypt = require("bcrypt");
+const { STRING, INTEGER, BIGINT, UUID, UUIDV4, BOOLEAN } = require('sequelize');
+const db = require('./database');
+const bcrypt = require('bcrypt');
 //Leaving some keys commented out to simplify building tier one routes/tests/components
 
 const User = db.define(
-  "user",
+  'user',
   {
     id: {
       primaryKey: true,
       type: UUID,
-      defaultValue: UUIDV4
+      defaultValue: UUIDV4,
     },
     firstName: {
-      type: STRING
+      type: STRING,
       // allowNull: false,
       // validate: {
       //   notEmpty: true
       // }
     },
     lastName: {
-      type: STRING
+      type: STRING,
       // allowNull: false,
       // validate: {
       //   notEmpty: true
       // }
     },
     email: {
-      type: STRING
+      type: STRING,
       //allowNull: false,
       // validate: {
       //   notEmpty: true,
@@ -34,7 +34,7 @@ const User = db.define(
       // }
     },
     username: {
-      type: STRING
+      type: STRING,
       // allowNull: false,
       // validate: {
       //   notEmpty: true
@@ -43,26 +43,26 @@ const User = db.define(
     password: {
       type: STRING,
       unique: true,
-      allowNull: false
+      allowNull: false,
     },
     github_access_token: {
       type: STRING,
       allowNull: true,
-      defaultValue: null
+      defaultValue: null,
     },
     admin: {
       type: BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     },
     imageUrl: {
       type: STRING,
       defaultValue:
-        "https://cdn.dribbble.com/users/405145/screenshots/4093229/08_plant_1_4x3.jpg",
+        'https://cdn.dribbble.com/users/405145/screenshots/4093229/08_plant_1_4x3.jpg',
       validate: {
-        isUrl: true
-      }
-    }
+        isUrl: true,
+      },
+    },
     // mailLine1: {
     //     type: STRING,
     //     allowNull: false,
@@ -167,8 +167,8 @@ const User = db.define(
       beforeCreate: user => {
         const salt = bcrypt.genSaltSync();
         user.password = bcrypt.hashSync(user.password, salt);
-      }
-    }
+      },
+    },
   }
 );
 

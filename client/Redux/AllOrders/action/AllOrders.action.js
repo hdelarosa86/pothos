@@ -1,31 +1,31 @@
-import orderAdminTypes from "../type/AllOrders.type";
-import axios from "axios";
+import orderAdminTypes from '../type/AllOrders.type';
+import axios from 'axios';
 
 //actions
 //need a selected item
 
 export const orderAdminFetchStart = () => ({
-  type: orderAdminTypes.FETCH_ORDER_ADMIN_START
+  type: orderAdminTypes.FETCH_ORDER_ADMIN_START,
 });
 
 export const orderAdminFetchFailure = error => ({
   type: orderAdminTypes.FETCH_ORDER_ADMIN_FAILURE,
-  payload: error
+  payload: error,
 });
 
 export const orderAdminSingleFetchSuccess = data => ({
   type: orderAdminTypes.FETCH_SINGLE_ORDER_ADMIN_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 export const orderAdminAllFetchSuccess = data => ({
   type: orderAdminTypes.FETCH_All_ORDER_ADMIN_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 export const orderAdminAllByPageFetchSuccess = data => ({
   type: orderAdminTypes.FETCH_All_ORDER_ADMIN_BY_PAGE_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 //thunk
@@ -46,17 +46,17 @@ export const singleOrderAdminFetchStartAsync = id => {
 
 export const allOrderAdminFetchStartAsync = (perPage, page, filter) => {
   const arg = [
-    ["page", page],
-    ["perPage", perPage],
-    ["filter", filter]
+    ['page', page],
+    ['perPage', perPage],
+    ['filter', filter],
   ];
   const query = arg.reduce((acc, [key, value], idx) => {
     acc += `${key}=${value}`;
     if (idx !== arg.length - 1) {
-      acc += "&";
+      acc += '&';
     }
     return acc;
-  }, "?");
+  }, '?');
   return dispatch => {
     dispatch(orderAdminFetchStart());
     return axios
@@ -77,7 +77,7 @@ export const allOrderAdminFetchStartAsync = (perPage, page, filter) => {
 export const createItemThenFetchAll = item => {
   return dispatch => {
     return axios
-      .post("/api/orders/", item)
+      .post('/api/orders/', item)
       .then(() => {
         dispatch(allOrderAdminFetchStartAsync());
       })

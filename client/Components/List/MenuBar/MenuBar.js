@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 //utils
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 //actions
-import { selectFilter } from "../../../Redux/Nav/actions/nav.actions";
+import { selectFilter } from '../../../Redux/Nav/actions/nav.actions';
 
 /*
 The MenuBar component excepts 5 arguments:
@@ -27,9 +27,9 @@ export class MenuBar extends React.Component {
   };
 
   menuRouter = {
-    items: "shop",
-    orders: "orders",
-    users: "users"
+    items: 'shop',
+    orders: 'orders',
+    users: 'users',
   };
 
   render() {
@@ -45,14 +45,14 @@ export class MenuBar extends React.Component {
             {this.props.pagination && this.props.match.params.pageId
               ? this.pages().map(num => (
                   <Link
-                    to={`/${this.props.adminBool === true ? "admin/" : ""}${
+                    to={`/${this.props.adminBool === true ? 'admin/' : ''}${
                       this.props.adminBool &&
-                      this.menuRouter[this.props.type] === "shop"
-                        ? "item"
+                      this.menuRouter[this.props.type] === 'shop'
+                        ? 'item'
                         : `${this.menuRouter[this.props.type]}`
                     }/pages/${num}`}
                   >
-                    {num}{" "}
+                    {num}{' '}
                   </Link>
                 ))
               : null}
@@ -78,8 +78,8 @@ export class MenuBar extends React.Component {
                           <button
                             onClick={() => this.props.selectFilter(method)}
                           >
-                            {" "}
-                            {method}{" "}
+                            {' '}
+                            {method}{' '}
                           </button>
                         )}
                       </span>
@@ -95,10 +95,10 @@ export class MenuBar extends React.Component {
 }
 
 const mapDispatchToprops = dispatch => ({
-  selectFilter: filter => dispatch(selectFilter(filter))
+  selectFilter: filter => dispatch(selectFilter(filter)),
 });
 const mapStateToprops = state => ({
-  admin: state.user.currentUser.admin
+  admin: state.user.currentUser.admin,
 });
 
 export default withRouter(

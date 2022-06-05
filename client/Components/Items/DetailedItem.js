@@ -1,16 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import {
   singleItemFetchStartAsync,
-  deleteItemThenFetchAll
-} from "../../Redux/Items/actions/items.actions";
+  deleteItemThenFetchAll,
+} from '../../Redux/Items/actions/items.actions';
 import {
   fetchOrderBySession,
   addToOrderStartAsync,
-  updateOrderTotal
-} from "../../Redux/Order/actions/order.actions";
-import List from "../List/List";
+  updateOrderTotal,
+} from '../../Redux/Order/actions/order.actions';
+import List from '../List/List';
 
 export class DetailedItem extends React.Component {
   // This will update the params Id when a different item is clicked
@@ -31,13 +31,13 @@ export class DetailedItem extends React.Component {
     fetchItem(this.props.Location.match.params.id);
   }
   handleOnClickDelete = (e, id) => {
-    console.log("here: ", id);
+    console.log('here: ', id);
     e.preventDefault();
     this.props
       .deleteItem(id)
       .then(() => {
-        console.log("Success");
-        this.props.Location.history.push("/admin/item/pages/1");
+        console.log('Success');
+        this.props.Location.history.push('/admin/item/pages/1');
       })
       .catch(err => {
         console.error(err);
@@ -50,14 +50,14 @@ export class DetailedItem extends React.Component {
         addToCart,
         order,
         fetchOrder,
-        updateCheckoutTotal
+        updateCheckoutTotal,
       } = this.props;
       return (
         <div className="single-item">
           <div className="container">
             <div className="row">
               <div className="col s12 m12 l6 left-align">
-                <img className={"responsive-img"} src={singleItem.imageUrl} />
+                <img className="responsive-img" src={singleItem.imageUrl} />
               </div>
               <div className="col s12 m12 l6 left-align">
                 <h2>{singleItem.name}</h2>
@@ -152,12 +152,12 @@ const mapDispatchToProps = dispatch => ({
     dispatch(addToOrderStartAsync(itemId, orderId, itemTotal)),
   deleteItem: item => dispatch(deleteItemThenFetchAll(item)),
   updateCheckoutTotal: (orderId, checkoutTotal) =>
-    dispatch(updateOrderTotal(orderId, checkoutTotal))
+    dispatch(updateOrderTotal(orderId, checkoutTotal)),
 });
 const mapStateToProps = state => ({
   singleItem: state.inventory.selectedItem,
   admin: state.user.currentUser.admin,
-  order: state.order
+  order: state.order,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DetailedItem);

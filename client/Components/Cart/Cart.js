@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   fetchOrderBySession,
   incrementItemStartAsync,
   decrementItemStartAsync,
-  updateOrderTotal
-} from "../../Redux/Order/actions/order.actions.js";
-import StripeCheckoutButton from "../StripeButton/Stripebutton";
+  updateOrderTotal,
+} from '../../Redux/Order/actions/order.actions.js';
+import StripeCheckoutButton from '../StripeButton/Stripebutton';
 
 class Cart extends React.Component {
   componentDidMount() {
@@ -100,7 +100,7 @@ class Cart extends React.Component {
           <h1>Your Cart</h1>
           {this.props.order.orderInfo.CartItem.length
             ? this.cartGenerate(this.props.order.orderInfo.CartItem)
-            : "No plants in your cart!"}
+            : 'No plants in your cart!'}
 
           <div className="filter">
             <button>
@@ -113,7 +113,7 @@ class Cart extends React.Component {
           </div>
           <StripeCheckoutButton
             name={firstName}
-            description={`Checkout`}
+            description="Checkout"
             email={email ? email : null}
           />
         </div>
@@ -135,11 +135,11 @@ const mapDispatchToProps = dispatch => ({
   minusQuantity: (cartItemId, orderId, price) =>
     dispatch(decrementItemStartAsync(cartItemId, orderId, price)),
   updateCheckoutTotal: (orderId, checkoutTotal) =>
-    dispatch(updateOrderTotal(orderId, checkoutTotal))
+    dispatch(updateOrderTotal(orderId, checkoutTotal)),
 });
 const mapStateToProps = state => ({
   order: state.order,
-  user: state.user.currentUser
+  user: state.user.currentUser,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

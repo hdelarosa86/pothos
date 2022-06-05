@@ -1,26 +1,26 @@
-import orderTypes from "../types/order.types";
-import axios from "axios";
+import orderTypes from '../types/order.types';
+import axios from 'axios';
 
 export const fetchOrderStart = () => ({
-  type: orderTypes.FETCH_ORDER_START
+  type: orderTypes.FETCH_ORDER_START,
 });
 
 export const fetchOrderFailure = error => ({
   type: orderTypes.FETCH_ORDER_FAILURE,
-  payload: error
+  payload: error,
 });
 
 export const fetchOrderSuccess = data => ({
   type: orderTypes.FETCH_ORDER_SUCCESS,
-  payload: data
+  payload: data,
 });
 export const fetchOrderInfoSuccess = data => ({
   type: orderTypes.FETCH_ORDER_INFO_SUCCESS,
-  payload: data
+  payload: data,
 });
 export const fetchOrderHistory = data => ({
   type: orderTypes.FETCH_ORDER_HISTORY,
-  payload: data
+  payload: data,
 });
 
 //Thunks
@@ -60,7 +60,7 @@ export const addToOrderStartAsync = (itemId, orderId, itemTotal) => {
       .post(`/api/cart-items/`, {
         itemId: itemId,
         orderId: orderId,
-        itemTotal: itemTotal
+        itemTotal: itemTotal,
       })
       .then(() => {
         dispatch(fetchOrderStartAsync(orderId));
@@ -115,7 +115,7 @@ export const updateOrderTotal = (orderId, checkoutTotal) => {
 export const markOrdercheckedOut = orderId => {
   return dispatch => {
     return axios
-      .put(`/api/orders/${orderId}/complete`, { status: "checkedOut" })
+      .put(`/api/orders/${orderId}/complete`, { status: 'checkedOut' })
       .then(res => {
         dispatch(fetchOrderInfoSuccess(res.data));
       })

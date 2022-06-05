@@ -1,30 +1,30 @@
-import userAdminTypes from "../type/AllUsers.type";
-import axios from "axios";
+import userAdminTypes from '../type/AllUsers.type';
+import axios from 'axios';
 
 //actions
 
 export const userAdminFetchStart = () => ({
-  type: userAdminTypes.FETCH_USER_ADMIN_START
+  type: userAdminTypes.FETCH_USER_ADMIN_START,
 });
 
 export const userAdminFetchFailure = error => ({
   type: userAdminTypes.FETCH_USER_ADMIN_FAILURE,
-  payload: error
+  payload: error,
 });
 
 export const userAdminSingleFetchSuccess = data => ({
   type: userAdminTypes.FETCH_SINGLE_USER_ADMIN_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 export const userAdminAllFetchSuccess = data => ({
   type: userAdminTypes.FETCH_All_USER_ADMIN_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 export const userAdminAllByPageFetchSuccess = data => ({
   type: userAdminTypes.FETCH_All_USER_ADMIN_BY_PAGE_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 //thunk
@@ -46,17 +46,17 @@ export const singleUserAdminFetchStartAsync = id => {
 
 export const allUserAdminFetchStartAsync = (perPage, page, filter) => {
   const arg = [
-    ["page", page],
-    ["perPage", perPage],
-    ["filter", filter]
+    ['page', page],
+    ['perPage', perPage],
+    ['filter', filter],
   ];
   const query = arg.reduce((acc, [key, value], idx) => {
     acc += `${key}=${value}`;
     if (idx !== arg.length - 1) {
-      acc += "&";
+      acc += '&';
     }
     return acc;
-  }, "?");
+  }, '?');
   return dispatch => {
     dispatch(userAdminFetchStart());
     return axios
@@ -77,7 +77,7 @@ export const allUserAdminFetchStartAsync = (perPage, page, filter) => {
 export const createUserAdminThenFetchAll = item => {
   return dispatch => {
     return axios
-      .post("/api/users/", item)
+      .post('/api/users/', item)
       .then(() => {
         dispatch(allUserAdminFetchStartAsync());
       })

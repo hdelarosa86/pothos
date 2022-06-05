@@ -1,12 +1,12 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-app.post("/", (req, res, next) => {
+app.post('/', (req, res, next) => {
   const body = {
     source: req.body.token.id,
     amount: req.body.amount,
-    currency: "usd"
+    currency: 'usd',
   };
 
   stripe.charges.create(body, (stripeErr, stripeRes) => {

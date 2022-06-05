@@ -1,7 +1,7 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import List from "./List/List";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import List from './List/List';
 
 export class Home extends React.Component {
   render() {
@@ -35,7 +35,7 @@ export class Home extends React.Component {
                   <img
                     className="responsive-img"
                     src="https://i.postimg.cc/nzDYtvQx/ezgif-com-webp-to-jpg-4.png"
-                  ></img>
+                  />
                 </span>
               </div>
             </div>

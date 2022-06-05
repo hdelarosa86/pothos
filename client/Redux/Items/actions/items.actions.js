@@ -1,31 +1,31 @@
-import itemTypes from "../types/items.types";
-import axios from "axios";
+import itemTypes from '../types/items.types';
+import axios from 'axios';
 
 //actions
 //need a selected item
 
 export const itemFetchStart = () => ({
-  type: itemTypes.FETCH_ITEM_START
+  type: itemTypes.FETCH_ITEM_START,
 });
 
 export const itemAllFetchSuccess = data => ({
   type: itemTypes.FETCH_All_ITEM_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 export const itemAllByPageFetchSuccess = data => ({
   type: itemTypes.FETCH_All_ITEM_BY_PAGE_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 export const itemSingleFetchSuccess = data => ({
   type: itemTypes.FETCH_SINGLE_ITEM_SUCCESS,
-  payload: data
+  payload: data,
 });
 
 export const itemFetchFailure = error => ({
   type: itemTypes.FETCH_ITEM_FAILURE,
-  payload: error
+  payload: error,
 });
 
 //thunk
@@ -46,17 +46,17 @@ export const singleItemFetchStartAsync = id => {
 
 export const allItemsFetchStartAsync = (perPage, page, filter) => {
   const arg = [
-    ["page", page],
-    ["perPage", perPage],
-    ["filter", filter]
+    ['page', page],
+    ['perPage', perPage],
+    ['filter', filter],
   ];
   const query = arg.reduce((acc, [key, value], idx) => {
     acc += `${key}=${value}`;
     if (idx !== arg.length - 1) {
-      acc += "&";
+      acc += '&';
     }
     return acc;
-  }, "?");
+  }, '?');
   return dispatch => {
     dispatch(itemFetchStart());
     return axios
@@ -77,7 +77,7 @@ export const allItemsFetchStartAsync = (perPage, page, filter) => {
 export const createItemThenFetchAll = item => {
   return dispatch => {
     return axios
-      .post("/api/items/", item)
+      .post('/api/items/', item)
       .then(() => {
         dispatch(allItemsFetchStartAsync());
       })
@@ -105,7 +105,7 @@ export const deleteItemThenFetchAll = id => {
     return axios
       .delete(`/api/items/${id}`)
       .then(() => {
-        console.log("hitting API");
+        console.log('hitting API');
         dispatch(allItemsFetchStartAsync());
       })
       .catch(error => {

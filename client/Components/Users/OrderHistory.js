@@ -1,7 +1,7 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { fetchOrderByUser } from "../../Redux/Order/actions/order.actions";
+import { fetchOrderByUser } from '../../Redux/Order/actions/order.actions';
 
 class OrderHistory extends React.Component {
   componentDidMount() {
@@ -44,11 +44,11 @@ class OrderHistory extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  fetchOrderByUser: id => dispatch(fetchOrderByUser(id))
+  fetchOrderByUser: id => dispatch(fetchOrderByUser(id)),
 });
 const mapStateToProps = state => ({
   user: state.user,
-  order: state.order
+  order: state.order,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrderHistory);

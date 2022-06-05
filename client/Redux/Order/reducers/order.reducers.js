@@ -1,11 +1,11 @@
-import orderTypes from "../types/order.types";
-import { addItemToOrder, removeItemFromOrder } from "../utils/order.utils";
+import orderTypes from '../types/order.types';
+import { addItemToOrder, removeItemFromOrder } from '../utils/order.utils';
 
 const INITIAL_STATE = {
   isFetching: false,
-  errorMessage: "",
+  errorMessage: '',
   orderInfo: { CartItems: [] },
-  orderHistory: []
+  orderHistory: [],
 };
 
 const orderReducer = (state = INITIAL_STATE, action) => {
@@ -13,34 +13,34 @@ const orderReducer = (state = INITIAL_STATE, action) => {
     case orderTypes.FETCH_ORDER_START:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
       };
     case orderTypes.FETCH_ORDER_FAILURE:
       return {
         ...state,
         isFetching: false,
-        errorMessage: action.payload
+        errorMessage: action.payload,
       };
     case orderTypes.FETCH_ORDER_INFO_SUCCESS:
       return {
         ...state,
-        errorMessage: "",
+        errorMessage: '',
         isFetching: false,
-        orderInfo: action.payload
+        orderInfo: action.payload,
       };
     case orderTypes.FETCH_ORDER_SUCCESS:
       return {
         ...state,
-        errorMessage: "",
+        errorMessage: '',
         isFetching: false,
-        orderInfo: action.payload
+        orderInfo: action.payload,
       };
     case orderTypes.FETCH_ORDER_HISTORY:
       return {
         ...state,
-        errorMessage: "",
+        errorMessage: '',
         isFetching: false,
-        orderHistory: action.payload
+        orderHistory: action.payload,
       };
     default:
       return state;

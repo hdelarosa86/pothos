@@ -1,13 +1,13 @@
-const express = require("express");
+const express = require('express');
 const app = express.Router();
-const chalk = require("chalk");
-const { Item } = require("../db/index");
+const chalk = require('chalk');
+const { Item } = require('../db/index');
 
 const paginate = (page, resultPerPage) => {
   return { limit: resultPerPage, offset: page * resultPerPage };
 };
 
-app.get("/", (req, res, next) => {
+app.get('/', (req, res, next) => {
   if (
     Object.entries(req.query).length === 0 &&
     req.query.constructor === Object
@@ -16,47 +16,45 @@ app.get("/", (req, res, next) => {
       .then(items => res.status(200).send(items))
       .catch(err => {
         res.status(404);
-        console.error(chalk.redBright("Could not retrieve Items."));
+        console.error(chalk.redBright('Could not retrieve Items.'));
         next(err);
       });
   } else {
     const { perPage, page, filter } = req.query;
-    if (page !== "undefined") {
+    if (page !== 'undefined') {
       const resultPerPage = perPage;
       const { limit, offset } = paginate(page - 1, resultPerPage);
-      if (filter !== "undefined") {
+      if (filter !== 'undefined') {
         Item.findAndCountAll({
-          order: [[filter, "DESC"]],
+          order: [[filter, 'DESC']],
           limit,
-          offset
+          offset,
         }).then(items => {
           res.status(200).send(items);
         });
       } else {
         Item.findAndCountAll({
           limit,
-          offset
+          offset,
         }).then(items => {
           res.status(200).send(items);
         });
       }
+    } else if (filter !== 'undefined') {
+      Item.findAll({
+        order: [[filter, 'DESC']],
+      })
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
     } else {
-      if (filter !== "undefined") {
-        Item.findAll({
-          order: [[filter, "DESC"]]
-        })
-          .then(items => res.status(200).send(items))
-          .catch(err => next(err));
-      } else {
-        Item.findAll()
-          .then(items => res.status(200).send(items))
-          .catch(err => next(err));
-      }
+      Item.findAll()
+        .then(items => res.status(200).send(items))
+        .catch(err => next(err));
     }
   }
 });
 
-app.get("/:id", (req, res, next) => {
+app.get('/:id', (req, res, next) => {
   const { id } = req.params;
   Item.findOne({ where: { id } })
     .then(item => res.status(200).send(item))
@@ -105,30 +103,30 @@ app.get("/:id", (req, res, next) => {
 // and the above routes should be used
 
 //Dev Post Route below...
-app.post("/", (req, res, next) => {
+app.post('/', (req, res, next) => {
   Item.create(req.body)
     .then(item => res.status(201).send(item))
     .catch(err => {
       res.status(404);
-      console.error(chalk.redBright("Could not create Item."));
+      console.error(chalk.redBright('Could not create Item.'));
       next(err);
     });
 });
 
-app.delete("/:id", (req, res, next) => {
+app.delete('/:id', (req, res, next) => {
   const { id } = req.params;
   Item.destroy({
     where: {
-      id
-    }
+      id,
+    },
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));
 });
 
-app.put("/:id", (req, res, next) => {
+app.put('/:id', (req, res, next) => {
   if (!req.adminAuth) {
-    console.error(chalk.redBright("Not Authorized."));
+    console.error(chalk.redBright('Not Authorized.'));
     res.sendStatus(401);
   } else {
     const { id } = req.params;
@@ -141,7 +139,7 @@ app.put("/:id", (req, res, next) => {
       })
       .catch(err => {
         res.status(404);
-        console.error(chalk.redBright("Could not update Item."));
+        console.error(chalk.redBright('Could not update Item.'));
         next(err);
       });
   }

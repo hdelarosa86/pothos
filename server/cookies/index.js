@@ -1,12 +1,12 @@
-const cookieRouter = require("express").Router();
-const express = require("express");
+const cookieRouter = require('express').Router();
+const express = require('express');
 const app = express();
-const { User, Session, Order, CartItem, Item } = require("../db/index");
-const chalk = require("chalk");
-const moment = require("moment");
-require("dotenv").config();
+const { User, Session, Order, CartItem, Item } = require('../db/index');
+const chalk = require('chalk');
+const moment = require('moment');
+require('dotenv').config();
 
-const COOKIE_NAME = "sessionId";
+const COOKIE_NAME = 'sessionId';
 
 cookieRouter.use((req, res, next) => {
   if (!req.cookies[COOKIE_NAME]) {
@@ -14,15 +14,15 @@ cookieRouter.use((req, res, next) => {
       .then(session => Order.create({ sessionId: session.id }))
       .then(newOrder => res.cookie(COOKIE_NAME, newOrder.sessionId))
       .then(() => {
-        res.redirect("/");
+        res.redirect('/');
         next();
       })
       .catch(err => {
-        console.log(chalk.redBright("Could not create Session cookie"));
+        console.log(chalk.redBright('Could not create Session cookie'));
         console.error(
           new Error(chalk.redBright(`${err} Could not create Session cookie`))
         );
-        res.redirect("/error");
+        res.redirect('/error');
       });
   } else {
     User.findByPk(req.cookies.sessionId)
@@ -42,13 +42,13 @@ cookieRouter.use((req, res, next) => {
   }
 });
 
-cookieRouter.post("/login", (req, res, next) => {
+cookieRouter.post('/login', (req, res, next) => {
   const { email, password } = req.body;
   const guestSessionId = req.cookies.sessionId;
   User.findOne({
     where: {
-      email
-    }
+      email,
+    },
   })
     .then(user => {
       if (!user) {
@@ -56,24 +56,24 @@ cookieRouter.post("/login", (req, res, next) => {
         console.error(new Error(chalk.red(`User not Found ${res.statusCode}`)));
       } else if (!user.validPassword(password)) {
         res.sendStatus(401);
-        console.error(new Error(chalk.red("password is not valid")));
+        console.error(new Error(chalk.red('password is not valid')));
       } else {
         Order.findOne({ where: { userId: user.id } }).then(existingOrder => {
           Order.findOne({
             where: { sessionId: guestSessionId },
             include: [
-              { model: CartItem, as: "CartItem", include: [{ model: Item }] }
-            ]
+              { model: CartItem, as: 'CartItem', include: [{ model: Item }] },
+            ],
           }).then(guestOrder => {
             guestOrder.CartItem.forEach(cartRow => {
               CartItem.findOne({
-                where: { id: cartRow.id }
+                where: { id: cartRow.id },
               }).then(foundGuestCartItem => {
                 CartItem.findOne({
                   where: {
                     itemId: foundGuestCartItem.itemId,
-                    orderId: existingOrder.id
-                  }
+                    orderId: existingOrder.id,
+                  },
                 }).then(existingCartItem => {
                   if (existingCartItem) {
                     return existingCartItem.update({
@@ -82,11 +82,11 @@ cookieRouter.post("/login", (req, res, next) => {
                         parseInt(cartRow.quantity),
                       itemTotal:
                         parseInt(existingCartItem.itemTotal) +
-                        parseInt(cartRow.itemTotal)
+                        parseInt(cartRow.itemTotal),
                     });
                   } else {
                     return foundGuestCartItem.update({
-                      orderId: existingOrder.id
+                      orderId: existingOrder.id,
                     });
                   }
                 });
@@ -108,12 +108,12 @@ cookieRouter.post("/login", (req, res, next) => {
 
         res
           .status(200)
-          .cookie("sessionId", user.id, {
-            path: "*",
+          .cookie('sessionId', user.id, {
+            path: '*',
             expires: moment
               .utc()
-              .add(1, "years")
-              .toDate()
+              .add(1, 'years')
+              .toDate(),
           })
           .send(user);
       }
@@ -121,29 +121,29 @@ cookieRouter.post("/login", (req, res, next) => {
     .catch(next);
 });
 
-cookieRouter.post("/logout", (req, res, next) => {
+cookieRouter.post('/logout', (req, res, next) => {
   if (req.loggedIn) {
     req.loggedIn = false;
     req.user = null;
-    res.clearCookie("sessionId", { path: "/" });
-    res.status(201).redirect("/");
+    res.clearCookie('sessionId', { path: '/' });
+    res.status(201).redirect('/');
   } else {
-    res.status(401).redirect("/");
+    res.status(401).redirect('/');
   }
 });
 
-cookieRouter.get("/verifyUser", (req, res, next) => {
+cookieRouter.get('/verifyUser', (req, res, next) => {
   if (req.loggedIn) {
     res.send(req.user);
   } else {
-    res.send({ id: "guest", firstName: "Guest", admin: false });
+    res.send({ id: 'guest', firstName: 'Guest', admin: false });
     //Need to come up with a better else res.send
     //this is just a placeholder for the Redux Store
   }
 });
 
 app.use((req, res, next) => {
-  const err = new Error("Route not found");
+  const err = new Error('Route not found');
   console.error(err);
   err.status = 404;
   next(err);

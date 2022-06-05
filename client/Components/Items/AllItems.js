@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import ItemPreview from "./ItemPreview";
-import { allItemsFetchStartAsync } from "../../Redux/Items/actions/items.actions";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import ItemPreview from './ItemPreview';
+import { allItemsFetchStartAsync } from '../../Redux/Items/actions/items.actions';
 
 export class AllItems extends React.Component {
   componentDidMount() {
@@ -34,10 +34,10 @@ export class AllItems extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  allItemsFetchStartAsync: () => dispatch(allItemsFetchStartAsync())
+  allItemsFetchStartAsync: () => dispatch(allItemsFetchStartAsync()),
 });
 const mapStateToProps = state => ({
-  inventory: state.inventory.items
+  inventory: state.inventory.items,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllItems);

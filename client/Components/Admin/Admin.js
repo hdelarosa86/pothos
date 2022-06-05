@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 // import "materialize-css/dist/css/materialize.min.css";
 // import "./app.css";
-import { Route } from "react-router-dom";
+import { Route } from 'react-router-dom';
 //component
 // import AllItems from "./Components/Items/AllItems";
 // import DetailedItem from "./Components/Items/DetailedItem";
@@ -13,11 +13,11 @@ import { Route } from "react-router-dom";
 // import Dashboard from "./Components/Users/Dashboard";
 // import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
 // import UserUpdate from "./Components/Users/UserUpdate";
-import List from "../List/List";
+import List from '../List/List';
 // import Footer from "./Components/Footer";
 // import { verifyUserCookie } from "./Redux/User/actions/user.actions";
-import { connect } from "react-redux";
-import { Link, Switch } from "react-router-dom";
+import { connect } from 'react-redux';
+import { Link, Switch } from 'react-router-dom';
 
 class AdminDashboard extends React.Component {
   constructor() {
@@ -54,13 +54,13 @@ class AdminDashboard extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  persistUser: () => dispatch(verifyUserCookie())
+  persistUser: () => dispatch(verifyUserCookie()),
 });
 
 const mapStateToProps = state => ({
   order: state.order.orderContent,
   user: state.user,
-  inventory: state.inventory.items
+  inventory: state.inventory.items,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminDashboard);

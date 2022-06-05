@@ -1,17 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { updateInUser } from "../../Redux/User/actions/user.actions";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { updateInUser } from '../../Redux/User/actions/user.actions';
 import {
   singleUserAdminFetchStartAsync,
-  deleteUserAdminThenFetchAll
-} from "../../Redux/AllUsers/action/AllUsers.action";
+  deleteUserAdminThenFetchAll,
+} from '../../Redux/AllUsers/action/AllUsers.action';
 class UserUpdate extends React.Component {
   constructor(user) {
     super(user);
     this.state = {
       user: null,
-      submitFormErr: false
+      submitFormErr: false,
     };
   }
 
@@ -19,7 +19,7 @@ class UserUpdate extends React.Component {
   componentDidMount() {
     this.setState({
       ...this.state,
-      user: this.props.user.currentUser
+      user: this.props.user.currentUser,
       // : this.props.fetchUserForAdmin(this.props.location.match.params.id)
     });
     if (this.props.admin) {
@@ -48,7 +48,7 @@ class UserUpdate extends React.Component {
       .then(() => {
         this.setState({ submitFormErr: false });
         this.props.location.history.push(
-          this.props.admin ? "/admin/users/pages/1" : "/dashboard"
+          this.props.admin ? '/admin/users/pages/1' : '/dashboard'
         );
       })
       .catch(err => {
@@ -62,8 +62,8 @@ class UserUpdate extends React.Component {
     this.props
       .deleteUser(id)
       .then(() => {
-        console.log("Success");
-        this.props.location.history.push("/admin/users/pages/1");
+        console.log('Success');
+        this.props.location.history.push('/admin/users/pages/1');
       })
       .catch(err => {
         console.error(err);
@@ -148,13 +148,13 @@ class UserUpdate extends React.Component {
 const mapDispatchToProps = dispatch => ({
   updateUser: user => dispatch(updateInUser(user)),
   fetchUserForAdmin: userId => dispatch(singleUserAdminFetchStartAsync(userId)),
-  deleteUser: user => dispatch(deleteUserAdminThenFetchAll(user))
+  deleteUser: user => dispatch(deleteUserAdminThenFetchAll(user)),
 });
 
 const mapStateToProps = state => ({
   user: state.user,
   selectedUser: state.allUsers.selectedUsers,
-  admin: state.user.currentUser.admin
+  admin: state.user.currentUser.admin,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserUpdate);

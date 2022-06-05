@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 //components
-import ItemPreview from "../../Items/ItemPreview";
-import AllUsers from "../../Users/AllUsers";
-import AllOrders from "../../Cart/AdminOrders";
+import ItemPreview from '../../Items/ItemPreview';
+import AllUsers from '../../Users/AllUsers';
+import AllOrders from '../../Cart/AdminOrders';
 
 /*
 The ListContent component excepts 2 arguments:
@@ -19,11 +19,11 @@ export class ListContent extends React.Component {
       <div className="container">
         <div className="row">
           {this.props.content.map(val => {
-            if (this.props.type === "items") {
+            if (this.props.type === 'items') {
               return <ItemPreview item={val} />;
-            } else if (this.props.type === "users") {
+            } else if (this.props.type === 'users') {
               return <AllUsers user={val} />;
-            } else if (this.props.type === "orders") {
+            } else if (this.props.type === 'orders') {
               return <AllOrders order={val} />;
             }
           })}

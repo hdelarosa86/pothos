@@ -1,18 +1,18 @@
-import React from "react";
-import { connect } from "react-redux";
-import SignUp from "../Users/SignUp";
-import { userLogIn } from "../../Redux/User/actions/user.actions";
-import { Link, Redirect } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import SignUp from '../Users/SignUp';
+import { userLogIn } from '../../Redux/User/actions/user.actions';
+import { Link, Redirect } from 'react-router-dom';
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
-        email: "",
-        password: ""
+        email: '',
+        password: '',
       },
       logInErr: false,
-      passwordHidden: true
+      passwordHidden: true,
     };
   }
   handleOnChange = ({ target: { name, value } }) => {
@@ -30,7 +30,7 @@ class Login extends React.Component {
       .userLogIn(this.state.user)
       .then(() => {
         this.setState({ logInErr: false });
-        this.props.history.push("/");
+        this.props.history.push('/');
       })
       .catch(err => {
         console.error(err);
@@ -59,13 +59,13 @@ class Login extends React.Component {
               <div>
                 <label>Password</label>
                 <input
-                  type={this.state.passwordHidden ? "password" : "text"}
+                  type={this.state.passwordHidden ? 'password' : 'text'}
                   name="password"
                   onChange={this.handleOnChange}
                 />
                 <label>Show Password</label>
                 <input
-                  class="showPassword"
+                  className="showPassword"
                   type="checkbox"
                   onChange={this.showPassword}
                 />
@@ -96,12 +96,12 @@ class Login extends React.Component {
 // Sign Up Component is in render return
 const mapDispatchToProps = dispatch => {
   return {
-    userLogIn: user => dispatch(userLogIn(user))
+    userLogIn: user => dispatch(userLogIn(user)),
     //githubLogin: () => dispatch(githubLogin())
   };
 };
 const mapStateToProps = state => ({
-  loggedIn: state.user.loggedIn
+  loggedIn: state.user.loggedIn,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

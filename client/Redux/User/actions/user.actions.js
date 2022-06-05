@@ -1,42 +1,42 @@
-import userTypes from "../types/user.types";
-import axios from "axios";
-import INITIAL_STATE from "../reducers/user.reducers";
+import userTypes from '../types/user.types';
+import axios from 'axios';
+import INITIAL_STATE from '../reducers/user.reducers';
 
 //actions
 
 export const addUser = user => ({
   type: userTypes.ADD_USER,
-  payload: user
+  payload: user,
 });
 
 export const removeUser = () => ({
-  type: userTypes.REMOVE_USER
+  type: userTypes.REMOVE_USER,
 });
 
 export const logInUser = user => ({
   type: userTypes.LOGIN_USER,
-  payload: user
+  payload: user,
 });
 
 export const persistUser = user => ({
   type: userTypes.PERSIST_USER,
-  payload: user
+  payload: user,
 });
 
 export const logOutUser = user => ({
   type: userTypes.LOGOUT_USER,
-  payload: user
+  payload: user,
 });
 
 export const loggedIn = () => ({
-  type: userTypes.LOGGED_IN
+  type: userTypes.LOGGED_IN,
 });
 
 //thunks
 
 export const userLogIn = user => {
   return dispatch => {
-    return axios.post("/login", user).then(data => {
+    return axios.post('/login', user).then(data => {
       dispatch(logInUser(data));
       dispatch(loggedIn());
     });
@@ -46,8 +46,8 @@ export const userLogIn = user => {
 
 export const addInUser = user => {
   return dispatch => {
-    return axios.post("/api/users/", user).then(() => {
-      return axios.post("/login", user).then(result => {
+    return axios.post('/api/users/', user).then(() => {
+      return axios.post('/login', user).then(result => {
         dispatch(addUser(result));
         dispatch(logInUser(result));
         dispatch(loggedIn());
@@ -62,7 +62,7 @@ export const updateInUser = user => {
     return axios
       .put(`/api/users/${user.id}`, user)
       .then(() => {
-        axios.get("/verifyUser").then(user => {
+        axios.get('/verifyUser').then(user => {
           dispatch(persistUser(user.data));
         });
       })
@@ -75,7 +75,7 @@ export const updateInUser = user => {
 export const verifyUserCookie = () => {
   return dispatch => {
     axios
-      .get("/verifyUser")
+      .get('/verifyUser')
       .then(user => {
         dispatch(persistUser(user.data));
       })
@@ -92,7 +92,7 @@ export const verifyUserCookie = () => {
 export const userLogOut = () => {
   return dispatch => {
     axios
-      .post("/logout")
+      .post('/logout')
       .then(() => {
         dispatch(logOutUser(INITIAL_STATE));
       })

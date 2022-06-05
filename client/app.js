@@ -1,27 +1,27 @@
-import React from "react";
-import "materialize-css/dist/css/materialize.min.css";
-import "./app.css";
-import { Route, Redirect } from "react-router-dom";
+import React from 'react';
+import 'materialize-css/dist/css/materialize.min.css';
+import './app.css';
+import { Route, Redirect } from 'react-router-dom';
 //component
-import DetailedItem from "./Components/Items/DetailedItem";
-import Home from "./Components/Home";
-import Login from "./Components/Users/LogIn";
-import NavBar from "./Components/NavBar";
-import Cart from "./Components/Cart/Cart";
-import Dashboard from "./Components/Users/Dashboard";
-import SingleItemUpdate from "./Components/Items/SingleItemUpdate";
-import ItemCreate from "./Components/Items/ItemCreate";
-import UserUpdate from "./Components/Users/UserUpdate";
-import List from "./Components/List/List";
-import Footer from "./Components/Footer";
-import AdminDashboard from "./Components/Admin/Admin";
-import { verifyUserCookie } from "./Redux/User/actions/user.actions";
+import DetailedItem from './Components/Items/DetailedItem';
+import Home from './Components/Home';
+import Login from './Components/Users/LogIn';
+import NavBar from './Components/NavBar';
+import Cart from './Components/Cart/Cart';
+import Dashboard from './Components/Users/Dashboard';
+import SingleItemUpdate from './Components/Items/SingleItemUpdate';
+import ItemCreate from './Components/Items/ItemCreate';
+import UserUpdate from './Components/Users/UserUpdate';
+import List from './Components/List/List';
+import Footer from './Components/Footer';
+import AdminDashboard from './Components/Admin/Admin';
+import { verifyUserCookie } from './Redux/User/actions/user.actions';
 import {
   fetchOrderBySession,
-  fetchOrderStartAsync
-} from "./Redux/Order/actions/order.actions";
-import { connect } from "react-redux";
-import Admin from "./Components/Admin/Admin";
+  fetchOrderStartAsync,
+} from './Redux/Order/actions/order.actions';
+import { connect } from 'react-redux';
+import Admin from './Components/Admin/Admin';
 
 export class App extends React.Component {
   componentDidMount() {
@@ -45,67 +45,67 @@ export class App extends React.Component {
 
           <p className="User">
             {!this.props.user.currentUser
-              ? "Loading"
+              ? 'Loading'
               : `Hey ${this.props.user.currentUser.firstName}`}
           </p>
         </main>
-        <div class="page-container">
+        <div className="page-container">
           <Route
             exact
-            path={"/"}
+            path="/"
             render={() => <Home user={this.props.user} />}
           />
           <Route
             exact
-            path={"/shop/pages/:pageId"}
+            path="/shop/pages/:pageId"
             render={() => (
               <List
                 type="items"
                 pagination={true}
-                filterMethods={["size", "price", null]}
+                filterMethods={['size', 'price', null]}
                 perPage={6}
               />
             )}
           />
           {/* START OF ADMIN ROUTES */}
-          <Route path={"/admin"} render={() => <AdminDashboard />}>
+          <Route path="/admin" render={() => <AdminDashboard />}>
             {!this.props.admin ? <Redirect to="/" /> : null}
           </Route>
 
           {/* <Route path={"/admin"} component={AdminDashboard} /> */}
           <Route
             exact
-            path={"/admin/users/pages/:pageId"}
+            path="/admin/users/pages/:pageId"
             render={() => (
               <List
                 type="users"
                 pagination={true}
-                filterMethods={["lastName", "admin", null]}
+                filterMethods={['lastName', 'admin', null]}
                 perPage={5}
               />
             )}
           />
           <Route
             exact
-            path={"/admin/orders/pages/:pageId"}
+            path="/admin/orders/pages/:pageId"
             render={() => (
               <List
                 type="orders"
                 pagination={false}
-                filterMethods={["checkoutTotal", "status", null]}
+                filterMethods={['checkoutTotal', 'status', null]}
                 perPage={5}
               />
             )}
           />
-          <Route exact path={"/admin/item/create"} component={ItemCreate} />
+          <Route exact path="/admin/item/create" component={ItemCreate} />
           <Route
             exact
-            path={"/admin/item/pages/:pageId"}
+            path="/admin/item/pages/:pageId"
             render={() => (
               <List
                 type="items"
                 pagination={true}
-                filterMethods={["size", "price", null]}
+                filterMethods={['size', 'price', null]}
                 perPage={6}
                 adminBool={true}
               />
@@ -113,42 +113,42 @@ export class App extends React.Component {
           />
           <Route
             exact
-            path={"/admin/item/:id/update"}
+            path="/admin/item/:id/update"
             render={id => <SingleItemUpdate Location={id} />}
           />
           <Route
             exact
-            path={"/admin/dashboard/:id/update"}
+            path="/admin/dashboard/:id/update"
             render={id => <UserUpdate user={this.props.user} location={id} />}
           />
           <Route
             exact
-            path={"/admin/shop/:id"}
+            path="/admin/shop/:id"
             render={id => <DetailedItem Location={id} />}
           />
           {/* END OF ADMIN ROUTES */}
           <Route
             exact
-            path={"/shop/:id"}
+            path="/shop/:id"
             render={id => <DetailedItem Location={id} />}
           />
           <Route
             exact
-            path={"/shop/:id/update"}
+            path="/shop/:id/update"
             render={id => <SingleItemUpdate Location={id} />}
           />
-          <Route exact path={"/cart"} render={() => <Cart />} />
+          <Route exact path="/cart" render={() => <Cart />} />
           <Route
             exact
-            path={"/dashboard"}
+            path="/dashboard"
             render={() => <Dashboard assets={this.props} />}
           />
           <Route
             exact
-            path={"/dashboard/:id/update"}
+            path="/dashboard/:id/update"
             render={id => <UserUpdate user={this.props.user} location={id} />}
           />
-          <Route exact path={"/login"} render={props => <Login {...props} />} />
+          <Route exact path="/login" render={props => <Login {...props} />} />
         </div>
         <Footer />
       </div>
@@ -159,14 +159,14 @@ export class App extends React.Component {
 const mapDispatchToProps = dispatch => ({
   persistUser: () => dispatch(verifyUserCookie()),
   fetchOrder: () => dispatch(fetchOrderBySession()),
-  fetchOrderById: id => dispatch(fetchOrderStartAsync(id))
+  fetchOrderById: id => dispatch(fetchOrderStartAsync(id)),
 });
 
 const mapStateToProps = state => ({
   order: state.order,
   user: state.user,
   inventory: state.inventory.items,
-  admin: state.user.currentUser.admin
+  admin: state.user.currentUser.admin,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,20 +1,20 @@
-import React from "react";
-import { connect } from "react-redux";
-import { addInUser } from "../../Redux/User/actions/user.actions";
-import { Link, Redirect } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { addInUser } from '../../Redux/User/actions/user.actions';
+import { Link, Redirect } from 'react-router-dom';
 class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: {
-        firstName: "",
-        lastName: "",
-        username: "",
-        email: "",
-        password: ""
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        password: '',
       },
       logInErr: false,
-      passwordHidden: true
+      passwordHidden: true,
     };
   }
   // Change the empty state with the onChange value
@@ -33,7 +33,7 @@ class SignUp extends React.Component {
       .addUser(this.state.user)
       .then(() => {
         this.setState({ logInErr: false });
-        this.props.history.push("/");
+        this.props.history.push('/');
       })
       .catch(err => {
         console.error(err);
@@ -70,7 +70,7 @@ class SignUp extends React.Component {
           <div>
             <label>Password</label>
             <input
-              type={this.state.passwordHidden ? "password" : "text"}
+              type={this.state.passwordHidden ? 'password' : 'text'}
               name="password"
               onChange={this.handleOnChange}
             />
@@ -78,7 +78,7 @@ class SignUp extends React.Component {
           <label>
             Show Password
             <input
-              class="showPassword"
+              className="showPassword"
               type="checkbox"
               onChange={this.showPassword}
             />
@@ -99,7 +99,7 @@ class SignUp extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addUser: user => dispatch(addInUser(user))
+    addUser: user => dispatch(addInUser(user)),
   };
 };
 const mapStateToProps = state => ({});

@@ -1,7 +1,7 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { deleteUserAdminThenFetchAll } from "../../Redux/AllUsers/action/AllUsers.action";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { deleteUserAdminThenFetchAll } from '../../Redux/AllUsers/action/AllUsers.action';
 
 class AllUsers extends React.Component {
   constructor() {
@@ -26,7 +26,7 @@ class AllUsers extends React.Component {
       <div className="admin-user">
         <div className="row">
           <div className="col s12 m12 l4 left-align">
-            <img className={"responsive-img"} src={user.imageUrl} />
+            <img className="responsive-img" src={user.imageUrl} />
           </div>
           <div className="col s12 m12 l8 left-align">
             <strong>Fullname</strong>
@@ -62,11 +62,11 @@ class AllUsers extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    deleteUser: user => dispatch(deleteUserAdminThenFetchAll(user))
+    deleteUser: user => dispatch(deleteUserAdminThenFetchAll(user)),
   };
 };
 const mapStateToProps = state => ({
-  currentUserId: state.user.currentUser.id
+  currentUserId: state.user.currentUser.id,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllUsers);

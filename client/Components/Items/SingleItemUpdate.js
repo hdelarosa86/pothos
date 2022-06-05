@@ -1,16 +1,16 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   singleItemFetchStartAsync,
-  updateItemThenFetchAll
-} from "../../Redux/Items/actions/items.actions";
+  updateItemThenFetchAll,
+} from '../../Redux/Items/actions/items.actions';
 class SingleItemUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       item: {},
-      submitForm: false
+      submitForm: false,
     };
   }
   // Populate empty item state with single item prop
@@ -41,7 +41,7 @@ class SingleItemUpdate extends React.Component {
       .updateItem(this.state.item)
       .then(() => {
         this.setState({ submitForm: false });
-        this.props.Location.history.push("/admin/items/pages/1");
+        this.props.Location.history.push('/admin/items/pages/1');
       })
       .catch(err => {
         this.setState({ submitForm: true });
@@ -132,11 +132,11 @@ class SingleItemUpdate extends React.Component {
 
 const mapDispatchToProps = dispatch => ({
   fetchItem: id => dispatch(singleItemFetchStartAsync(id)),
-  updateItem: item => dispatch(updateItemThenFetchAll(item))
+  updateItem: item => dispatch(updateItemThenFetchAll(item)),
 });
 
 const mapStateToProps = state => ({
-  singleItem: state.inventory.selectedItem
+  singleItem: state.inventory.selectedItem,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleItemUpdate);

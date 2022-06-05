@@ -1,11 +1,11 @@
-import userAdminTypes from "../type/AllUsers.type";
+import userAdminTypes from '../type/AllUsers.type';
 
 const INITIAL_STATE = {
   isFetching: false,
-  errorMessage: "",
+  errorMessage: '',
   count: 0,
   users: [],
-  selectedUsers: {}
+  selectedUsers: {},
 };
 
 const allUserReducer = (state = INITIAL_STATE, action) => {
@@ -13,32 +13,32 @@ const allUserReducer = (state = INITIAL_STATE, action) => {
     case userAdminTypes.FETCH_USER_ADMIN_START:
       return {
         ...state,
-        isFetching: true
+        isFetching: true,
       };
     case userAdminTypes.FETCH_USER_ADMIN_FAILURE:
       return {
         ...state,
         isFetching: false,
-        errorMessage: action.payload
+        errorMessage: action.payload,
       };
     case userAdminTypes.FETCH_All_USER_ADMIN_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        users: action.payload
+        users: action.payload,
       };
     case userAdminTypes.FETCH_SINGLE_USER_ADMIN_SUCCESS:
       return {
         ...state,
         isFetching: false,
-        selectedUsers: action.payload
+        selectedUsers: action.payload,
       };
     case userAdminTypes.FETCH_All_USER_ADMIN_BY_PAGE_SUCCESS:
       return {
         ...state,
         isFetching: false,
         users: action.payload.rows,
-        count: action.payload.count
+        count: action.payload.count,
       };
     default:
       return state;

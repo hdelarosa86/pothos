@@ -1,8 +1,8 @@
-import navType from "../types/nav.types";
-import navTypes from "../types/nav.types";
+import navType from '../types/nav.types';
+import navTypes from '../types/nav.types';
 
 const INITIAL_STATE = {
-  filter: null
+  filter: null,
 };
 
 const navReducer = (state = INITIAL_STATE, action) => {
@@ -10,7 +10,7 @@ const navReducer = (state = INITIAL_STATE, action) => {
     case navTypes.SELECT_FILTER:
       return {
         ...state,
-        filter: action.payload
+        filter: action.payload,
       };
     default:
       return state;

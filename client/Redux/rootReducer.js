@@ -1,12 +1,12 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
 //Reducers
-import itemsReducer from "./Items/reducers/items.reducers";
-import userReducer from "./User/reducers/user.reducers";
-import orderReducer from "./Order/reducers/order.reducers";
-import navReducer from "./Nav/reducers/nav.reducers";
-import allOrderReducer from "./AllOrders/reducer/AllOrders.reducer";
-import allUserReducer from "./AllUsers/reducer/AllUsers.reducer";
+import itemsReducer from './Items/reducers/items.reducers';
+import userReducer from './User/reducers/user.reducers';
+import orderReducer from './Order/reducers/order.reducers';
+import navReducer from './Nav/reducers/nav.reducers';
+import allOrderReducer from './AllOrders/reducer/AllOrders.reducer';
+import allUserReducer from './AllUsers/reducer/AllUsers.reducer';
 
 const RootReducer = combineReducers({
   inventory: itemsReducer,
@@ -14,7 +14,7 @@ const RootReducer = combineReducers({
   order: orderReducer,
   nav: navReducer,
   allOrders: allOrderReducer,
-  allUsers: allUserReducer
+  allUsers: allUserReducer,
 });
 
 export default RootReducer;

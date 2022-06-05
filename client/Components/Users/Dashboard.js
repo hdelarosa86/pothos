@@ -1,6 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import OrderHistory from "./OrderHistory";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import OrderHistory from './OrderHistory';
 
 const UserDashboard = ({ assets }) => {
   // This will be the user dashboard
@@ -21,7 +21,7 @@ const UserDashboard = ({ assets }) => {
               <div className="col s12 m12 l6 left-align">
                 <h6 className="name-label">FULLNAME</h6>
                 <h4 className="fullname">
-                  {assets.user.currentUser.firstName}{" "}
+                  {assets.user.currentUser.firstName}{' '}
                   {assets.user.currentUser.lastName}
                 </h4>
                 <h6 className="email-label">EMAIL</h6>
@@ -31,7 +31,7 @@ const UserDashboard = ({ assets }) => {
                     <button>Edit Profile</button>
                   </Link>
                   {assets.user.currentUser.admin && (
-                    <Link to={"/admin/users/pages/1"}>
+                    <Link to="/admin/users/pages/1">
                       <button>Admin Dashboard</button>
                     </Link>
                   )}
@@ -42,7 +42,7 @@ const UserDashboard = ({ assets }) => {
           </div>
         </div>
         <div className="dashboard-bkgd-img">
-          <div className="dashboard-bkgd-overlay"></div>
+          <div className="dashboard-bkgd-overlay" />
           <div className="container">
             <div className="row">
               <div className="col s12 center-align">

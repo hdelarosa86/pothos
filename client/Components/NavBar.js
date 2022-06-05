@@ -1,21 +1,21 @@
-import React from "react";
+import React from 'react';
 //React-Redux
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { userLogOut } from "../Redux/User/actions/user.actions";
-import M from "materialize-css";
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { userLogOut } from '../Redux/User/actions/user.actions';
+import M from 'materialize-css';
 
 class NavBar extends React.Component {
   componentDidMount() {
     M.AutoInit();
   }
   render() {
-    const loggedInStatus = this.props.user.loggedIn ? "logout" : "login";
+    const loggedInStatus = this.props.user.loggedIn ? 'logout' : 'login';
     const subNavItems = [
-      { id: "home", url: "/" },
-      { id: "shop", url: "/shop/pages/1" },
-      { id: "cart", url: "/cart" },
-      { id: loggedInStatus, url: `${loggedInStatus}` }
+      { id: 'home', url: '/' },
+      { id: 'shop', url: '/shop/pages/1' },
+      { id: 'cart', url: '/cart' },
+      { id: loggedInStatus, url: `${loggedInStatus}` },
     ];
     return (
       <nav className="pothos-nav">
@@ -23,17 +23,17 @@ class NavBar extends React.Component {
           <div className="col s3">
             <div className="logo">
               <Link to="/">
-                <img src="https://i.postimg.cc/HxDNcTyj/pothos-02.png"></img>
+                <img src="https://i.postimg.cc/HxDNcTyj/pothos-02.png" />
               </Link>
             </div>
           </div>
           <div className="col s9">
             <a className="dropdown-trigger btn" data-target="dropdown1">
-              <div></div>
-              <div></div>
-              <div></div>
+              <div />
+              <div />
+              <div />
             </a>
-            <ul id="dropdown1" class="dropdown-content">
+            <ul id="dropdown1" className="dropdown-content">
               <li>
                 <Link to="/">Home</Link>
               </li>
@@ -69,11 +69,11 @@ class NavBar extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    userLogOut: () => dispatch(userLogOut())
+    userLogOut: () => dispatch(userLogOut()),
   };
 };
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -1,20 +1,20 @@
-const express = require("express");
+const express = require('express');
 const app = express();
-const chalk = require("chalk");
-const { CartItem, Order } = require("../db/index");
+const chalk = require('chalk');
+const { CartItem, Order } = require('../db/index');
 
 // These two routes are mostly for clarity but do add some functionality.
 // Especially when it comes to decremeting the quantity of a cartItem.
 
 // increment
-app.put("/:id/increment/", (req, res, next) => {
+app.put('/:id/increment/', (req, res, next) => {
   const { id } = req.params;
   const { price } = req.body;
   CartItem.findByPk(id)
     .then(foundCartItem => {
       return foundCartItem.update({
         quantity: foundCartItem.quantity + 1,
-        itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(price)
+        itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(price),
       });
     })
     .then(updatedCartItem => {
@@ -24,7 +24,7 @@ app.put("/:id/increment/", (req, res, next) => {
 });
 
 //decrement
-app.put("/:id/decrement/", (req, res, next) => {
+app.put('/:id/decrement/', (req, res, next) => {
   const { id } = req.params;
   const { price } = req.body;
   CartItem.findByPk(id)
@@ -35,7 +35,7 @@ app.put("/:id/decrement/", (req, res, next) => {
       if (foundCartItem.quantity > 1) {
         return foundCartItem.update({
           quantity: foundCartItem.quantity - 1,
-          itemTotal: parseInt(foundCartItem.itemTotal) - parseInt(price)
+          itemTotal: parseInt(foundCartItem.itemTotal) - parseInt(price),
         });
       }
     })
@@ -45,22 +45,22 @@ app.put("/:id/decrement/", (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.get("/", (req, res, next) => {
+app.get('/', (req, res, next) => {
   if (!req.adminAuth) {
-    console.error(chalk.redBright("Not Authorized."));
-    res.status(401).redirect("/");
+    console.error(chalk.redBright('Not Authorized.'));
+    res.status(401).redirect('/');
   } else {
     CartItem.findAll()
       .then(cartItems => res.status(200).send(cartItems))
       .catch(err => {
         res.status(404);
-        console.error(chalk.redBright("Could not retrive Cart Items."));
+        console.error(chalk.redBright('Could not retrive Cart Items.'));
         next(err);
       });
   }
 });
 
-app.get("/:id", (req, res, next) => {
+app.get('/:id', (req, res, next) => {
   const { id } = req.params;
   CartItem.findOne({ where: { id } })
     .then(foundCartItem => res.status(200).send(foundCartItem))
@@ -68,46 +68,46 @@ app.get("/:id", (req, res, next) => {
 });
 
 //if you post an item to a cart where it already exists it increments the quantity
-app.post("/", (req, res, next) => {
+app.post('/', (req, res, next) => {
   const { itemId, orderId, itemTotal } = req.body;
   CartItem.findOne({
     where: {
       itemId: itemId,
-      orderId: orderId
-    }
+      orderId: orderId,
+    },
   })
     .then(foundCartItem => {
       if (foundCartItem === null) {
         return CartItem.create({
           itemId: itemId,
           orderId: orderId,
-          itemTotal: itemTotal
-        }).then(() => res.status(201).send(console.log("item created")));
+          itemTotal: itemTotal,
+        }).then(() => res.status(201).send(console.log('item created')));
       }
       if (foundCartItem) {
         return foundCartItem
           .update({
             quantity: foundCartItem.quantity + 1,
-            itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(itemTotal)
+            itemTotal: parseInt(foundCartItem.itemTotal) + parseInt(itemTotal),
           })
-          .then(() => res.status(201).send(console.log("item incremented")));
+          .then(() => res.status(201).send(console.log('item incremented')));
       }
     })
     .catch(err => next(err));
 });
 
-app.delete("/:id", (req, res, next) => {
+app.delete('/:id', (req, res, next) => {
   const { id } = req.params;
   CartItem.destroy({
     where: {
-      id
-    }
+      id,
+    },
   })
     .then(() => res.status(200).end())
     .catch(err => next(err));
 });
 
-app.put("/:id", (req, res, next) => {
+app.put('/:id', (req, res, next) => {
   const { id } = req.params;
   CartItem.findByPk(id)
     .then(foundCartItem => {

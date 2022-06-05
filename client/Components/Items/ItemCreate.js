@@ -1,13 +1,13 @@
-import React from "react";
-import { connect } from "react-redux";
-import { createItemThenFetchAll } from "../../Redux/Items/actions/items.actions";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { createItemThenFetchAll } from '../../Redux/Items/actions/items.actions';
+import { Link } from 'react-router-dom';
 class ItemCreate extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       item: {},
-      submitForm: false
+      submitForm: false,
     };
   }
 
@@ -28,7 +28,7 @@ class ItemCreate extends React.Component {
       .createItem(this.state.item)
       .then(() => {
         this.setState({ submitForm: false });
-        this.props.history.push("/admin/items/pages/1");
+        this.props.history.push('/admin/items/pages/1');
       })
       .catch(err => {
         this.setState({ submitForm: true });
@@ -92,7 +92,7 @@ class ItemCreate extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    createItem: item => dispatch(createItemThenFetchAll(item))
+    createItem: item => dispatch(createItemThenFetchAll(item)),
   };
 };
 const mapStateToProps = state => ({});

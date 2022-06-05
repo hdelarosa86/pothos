@@ -1,25 +1,25 @@
-import { Link } from "react-router-dom";
-import React from "react";
-import { connect } from "react-redux";
-import { deleteItemThenFetchAll } from "../../Redux/Items/actions/items.actions";
-import { makeStyles } from "@material-ui/core/styles";
+import { Link } from 'react-router-dom';
+import React from 'react';
+import { connect } from 'react-redux';
+import { deleteItemThenFetchAll } from '../../Redux/Items/actions/items.actions';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   Card,
   CardActionArea,
   CardMedia,
   Typography,
   Button,
-  CardContent
-} from "@material-ui/core";
+  CardContent,
+} from '@material-ui/core';
 
 const useStyles = makeStyles({
   card: {
     maxWidth: 350,
-    margin: "20px 0 20px"
+    margin: '20px 0 20px',
   },
   media: {
-    height: 300
-  }
+    height: 300,
+  },
 });
 
 const AdminItems = ({ item, deleteItem }) => {
@@ -65,7 +65,7 @@ const AdminItems = ({ item, deleteItem }) => {
 deleteItemThenFetchAll;
 const mapDispatchToProps = dispatch => {
   return {
-    deleteItem: item => dispatch(deleteItemThenFetchAll(item))
+    deleteItem: item => dispatch(deleteItemThenFetchAll(item)),
   };
 };
 const mapStateToProps = state => ({});

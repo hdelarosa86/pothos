@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 //utils
-import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 // component
-import Menubar from "./MenuBar/MenuBar";
-import ListContent from "./ListContent/ListContent";
+import Menubar from './MenuBar/MenuBar';
+import ListContent from './ListContent/ListContent';
 //actions
-import { allItemsFetchStartAsync } from "../../Redux/Items/actions/items.actions";
-import { allUserAdminFetchStartAsync } from "../../Redux/AllUsers/action/AllUsers.action";
-import { allOrderAdminFetchStartAsync } from "../../Redux/AllOrders/action/AllOrders.action";
+import { allItemsFetchStartAsync } from '../../Redux/Items/actions/items.actions';
+import { allUserAdminFetchStartAsync } from '../../Redux/AllUsers/action/AllUsers.action';
+import { allOrderAdminFetchStartAsync } from '../../Redux/AllOrders/action/AllOrders.action';
 
 /*
 The List component excepts 4 arguments:
@@ -39,7 +39,7 @@ export class List extends React.Component {
   }
 
   load = () => {
-    if (this.props.type === "items") {
+    if (this.props.type === 'items') {
       if (this.props.pagination == true && this.props.match.params.pageId) {
         if (this.props.filter) {
           this.props.allItemsFetchStartAsync(
@@ -63,18 +63,16 @@ export class List extends React.Component {
         } else if (this.props.filter === null) {
           this.props.allItemsFetchStartAsync(this.props.perPage, 1);
         }
-      } else {
-        if (this.props.filter) {
-          this.props.allItemsFetchStartAsync(
-            undefined,
-            undefined,
-            this.props.filter
-          );
-        } else if (this.props.filter === null) {
-          this.props.allItemsFetchStartAsync();
-        }
+      } else if (this.props.filter) {
+        this.props.allItemsFetchStartAsync(
+          undefined,
+          undefined,
+          this.props.filter
+        );
+      } else if (this.props.filter === null) {
+        this.props.allItemsFetchStartAsync();
       }
-    } else if (this.props.type === "orders" && this.props.match.params.pageId) {
+    } else if (this.props.type === 'orders' && this.props.match.params.pageId) {
       if (this.props.pagination == true) {
         if (this.props.filter) {
           this.props.allOrderAdminFetchStartAsync(
@@ -98,18 +96,16 @@ export class List extends React.Component {
         } else if (this.props.filter === null) {
           this.props.allOrderAdminFetchStartAsync(this.props.perPage, 1);
         }
-      } else {
-        if (this.props.filter) {
-          this.props.allOrderAdminFetchStartAsync(
-            undefined,
-            undefined,
-            this.props.filter
-          );
-        } else if (this.props.filter === null) {
-          this.props.allOrderAdminFetchStartAsync();
-        }
+      } else if (this.props.filter) {
+        this.props.allOrderAdminFetchStartAsync(
+          undefined,
+          undefined,
+          this.props.filter
+        );
+      } else if (this.props.filter === null) {
+        this.props.allOrderAdminFetchStartAsync();
       }
-    } else if (this.props.type === "users" && this.props.match.params.pageId) {
+    } else if (this.props.type === 'users' && this.props.match.params.pageId) {
       if (this.props.pagination == true) {
         if (this.props.filter) {
           this.props.allUserAdminFetchStartAsync(
@@ -133,38 +129,36 @@ export class List extends React.Component {
         } else if (this.props.filter === null) {
           this.props.allUserAdminFetchStartAsync(this.props.perPage, 1);
         }
-      } else {
-        if (this.props.filter) {
-          this.props.allUserAdminFetchStartAsync(
-            undefined,
-            undefined,
-            this.props.filter
-          );
-        } else if (this.props.filter === null) {
-          this.props.allUserAdminFetchStartAsync();
-        }
+      } else if (this.props.filter) {
+        this.props.allUserAdminFetchStartAsync(
+          undefined,
+          undefined,
+          this.props.filter
+        );
+      } else if (this.props.filter === null) {
+        this.props.allUserAdminFetchStartAsync();
       }
     } else {
-      alert("no content specified");
+      alert('no content specified');
     }
   };
 
   typeContentRouter = () => {
-    if (this.props.type === "items") {
+    if (this.props.type === 'items') {
       return this.props.items;
-    } else if (this.props.type === "users") {
+    } else if (this.props.type === 'users') {
       return this.props.users;
-    } else if (this.props.type === "orders") {
+    } else if (this.props.type === 'orders') {
       return this.props.orders;
     }
   };
 
   typeCountRouter = () => {
-    if (this.props.type === "items") {
+    if (this.props.type === 'items') {
       return this.props.itemsCount;
-    } else if (this.props.type === "users") {
+    } else if (this.props.type === 'users') {
       return this.props.usersCount;
-    } else if (this.props.type === "orders") {
+    } else if (this.props.type === 'orders') {
       return this.props.ordersCount;
     }
   };
@@ -195,7 +189,7 @@ const mapStateToProps = state => ({
   users: state.allUsers.users,
   usersCount: state.allUsers.count,
   orders: state.allOrders.orders,
-  ordersCount: state.allOrders.count
+  ordersCount: state.allOrders.count,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -204,7 +198,7 @@ const mapDispatchToProps = dispatch => ({
   allUserAdminFetchStartAsync: (perPage, page, filter) =>
     dispatch(allUserAdminFetchStartAsync(perPage, page, filter)),
   allOrderAdminFetchStartAsync: (perPage, page, filter) =>
-    dispatch(allOrderAdminFetchStartAsync(perPage, page, filter))
+    dispatch(allOrderAdminFetchStartAsync(perPage, page, filter)),
 });
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(List));
